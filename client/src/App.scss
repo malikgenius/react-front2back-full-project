@@ -1,0 +1,55 @@
+$bg-color: #333;
+$font-color: #fff;
+$primary-color: #008ed6;
+$dark-overlay: rgba(0, 0, 0, 0.7);
+$font-size: 30px;
+
+body {
+  background-color: $dark-overlay;
+}
+.home-page {
+  background: $bg-color;
+  // background-color: $dark-overlay;
+  color: $font-color;
+  background: url('/img/background.jpg') no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 700px;
+  .dark-overlay {
+    background-color: $dark-overlay;
+    background-size: cover;
+    min-height: 700px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  .home-inner {
+    padding-top: 100px;
+    // background-color: $dark-overlay;
+  }
+  .explore-head-section {
+    // padding-top: 100px;
+  }
+}
+
+.card-form {
+  opacity: 0.9;
+}
+
+// .fa {
+//   color: $primary-color;
+//   background: #fff;
+//   padding: 4px;
+//   border-radius: 5px;
+//   font-size: $font-size;
+// }
+
+.navbar {
+  border-bottom: $primary-color 3px solid;
+  opacity: 0.9;
+}
+
+// .nav-link {
+//   color: 'white';
+// }

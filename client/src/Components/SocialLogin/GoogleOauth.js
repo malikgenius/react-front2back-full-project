@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-// import { loginSocialUser } from '../actions/authAction';
-import clientId from '../config/Keys';
+import { loginSocialUser } from '../../actions/authAction';
+import clientId from '../../config/Keys';
 import axios from 'axios';
 // or
 // import { GoogleLogin } from 'react-google-login';
@@ -35,8 +35,10 @@ class GoogleOauth extends Component {
   render() {
     const responseGoogle = response => {
       // return console.log(response);
-      const access_token = response.Zi.access_token;
-      if (access_token) {
+      //
+      if (response.Zi.access_token) {
+        const access_token = response.Zi.access_token;
+        console.log(access_token);
         // this.props.loginUser(access_token, this.props.history);
         axios.post('/api/users/google', { access_token }).then(res => {
           const token = res.data;
@@ -48,7 +50,7 @@ class GoogleOauth extends Component {
     };
 
     return (
-      <div className="container">
+      <div className="container invisible">
         <div className="alert alert-light" role="alert">
           Popup will take you to Google Login page, if you dont see any popup
           please Click on link below.
@@ -78,6 +80,6 @@ const mapStateToProps = (state, ownProps) => {
 
 // export default GoogleOauth;
 export default connect(
-  mapStateToProps
-  // { loginSocialUser }
+  mapStateToProps,
+  { loginSocialUser }
 )(withRouter(GoogleOauth));

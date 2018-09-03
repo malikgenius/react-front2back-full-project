@@ -33,19 +33,19 @@ passport.use(
 
 // Google Strategy without Token ... Oauth2
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID,
-      clientSecret,
-      callbackURL: '/api/users/google/callback'
-    },
-    async (accessToken, refreshToken, profile, cb) => {
-      console.log('accessToken from GoogleStrategy', accessToken);
-      console.log('profile from GoogleStrategy', profile);
-    }
-  )
-);
+// passport.use(
+//   new GoogleStrategy(
+//     {
+//       clientID,
+//       clientSecret,
+//       callbackURL: '/api/users/google/callback'
+//     },
+//     async (accessToken, refreshToken, profile, cb) => {
+//       console.log('accessToken from GoogleStrategy', accessToken);
+//       console.log('profile from GoogleStrategy', profile);
+//     }
+//   )
+// );
 
 // Google token strategy.
 passport.use(

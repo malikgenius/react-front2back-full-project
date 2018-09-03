@@ -63,13 +63,13 @@ export default class HomeSection extends Component {
                 </div>
               </div>
 
-              <section class="explore-head-section text-muted" id="explore">
+              <section class="explore-head-section " id="explore">
                 <div class="container" style={{ paddingTop: '50px' }}>
                   <div class="row">
                     <div class="col text-center">
                       <div class="py-5">
                         <h1 class="display-4">Explore</h1>
-                        <p class="lead">
+                        <p class="lead text-muted">
                           Pariatur adipisicing est et ut tempor do pariatur
                           laborum tempor qui cupidatat. Officia officia eiusmod
                           excepteur nulla ea laborum nisi incididunt proident

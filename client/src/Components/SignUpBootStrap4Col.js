@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+// import GoogleOauth from './SocialLogin/GoogleOauth';
 
 export default class SignUpBootStrap4Col extends Component {
+  state = {
+    autoLoad: false
+  };
+
+  onGoogleClick = () => {
+    this.setState({
+      autoLoad: true
+    });
+  };
   render() {
     return (
       // col-lg-4    means 4 columns are defined in main HomeSection file and not here ..
@@ -50,6 +60,7 @@ export default class SignUpBootStrap4Col extends Component {
 
                   <Link to="/google" style={{ textDecoration: 'none' }}>
                     <button
+                      onClick={this.onGoogleClick}
                       // onClick={this.onGoogleLogin}
                       // href="/api/users/google"
                       className="btn btn-danger btn-block mb-2"
@@ -58,12 +69,14 @@ export default class SignUpBootStrap4Col extends Component {
                       Google
                     </button>
                   </Link>
+
                   <Link to="/facebook" style={{ textDecoration: 'none' }}>
                     <button className="btn btn-primary btn-block">
                       <span className="fa fa-facebook mr-2 " />
                       Facebook
                     </button>
                   </Link>
+                  {/* <GoogleOauth autoLoad={this.state.autoLoad} /> */}
                 </div>
               </form>
             </div>

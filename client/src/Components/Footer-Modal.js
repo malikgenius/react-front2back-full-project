@@ -20,7 +20,7 @@ class FooterModal extends Component {
     return (
       <footer>
         <div>
-          <div id="footer" class="bg-dark text-muted">
+          <div id="footer" class="bg-dark text-muted ">
             <div class="container">
               <div class="row">
                 <div class="col text-center">
@@ -54,6 +54,19 @@ class FooterModal extends Component {
                   class=" text-center card-form bg-dark"
                   style={{ borderRadius: '5px' }}
                 >
+                  <div
+                    class="modal-header p-0"
+                    style={{ borderBottom: 'none' }}
+                  >
+                    <button
+                      type="button"
+                      class="close text-white"
+                      onClick={this.toggle}
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
                   <div class="card-body">
                     <h3 class="text-white display-4 mb-5">Speak Up</h3>
 

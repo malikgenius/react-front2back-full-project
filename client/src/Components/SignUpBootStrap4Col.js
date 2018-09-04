@@ -1,10 +1,45 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { registerUser } from '../actions/authAction';
+import { connect } from 'react-redux';
 // import GoogleOauth from './SocialLogin/GoogleOauth';
 
-export default class SignUpBootStrap4Col extends Component {
+class SignUpBootStrap4Col extends Component {
   state = {
-    autoLoad: false
+    autoLoad: false,
+    name: '',
+    email: '',
+    password: '',
+    password2: '',
+    errors: ''
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors) {
+      // console.log(nextProps.errors);
+      this.setState({ errors: nextProps.errors.error });
+    }
+  };
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onSubmit = e => {
+    e.preventDefault();
+    // console.log(e);
+    // confirm password match test ..
+    if (this.state.password !== this.state.password2) {
+      return this.setState({ errors: 'Passwords do not match' });
+    }
+    const newUser = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      password2: this.state.password2
+    };
+    // we can take our history to Action through this way, its different than Andrew Mead React way.
+    this.props.registerUser(newUser, this.props.history);
   };
 
   onGoogleClick = () => {
@@ -13,6 +48,7 @@ export default class SignUpBootStrap4Col extends Component {
     });
   };
   render() {
+    const { errors } = this.state;
     return (
       // col-lg-4    means 4 columns are defined in main HomeSection file and not here ..
       <div>
@@ -24,27 +60,39 @@ export default class SignUpBootStrap4Col extends Component {
             <div class="card-body">
               <h3 class="text-white display-4">Sign Up</h3>
               <p class="text-dark lead">Please fill out the form to register</p>
-              <form class="card-form">
+              <form class="card-form" onSubmit={this.onSubmit}>
                 <div class="form-group ">
                   <input
+                    name="name"
                     type="text"
                     class="form-control form-control-lg mb-1"
                     placeholder="Name "
+                    value={this.state.name}
+                    onChange={this.onChange}
                   />
                   <input
-                    type="text"
+                    name="email"
+                    type="email"
                     class="form-control form-control-lg mb-1"
-                    placeholder="Email "
+                    placeholder="Email"
+                    value={this.state.email}
+                    onChange={this.onChange}
                   />
                   <input
+                    name="password"
                     type="password"
                     class="form-control form-control-lg mb-1"
                     placeholder="Password "
+                    value={this.state.password}
+                    onChange={this.onChange}
                   />
                   <input
+                    name="password2"
                     type="password"
                     class="form-control form-control-lg mb-3"
                     placeholder="Password "
+                    value={this.state.password2}
+                    onChange={this.onChange}
                   />
                   <button
                     type="submit"
@@ -53,6 +101,13 @@ export default class SignUpBootStrap4Col extends Component {
                     {' '}
                     Submit{' '}
                   </button>
+                  {errors ? (
+                    <div className="text-center  text-danger text-sm">
+                      <strong>{errors}</strong>
+                    </div>
+                  ) : (
+                    ''
+                  )}
                 </div>
 
                 <div>
@@ -76,6 +131,7 @@ export default class SignUpBootStrap4Col extends Component {
                       Facebook
                     </button>
                   </Link>
+
                   {/* <GoogleOauth autoLoad={this.state.autoLoad} /> */}
                 </div>
               </form>
@@ -86,3 +142,15 @@ export default class SignUpBootStrap4Col extends Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    auth: state.auth,
+    errors: state.errors
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(SignUpBootStrap4Col);

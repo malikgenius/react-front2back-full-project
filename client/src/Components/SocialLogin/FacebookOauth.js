@@ -34,6 +34,7 @@ class FacebookOauth extends Component {
       // console.log(JSON.stringify({ access_token: responseFacebook }));
       if (response.accessToken) {
         const access_token = response.accessToken;
+        console.log(access_token);
         axios.post('/api/users/facebook', { access_token }).then(res => {
           const token = res.data;
           this.props.loginSocialUser(token, this.props.history);

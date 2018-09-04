@@ -9,9 +9,11 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavItem
+  NavItem,
+  ModalHeader
 } from 'reactstrap';
 import { logoutUser, loginUser, loginSocialUser } from '../actions/authAction';
+import mySidenav from './SideNav/mySidenav';
 
 class HeaderNavbar extends React.Component {
   constructor(props) {
@@ -20,7 +22,8 @@ class HeaderNavbar extends React.Component {
     this.state = {
       email: '',
       password: '',
-      collapsed: true,
+      errors: '',
+      // collapsed: true,
       modal: false
     };
   }
@@ -34,6 +37,14 @@ class HeaderNavbar extends React.Component {
   componentWillReceiveProps = nextProps => {
     if (!nextProps.auth.isAuthenticated) {
       this.props.history.push('/');
+    }
+    // below will close the modal if authenticated
+    if (nextProps.auth.isAuthenticated) {
+      this.setState({ modal: false });
+    }
+    if (nextProps.errors) {
+      // Login Errors will show only on login Modal, if we dont do that errors will show on page as well where we load Modal.
+      this.setState({ errors: nextProps.errors.loginError });
     }
   };
 
@@ -58,11 +69,11 @@ class HeaderNavbar extends React.Component {
       modal: !this.state.modal
     });
   };
-  toggleNavbar = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  };
+  // toggleNavbar = () => {
+  //   this.setState({
+  //     collapsed: !this.state.collapsed
+  //   });
+  // };
 
   onLogoutClick = e => {
     e.preventDefault();
@@ -70,6 +81,7 @@ class HeaderNavbar extends React.Component {
   };
 
   render() {
+    const { errors } = this.state;
     const { isAuthenticated, user } = this.props.auth;
     // Check if authenticated or not.
     const authLinks = (
@@ -142,7 +154,7 @@ class HeaderNavbar extends React.Component {
               <a
                 href=""
                 onClick={this.onLogoutClick.bind(this)}
-                className="nav-link text-right"
+                className="nav-link float-left"
                 style={{
                   textDecoration: 'none',
                   fontWeight: '600',
@@ -194,18 +206,7 @@ class HeaderNavbar extends React.Component {
               Sign In
             </NavItem>
           </DropdownItem>
-          <DropdownItem>
-            <Link
-              to="/signup"
-              style={{
-                textDecoration: 'none',
-                fontWeight: '600',
-                color: 'gray'
-              }}
-            >
-              Sign Up
-            </Link>
-          </DropdownItem>
+
           <DropdownItem divider />
           <DropdownItem>
             <Link
@@ -253,13 +254,6 @@ class HeaderNavbar extends React.Component {
                   </li>
                   <li className="nav-item">
                     {isAuthenticated ? authLinks : guestLinks}
-                    {/* <div
-                      onClick={this.toggle}
-                      class="nav-link"
-                      style={{ cursor: 'pointer' }}
-                    >
-                      Log in
-                    </div> */}
                   </li>
                 </ul>
               </div>
@@ -274,11 +268,28 @@ class HeaderNavbar extends React.Component {
             className="bg-primary"
             style={{ color: 'green' }}
           >
+            {/* <ModalHeader
+              toggle={this.toggle}
+              style={{ backgroundColor: 'none' }}
+            /> */}
             <ModalBody className="bg-dark">
               <div
                 className=" text-center card-form bg-dark"
                 style={{ borderRadius: '5px' }}
               >
+                <div
+                  class="modal-header p-0"
+                  style={{ borderBottom: 'none', padding: 'none' }}
+                >
+                  <button
+                    type="button"
+                    class="close text-white"
+                    onClick={this.toggle}
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
                 <div className="card-body">
                   <h3 className="text-white display-4 mb-5">Log in</h3>
 
@@ -309,7 +320,14 @@ class HeaderNavbar extends React.Component {
                         Log in{' '}
                       </button>
                     </div>
-
+                    {errors ? (
+                      <div className="text-center  text-danger text-sm">
+                        {/* <strong>{errors}</strong> */}
+                        {errors}
+                      </div>
+                    ) : (
+                      ''
+                    )}
                     <div>
                       <p className="text-white lead mb-4">
                         <br />
@@ -342,7 +360,9 @@ class HeaderNavbar extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    // login errors are different than normal errors, just to show it on Modals.
+    errors: state.errors
   };
 };
 

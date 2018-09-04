@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import FooterModal from './Footer-Modal';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import SignUpBootStrap4Col from './SignUpBootStrap4Col';
 
-export default class HomeSection extends Component {
-  constructor() {
-    super();
+class HomeSection extends Component {
+  constructor(props) {
+    super(props);
   }
+
+  componentDidMount = () => {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
+  };
+  // below will check if props changes, when logged out it will trigger and redirect
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
+  };
 
   // home-page has 12 Row and 12 cols, 8 are defined here but 4 for Sign Up form are in seperate file now.
   render() {
@@ -67,7 +80,7 @@ export default class HomeSection extends Component {
                 <div class="container" style={{ paddingTop: '50px' }}>
                   <div class="row">
                     <div class="col text-center">
-                      <div class="py-5">
+                      <div class="pb-3">
                         <h1 class="display-4">Explore</h1>
                         <p class="lead text-muted">
                           Pariatur adipisicing est et ut tempor do pariatur
@@ -151,3 +164,13 @@ export default class HomeSection extends Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    auth: state.auth,
+    // login errors are different than normal errors, just to show it on Modals.
+    errors: state.errors
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(HomeSection));

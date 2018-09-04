@@ -50,6 +50,7 @@ class App extends Component {
               <Route path="/facebook" component={FacebookOauth} />
               {/* <Route path="/contact" component={FooterModal} /> */}
             </Switch>
+            {/* <FooterModal /> */}
           </div>
         </Router>
       </Provider>

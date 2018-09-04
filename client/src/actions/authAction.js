@@ -1,7 +1,12 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utils/setAuthToken';
-import { GET_ERRORS, SET_CURRENT_USER, GET_SUCCESS } from './types';
+import {
+  GET_ERRORS,
+  SET_CURRENT_USER,
+  GET_SUCCESS,
+  GET_LOGIN_ERRORS
+} from './types';
 
 // can use Dispatch in same functions, other way is to use axios in one function and then dispatch to other one.
 export const registerUser = (userData, history) => dispatch => {
@@ -94,7 +99,9 @@ export const loginUser = userData => dispatch => {
     })
     .catch(err => {
       dispatch({
-        type: GET_ERRORS,
+        // Login Errors will show only on login Modal, if we dont do that errors will show on page as well where we load Modal.
+
+        type: GET_LOGIN_ERRORS,
         payload: err.response.data
       });
     });
@@ -116,7 +123,7 @@ export const logoutUser = () => dispatch => {
   localStorage.removeItem('jwtToken');
   setAuthToken(false);
   dispatch(setCurrentUser({}));
-  //   history.push('/');
+  // history.push('/');
 };
 
 export const loginGoogle = (accessToken, history) => dispatch => {

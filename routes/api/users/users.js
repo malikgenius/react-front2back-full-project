@@ -15,12 +15,7 @@ const secretOrKey = require('../../../config/Keys').secretOrKey;
 const registerValidation = require('../joi-validation/joi-register');
 const loginValidation = require('../joi-validation/joi-login');
 
-router.get('/', (req, res) => {
-  console.log('Clicked Console');
-  res.json('Clicked');
-});
-// Register Route
-// @ Public Route
+// Register Route // @ Public Route
 router.post('/register', (req, res) => {
   const { name, email, password, password2, photo } = req.body;
   // Joi Validation
@@ -103,7 +98,7 @@ router.post('/register', (req, res) => {
                   Please click on the link below to verify your Account.
                   <br/>
                   <br/>
-                  <a href="https://localhost:3000/verifytoken/${secretToken}">click here to verify your Account</a>
+                  <a href="https://localhost:3000/verifyaccount/${secretToken}">click here to verify your Account</a>
                   </br></br>
                   `
         };
@@ -115,8 +110,10 @@ router.post('/register', (req, res) => {
           console.log('Message sent: %s', info.messageId);
           // Preview only available when sending through an Ethereal account
           console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+          return res.json(
+            `${name} your account was created successfuly, please check ${email} for the verification link`
+          );
         });
-        return res.json('Success');
       })
       .catch(err => {
         console.log(err);

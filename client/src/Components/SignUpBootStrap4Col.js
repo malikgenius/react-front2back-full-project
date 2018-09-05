@@ -25,6 +25,13 @@ class SignUpBootStrap4Col extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  // onFocus clear all the errors, while user is typing in email or password, we dont need to show them old error.
+  onFocus = () => {
+    this.setState({
+      errors: ''
+    });
+  };
+
   onSubmit = e => {
     e.preventDefault();
     // console.log(e);
@@ -59,7 +66,7 @@ class SignUpBootStrap4Col extends Component {
           >
             <div class="card-body">
               <h3 class="text-white display-4">Sign Up</h3>
-              <p class="text-dark lead">Please fill out the form to register</p>
+              <p class="text-dark lead">Please fill the form to register</p>
               <form class="card-form" onSubmit={this.onSubmit}>
                 <div class="form-group ">
                   <input
@@ -69,6 +76,7 @@ class SignUpBootStrap4Col extends Component {
                     placeholder="Name "
                     value={this.state.name}
                     onChange={this.onChange}
+                    onFocus={this.onFocus}
                   />
                   <input
                     name="email"
@@ -77,6 +85,7 @@ class SignUpBootStrap4Col extends Component {
                     placeholder="Email"
                     value={this.state.email}
                     onChange={this.onChange}
+                    onFocus={this.onFocus}
                   />
                   <input
                     name="password"
@@ -85,6 +94,7 @@ class SignUpBootStrap4Col extends Component {
                     placeholder="Password "
                     value={this.state.password}
                     onChange={this.onChange}
+                    onFocus={this.onFocus}
                   />
                   <input
                     name="password2"
@@ -93,6 +103,7 @@ class SignUpBootStrap4Col extends Component {
                     placeholder="Password "
                     value={this.state.password2}
                     onChange={this.onChange}
+                    onFocus={this.onFocus}
                   />
                   <button
                     type="submit"
@@ -103,7 +114,8 @@ class SignUpBootStrap4Col extends Component {
                   </button>
                   {errors ? (
                     <div className="text-center  text-danger text-sm">
-                      <strong>{errors}</strong>
+                      {/* <strong>{errors}</strong> */}
+                      {errors}
                     </div>
                   ) : (
                     ''
@@ -153,4 +165,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps,
   { registerUser }
-)(SignUpBootStrap4Col);
+)(withRouter(SignUpBootStrap4Col));

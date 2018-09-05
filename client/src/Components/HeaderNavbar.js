@@ -9,36 +9,44 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavItem,
-  ModalHeader
+  NavItem
 } from 'reactstrap';
-import { logoutUser, loginUser, loginSocialUser } from '../actions/authAction';
-import mySidenav from './SideNav/mySidenav';
+import {
+  logoutUser,
+  loginUser,
+  loginSocialUser,
+  getSuccessReset
+} from '../actions/authAction';
 
 class HeaderNavbar extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
 
     this.state = {
       email: '',
       password: '',
       errors: '',
-      // collapsed: true,
+      success: '',
       modal: false
     };
   }
 
-  componentDidMount = () => {
-    if (!this.props.auth.isAuthenticated) {
-      this.props.history.push('/');
-    }
-  };
   // below will check if props changes, when logged out it will trigger and redirect
   componentWillReceiveProps = nextProps => {
     if (!nextProps.auth.isAuthenticated) {
       this.props.history.push('/');
     }
+    if (nextProps.success.success) {
+      if (this.state.success !== undefined) {
+        this.setState({ success: this.props.success.success });
+      }
+    }
     // below will close the modal if authenticated
+    if (nextProps.success.modal) {
+      this.setState({ modal: true });
+    }
+
     if (nextProps.auth.isAuthenticated) {
       this.setState({ modal: false });
     }
@@ -61,12 +69,25 @@ class HeaderNavbar extends React.Component {
     };
 
     this.props.loginUser(User);
+    this.props.getSuccessReset();
   };
 
   // Navbar Toggle
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      errors: '',
+      email: '',
+      password: '',
+      success: ''
+    });
+  };
+
+  // onFocus clear all the errors, while user is typing in email or password, we dont need to show them old error.
+  onFocus = () => {
+    this.setState({
+      errors: '',
+      success: undefined
     });
   };
   // toggleNavbar = () => {
@@ -81,7 +102,7 @@ class HeaderNavbar extends React.Component {
   };
 
   render() {
-    const { errors } = this.state;
+    const { errors, success } = this.state;
     const { isAuthenticated, user } = this.props.auth;
     // Check if authenticated or not.
     const authLinks = (
@@ -120,7 +141,7 @@ class HeaderNavbar extends React.Component {
                   fontWeight: '600',
                   color: 'gray'
                 }}
-                to="/forgot"
+                to="/forgotpassword"
               >
                 Change Password{' '}
               </Link>
@@ -133,7 +154,7 @@ class HeaderNavbar extends React.Component {
             {user.photo ? (
               <a
                 href=""
-                onClick={this.onLogoutClick}
+                onClick={this.onLogoutClick.bind(this)}
                 className="Link"
                 style={{
                   textDecoration: 'none',
@@ -210,7 +231,7 @@ class HeaderNavbar extends React.Component {
           <DropdownItem divider />
           <DropdownItem>
             <Link
-              to="/forgot"
+              to="/forgotpassword"
               style={{
                 textDecoration: 'none',
                 fontWeight: '600',
@@ -226,7 +247,10 @@ class HeaderNavbar extends React.Component {
     return (
       <div>
         <div>
-          <nav className="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+          <nav
+            className="navbar navbar-expand-sm bg-dark navbar-dark fixed-top"
+            // style={{ backgroundColor: 'none', borderBottom: 'none' }}
+          >
             <div className="container">
               <Link to="/#home-page" className="navbar-brand">
                 T3CH GeeGs
@@ -255,6 +279,18 @@ class HeaderNavbar extends React.Component {
                   <li className="nav-item">
                     {isAuthenticated ? authLinks : guestLinks}
                   </li>
+                  {isAuthenticated ? (
+                    <li
+                      className="nav-link"
+                      style={{ cursor: 'pointer' }}
+                      onClick={this.onLogoutClick}
+                    >
+                      {' '}
+                      Log Out
+                    </li>
+                  ) : (
+                    ''
+                  )}
                 </ul>
               </div>
             </div>
@@ -292,7 +328,14 @@ class HeaderNavbar extends React.Component {
                 </div>
                 <div className="card-body">
                   <h3 className="text-white display-4 mb-5">Log in</h3>
-
+                  {success ? (
+                    <div className="text-center  text-success text-sm lead mb-2 ">
+                      {/* <strong>{errors}</strong> */}
+                      {success}
+                    </div>
+                  ) : (
+                    ''
+                  )}
                   <form className="card-form" onSubmit={this.onSubmit}>
                     <div className="form-group text-light">
                       <input
@@ -302,6 +345,7 @@ class HeaderNavbar extends React.Component {
                         placeholder="Email "
                         value={this.state.email}
                         onChange={this.onChange}
+                        onFocus={this.onFocus}
                       />
                       <input
                         name="password"
@@ -310,6 +354,7 @@ class HeaderNavbar extends React.Component {
                         placeholder="Password "
                         value={this.state.password}
                         onChange={this.onChange}
+                        onFocus={this.onFocus}
                       />
 
                       <button
@@ -362,11 +407,12 @@ const mapStateToProps = (state, ownProps) => {
   return {
     auth: state.auth,
     // login errors are different than normal errors, just to show it on Modals.
-    errors: state.errors
+    errors: state.errors,
+    success: state.success
   };
 };
 
 export default connect(
   mapStateToProps,
-  { logoutUser, loginUser, loginSocialUser }
+  { logoutUser, loginUser, loginSocialUser, getSuccessReset }
 )(withRouter(HeaderNavbar));

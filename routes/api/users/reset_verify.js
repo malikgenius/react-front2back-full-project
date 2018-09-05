@@ -10,11 +10,14 @@ const GmailPass = require('../../../config/Keys').GmailPass;
 const User = require('../../../model/User');
 
 // Verify Local Users with secretToken
-router.post('/verifytoken/:token', (req, res) => {
+router.post('/verifyaccount/:token', (req, res) => {
+  if (!req.params.token) {
+    return res.status(404).json('verification token not found with request!');
+  }
   const verifyToken = req.params.token;
   User.findOne({ 'local.secretToken': verifyToken }).then(user => {
     if (!user) {
-      return res.status(400).json('Invalid verification Token code.');
+      return res.status(400).json('Invalid verification Token.');
       // return res.redirect('https://localhost:3000');
     }
     user.local.active = true;

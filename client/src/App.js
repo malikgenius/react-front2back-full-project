@@ -13,7 +13,10 @@ import HeaderNavbar from './Components/HeaderNavbar';
 import HomeSection from './Components/HomeSection';
 import GoogleOauth from './Components/SocialLogin/GoogleOauth';
 import FacebookOauth from './Components/SocialLogin/FacebookOauth';
-import FooterModal from './Components/Footer-Modal';
+// Email verification Reset Password ---
+import VerifyAccount from './Components/verifyReset/VerifyAccount';
+import EmailVerified from './Components/verifyReset/EmailVerified';
+import ForgotPassword from './Components/verifyReset/ForgotPassword';
 //FontAwesome and BootStrap config
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -48,7 +51,9 @@ class App extends Component {
               <Route exact path="/" component={HomeSection} />
               <Route path="/google" component={GoogleOauth} />
               <Route path="/facebook" component={FacebookOauth} />
-              {/* <Route path="/contact" component={FooterModal} /> */}
+              <Route path="/verifyAccount" component={VerifyAccount} />
+              <Route path="/emailverified" component={EmailVerified} />
+              <Route path="/forgotpassword" component={ForgotPassword} />
             </Switch>
             {/* <FooterModal /> */}
           </div>

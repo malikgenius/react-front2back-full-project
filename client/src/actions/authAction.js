@@ -5,7 +5,9 @@ import {
   GET_ERRORS,
   SET_CURRENT_USER,
   GET_SUCCESS,
-  GET_LOGIN_ERRORS
+  GET_LOGIN_ERRORS,
+  EMAIL_VERIFIED_PASSWORD_RESET,
+  GET_SUCCESS_RESET
 } from './types';
 
 // can use Dispatch in same functions, other way is to use axios in one function and then dispatch to other one.
@@ -13,51 +15,76 @@ export const registerUser = (userData, history) => dispatch => {
   axios
     .post('/api/users/register', userData)
     .then(
-      res => history.push('/verifytoken')
+      res => {
+        dispatch({
+          type: GET_SUCCESS,
+          payload: res.data
+        });
+        history.push('/emailverified');
+      }
       // if successful registration we send our users to verification page or login page via history withRouter props.
-      //   dispatch({
-      //     type: GET_USER,
-      //     payload: res.data
-      //   })
+      // dispatch({
+      //   type: GET_USER,
+      //   payload: res.data
+      // })
     )
     // if errors form backend linke status(400) or status(404) etc will directly go to GET_ERRORS, AXIOS knows how to handle it.
-    .catch(err =>
+    .catch(err => {
+      console.log(err);
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
-      })
-    );
+      });
+    });
 };
+
+// to show modal and verification done Message on login Modal, we need to dispatch this from verificationEmail
+// otherwise its too fast to be in HeaderNavbar Modal state ... this will slow it down.
+export const ModalOpen = () => ({
+  type: EMAIL_VERIFIED_PASSWORD_RESET
+});
 
 // Verification Email Process ....
 export const verificationEmail = history => dispatch => {
+  console.log(history);
   axios
     .post(`/api/reset/${history.location.pathname}`)
-    .then(res => history.push('/emailverified'))
-    .catch(err =>
+    .then(res => {
+      dispatch({
+        type: GET_SUCCESS,
+        payload: res.data
+      });
+      dispatch(ModalOpen());
+      history.push('/emailverified');
+    })
+
+    .catch(err => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
-      })
-    );
+      });
+      history.push('/emailverified');
+    });
 };
 
 // Reset Password Process ....
 export const resetPassword = (Email, history) => dispatch => {
   axios
     .post('/api/reset/forgot', Email)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: GET_SUCCESS,
         payload: res.data
-      })
-    )
-    .catch(err =>
+      });
+      history.push('/forgotpassword');
+    })
+    .catch(err => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
-      })
-    );
+      });
+      history.push('/forgotpassword');
+    });
 };
 
 // Change Password Process ....
@@ -76,6 +103,11 @@ export const changePassword = (Password, history) => dispatch => {
       })
     );
 };
+
+// GET_SUCCESS_RESET will reset modal to false and success message of confirm account verification will go away.
+export const getSuccessReset = () => ({
+  type: GET_SUCCESS_RESET
+});
 
 // SET_CURRENT_USER after Login Successful and decoded token is retrieved from loginUser action function.
 export const setCurrentUser = decoded => ({
@@ -96,6 +128,7 @@ export const loginUser = userData => dispatch => {
       const decoded = jwt_decode(token);
       // set current user
       dispatch(setCurrentUser(decoded));
+      dispatch(getSuccessReset());
     })
     .catch(err => {
       dispatch({
@@ -119,11 +152,11 @@ export const loginSocialUser = token => dispatch => {
   dispatch(setCurrentUser(decoded));
 };
 
-export const logoutUser = () => dispatch => {
+export const logoutUser = history => dispatch => {
   localStorage.removeItem('jwtToken');
   setAuthToken(false);
   dispatch(setCurrentUser({}));
-  // history.push('/');
+  history.push('/');
 };
 
 export const loginGoogle = (accessToken, history) => dispatch => {

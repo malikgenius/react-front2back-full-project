@@ -1435,3 +1435,6 @@
 ::ffff:127.0.0.1 - - [05/Sep/2018:19:25:11 +0000] "GET /js/materialize.min.js HTTP/1.1" 404 160
 ::ffff:127.0.0.1 - - [06/Sep/2018:10:52:40 +0000] "GET /js/materialize.min.js HTTP/1.1" 404 160
 ::ffff:127.0.0.1 - - [06/Sep/2018:10:52:40 +0000] "GET /js/materialize.min.js HTTP/1.1" 404 160
+::ffff:127.0.0.1 - - [06/Sep/2018:12:23:52 +0000] "GET /js/materialize.min.js HTTP/1.1" 404 160
+::ffff:127.0.0.1 - - [06/Sep/2018:12:23:52 +0000] "GET /js/materialize.min.js HTTP/1.1" 404 160
+::ffff:127.0.0.1 - - [06/Sep/2018:12:24:50 +0000] "POST /api/users/register HTTP/1.1" 200 124

@@ -84,6 +84,12 @@ router.post('/register', (req, res) => {
             ciphers: 'SSLv3'
           }
         });
+        SiteAddress = '';
+        if (process.env.NODE_ENV === 'production') {
+          SiteAddress = 'https://malikgen.com';
+        } else {
+          SiteAddress = 'https://localhost:3000';
+        }
 
         let { name, email, secretToken } = user.local;
         // Send verification Email to Users email address.
@@ -98,7 +104,8 @@ router.post('/register', (req, res) => {
                   Please click on the link below to verify your Account.
                   <br/>
                   <br/>
-                  <a href="https://localhost:3000/verifyaccount/${secretToken}">click here to verify your Account</a>
+                  
+                  <a href="${SiteAddress}/verifyaccount/${secretToken}">click here to verify your Account</a>
                   </br></br>
                   `
         };

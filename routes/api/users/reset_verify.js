@@ -72,7 +72,12 @@ router.post('/forgot', (req, res) => {
             ciphers: 'SSLv3'
           }
         });
-
+        SiteAddress = '';
+        if (process.env.NODE_ENV === 'production') {
+          SiteAddress = 'https://malikgen.com';
+        } else {
+          SiteAddress = 'https://localhost:3000';
+        }
         let { name, email, resetPasswordToken } = user.local;
         // Send verification Email to Users email address.
         let mailOptions = {
@@ -88,7 +93,7 @@ router.post('/forgot', (req, res) => {
           
           <br/>
           now click on the link below to reset your password.
-          <a href="https://localhost:3000/changepassword/${resetPasswordToken}">click here to reset Your Password</a>
+          <a href="${SiteAddress}/changepassword/${resetPasswordToken}">click here to reset Your Password</a>
           </br></br>
           `
         };
@@ -196,7 +201,7 @@ router.get(
           Token: <b>${secretToken}</b>
           <br/>
           now click on the link below and paste this access token in verification page where asked. 
-          <a href="https://localhost:3000/verifytoken">click here to open verification link</a>
+          <a href="${SiteAddress}/verifytoken">click here to open verification link</a>
           </br></br>
           `
     };

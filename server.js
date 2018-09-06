@@ -8,7 +8,12 @@ const path = require('path');
 
 // require('./mongodb/mongodb');
 // mongodb load on startup
-require('./mongodb/mongodb');
+if (process.env.NODE_ENV === 'production') {
+  require('./mongodb/mongodbMlab');
+} else {
+  require('./mongodb/mongodb');
+}
+
 // web-push for push notifications
 
 //Routes

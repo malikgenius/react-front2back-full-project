@@ -38,9 +38,9 @@ export const registerUser = (userData, history) => dispatch => {
     });
 };
 
-// to show modal and verification done Message on login Modal, we need to dispatch this from verificationEmail
+// to show modal and verification done Message on login Modal, we need to dispatch to ModalOpen from verificationEmail
 // otherwise its too fast to be in HeaderNavbar Modal state ... this will slow it down.
-export const ModalOpen = () => ({
+export const LoginModalOpen = () => ({
   type: EMAIL_VERIFIED_PASSWORD_RESET
 });
 
@@ -54,7 +54,7 @@ export const verificationEmail = history => dispatch => {
         type: GET_SUCCESS,
         payload: res.data
       });
-      dispatch(ModalOpen());
+      dispatch(LoginModalOpen());
       history.push('/emailverified');
     })
 
@@ -95,13 +95,21 @@ export const changePassword = (Password, history) => dispatch => {
     // should always use withRouter to get all these values from react router
     .post(`/api/reset/${history.location.pathname}`, Password)
     // .then(res => {console.log(res) });
-    .then(res => history.push('/'))
-    .catch(err =>
+    .then(res => {
+      dispatch({
+        type: GET_SUCCESS,
+        payload: res.data
+      });
+      // dispatch(LoginModalOpen());
+      history.push('/changepassword');
+    })
+    .catch(err => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
-      })
-    );
+      });
+      history.push('/changepassword');
+    });
 };
 
 // GET_SUCCESS_RESET will reset modal to false and success message of confirm account verification will go away.

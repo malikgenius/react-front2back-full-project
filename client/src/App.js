@@ -17,6 +17,7 @@ import FacebookOauth from './Components/SocialLogin/FacebookOauth';
 import VerifyAccount from './Components/verifyReset/VerifyAccount';
 import EmailVerified from './Components/verifyReset/EmailVerified';
 import ForgotPassword from './Components/verifyReset/ForgotPassword';
+import ChangePassword from './Components/verifyReset/ChangePassword';
 //FontAwesome and BootStrap config
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -54,6 +55,7 @@ class App extends Component {
               <Route path="/verifyAccount" component={VerifyAccount} />
               <Route path="/emailverified" component={EmailVerified} />
               <Route path="/forgotpassword" component={ForgotPassword} />
+              <Route path="/changepassword" component={ChangePassword} />
             </Switch>
             {/* <FooterModal /> */}
           </div>

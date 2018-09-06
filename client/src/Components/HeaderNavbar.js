@@ -21,7 +21,6 @@ import {
 class HeaderNavbar extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.state = {
       email: '',

@@ -113,13 +113,21 @@ router.post('/forgot', (req, res) => {
 // Hashing will be done in User Model.
 router.post('/changepassword/:token', (req, res) => {
   const resetToken = req.params.token;
-  const newPassword = req.body.password;
+  const password = req.body.password;
+  const password2 = req.body.password2;
+  if (password !== password2) {
+    return res.status(400).json('passwords do not match');
+  }
   // Joi Validation
   const schema = {
     password: Joi.string()
       .regex(/^[a-zA-Z-0-9]{6,50}$/)
+      .required(),
+    password2: Joi.string()
+      .regex(/^[a-zA-Z-0-9]{6,50}$/)
       .required()
   };
+
   let Validate = Joi.validate(req.body, schema);
   if (Validate.error) {
     return res.status(400).json(Validate.error.details[0].message);
@@ -133,8 +141,7 @@ router.post('/changepassword/:token', (req, res) => {
       console.log('Invalid or Expired Token');
       return res.status(404).json('Invalid or Expired Token');
     }
-    console.log(user);
-    user.local.password = newPassword;
+    user.local.password = password;
     user.local.resetPasswordToken = 'undefined';
     user.local.resetPasswordExpires = '';
     user

@@ -50,10 +50,10 @@ class ForgotPassword extends Component {
     console.log(this.props);
     const { errors, success } = this.state;
     return (
-      <div className="py-5">
+      <div className="py-5 container ">
         <div className="row">
-          <div className="col-4 fixed" />
-          <div className="col-4  text-center">
+          <div className="col-4-md " />
+          <div className="col-4-md  text-center">
             <div className="card pt-5">
               <div className="card-body">
                 <h3 className="text-dark display-4 mb-5">

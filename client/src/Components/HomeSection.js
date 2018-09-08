@@ -22,6 +22,7 @@ class HomeSection extends Component {
   };
 
   // home-page has 12 Row and 12 cols, 8 are defined here but 4 for Sign Up form are in seperate file now.
+  // d-none will not display below 8 col in small screens.
   render() {
     return (
       <div class="home-page" id="home-page">
@@ -70,7 +71,6 @@ class HomeSection extends Component {
                     </div>
                   </div>
                 </div>
-
                 <div class="col-lg-4">
                   <SignUpBootStrap4Col />
                 </div>

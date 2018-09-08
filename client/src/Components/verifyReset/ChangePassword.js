@@ -55,11 +55,11 @@ class ChangePassword extends Component {
   render() {
     const { errors, success } = this.state;
     return (
-      <div className="py-5">
+      <div className="py-5 container">
         <div> {success ? <Alert color="success">{success}</Alert> : ''}</div>
         <div className="row">
-          <div className="col-4 fixed" />
-          <div className="col-4  text-center">
+          <div className="col-4-md fixed" />
+          <div className="col-4-md  text-center">
             <div className="card pt-5">
               <div className="card-body">
                 <Alert color="light " className="lead">

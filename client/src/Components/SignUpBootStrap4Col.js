@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { registerUser } from '../actions/authAction';
+import { registerUser, LoginModalOpen } from '../actions/authAction';
 import { connect } from 'react-redux';
 // import GoogleOauth from './SocialLogin/GoogleOauth';
 
@@ -30,6 +30,10 @@ class SignUpBootStrap4Col extends Component {
     this.setState({
       errors: ''
     });
+  };
+
+  onLoginModalOpen = () => {
+    this.props.LoginModalOpen();
   };
 
   onSubmit = e => {
@@ -147,6 +151,17 @@ class SignUpBootStrap4Col extends Component {
                   {/* <GoogleOauth autoLoad={this.state.autoLoad} /> */}
                 </div>
               </form>
+              <div class=" mb-2">
+                have an account ?
+                <button
+                  lead
+                  onClick={this.onLoginModalOpen}
+                  class="btn btn-link border-0  lead text-white"
+                >
+                  {' '}
+                  <h5>Sign In</h5>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -164,5 +179,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  { registerUser }
+  { registerUser, LoginModalOpen }
 )(withRouter(SignUpBootStrap4Col));

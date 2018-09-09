@@ -1,7 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { HashLink as Link } from 'react-router-hash-link';
+import { HashLink } from 'react-router-hash-link';
+import { Link } from 'react-router-dom';
 import { stack as Menu } from 'react-burger-menu';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
 
@@ -84,7 +85,9 @@ class HeaderNavbar extends React.Component {
       errors: '',
       email: '',
       password: '',
-      success: ''
+      success: '',
+      menuOpen: false,
+      collapse: false
     });
   };
   // React Burger menu options.
@@ -97,9 +100,9 @@ class HeaderNavbar extends React.Component {
     this.setState({ menuOpen: state.isOpen });
   };
   // This can be used to close the menu, e.g. when a user clicks a menu item
-  closeMenu() {
-    this.setState({ menuOpen: false });
-  }
+  closeMenu = () => {
+    this.setState({ menuOpen: false, collapse: false });
+  };
   // onFocus clear all the errors, while user is typing in email or password, we dont need to show them old error.
   onFocus = () => {
     this.setState({
@@ -111,6 +114,7 @@ class HeaderNavbar extends React.Component {
   onLogoutClick = e => {
     e.preventDefault();
     this.props.logoutUser(this.props.history);
+    this.toggle();
   };
 
   showSettings = event => {
@@ -122,6 +126,11 @@ class HeaderNavbar extends React.Component {
   onCollapse = () => {
     this.setState({ collapse: !this.state.collapse });
   };
+
+  // This can be used to close the menu, e.g. when a user clicks a menu item
+  closeMenu() {
+    this.setState({ menuOpen: false });
+  }
 
   render() {
     const { errors, success } = this.state;
@@ -176,52 +185,53 @@ class HeaderNavbar extends React.Component {
         {user.method === 'local' ? (
           <Collapse isOpen={this.state.collapse}>
             <Link
-              className="bm-item h1 mr-2"
+              onClick={this.closeMenu}
+              // className="bm-item h1 mr-2"
               style={{
                 textDecoration: 'none',
                 fontWeight: '400',
                 color: 'gray',
                 cursor: 'pointer',
                 listStyle: 'none',
-                fontSize: '25px'
+                fontSize: '20px'
               }}
               to="/forgotpassword"
             >
               Change Password{' '}
             </Link>
-            <Link
+            <NavItem
               to="/"
               onClick={this.onLogoutClick.bind(this)}
-              className="bm-item mr-2"
+              // className="bm-item mr-2"
               style={{
                 textDecoration: 'none',
                 fontWeight: '400',
                 color: 'gray',
                 cursor: 'pointer',
                 listStyle: 'none',
-                fontSize: '25px'
+                fontSize: '20px'
               }}
             >
               Sign Out
-            </Link>
+            </NavItem>
           </Collapse>
         ) : (
           <Collapse isOpen={this.state.collapse}>
-            <Link
+            <NavItem
               to="/"
               onClick={this.onLogoutClick.bind(this)}
-              className="bm-item  ml-5 "
+              // className="bm-item  ml-5 "
               style={{
                 textDecoration: 'none',
                 fontWeight: '400',
                 color: 'gray',
                 cursor: 'pointer',
                 listStyle: 'none',
-                fontSize: '25px'
+                fontSize: '20px'
               }}
             >
               Sign Out
-            </Link>
+            </NavItem>
           </Collapse>
         )}
       </div>
@@ -240,15 +250,16 @@ class HeaderNavbar extends React.Component {
         </Button>
         <Collapse isOpen={this.state.collapse}>
           <NavItem
-            className="bm-item"
+            // className="bm-item"
             style={{
               textDecoration: 'none',
               fontWeight: '400',
               color: 'gray',
               cursor: 'pointer',
               listStyle: 'none',
-              fontSize: '25px'
+              fontSize: '20px'
             }}
+            // it will close the burger menu and false the Collapse button & toggle the login modal .. check toggle function.
             onClick={this.toggle}
           >
             {' '}
@@ -264,6 +275,7 @@ class HeaderNavbar extends React.Component {
             }}
           >
             <Link
+              onClick={this.closeMenu}
               to="/forgotpassword"
               style={{
                 textDecoration: 'none',
@@ -290,12 +302,20 @@ class HeaderNavbar extends React.Component {
             // itemListClassName={'nav-item'}
           >
             {isAuthenticated ? authLinks : guestLinks}
-            <Link className="menu-item display-4" to="/#explore">
+            <HashLink
+              onClick={this.closeMenu}
+              className="menu-item display-4"
+              to="/#explore"
+            >
               Explore
-            </Link>
-            <Link className="menu-item display-4" to="/#footer">
+            </HashLink>
+            <HashLink
+              onClick={this.closeMenu}
+              className="menu-item display-4"
+              to="/#footer"
+            >
               Contact
-            </Link>
+            </HashLink>
 
             <a
               onClick={this.showSettings}
@@ -304,21 +324,7 @@ class HeaderNavbar extends React.Component {
             >
               Settings
             </a>
-
-            {/* {isAuthenticated ? (
-              <li
-                className="menu-item"
-                style={{ cursor: 'pointer' }}
-                onClick={this.onLogoutClick}
-              >
-                {' '}
-                Log Out
-              </li>
-            ) : (
-              ''
-            )} */}
           </Menu>
-          {/* </div> */}
         </div>
         <nav
           className="navbar navbar-expand-all bg-dark navbar-dark fixed-top"
@@ -335,22 +341,12 @@ class HeaderNavbar extends React.Component {
           </button>
 
           <div className="container">
-            <Link
+            <HashLink
               to="/#home-page"
               className="navbar-brand ml-auto float-right text-center "
             >
               T3CH GeeGs
-            </Link>
-
-            {/* <button
-                type="button"
-                className="navbar-toggler"
-                data-toggle="collapse"
-                data-target="#navbarCollapse"
-              >
-                <span className="navbar-toggler-icon" />
-              </button> */}
-
+            </HashLink>
             <div className="collapse navbar-collapse " id="navbarCollapse">
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
@@ -359,9 +355,9 @@ class HeaderNavbar extends React.Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/#footer">
+                  <HashLink className="nav-link" to="/#footer">
                     Contact
-                  </Link>
+                  </HashLink>
                 </li>
                 <li className="nav-item">
                   {isAuthenticated ? authLinks : guestLinks}

@@ -58,9 +58,9 @@ class ChangePassword extends Component {
       <div className="py-5 container">
         <div> {success ? <Alert color="success">{success}</Alert> : ''}</div>
         <div className="row">
-          <div className="col-4-md fixed" />
-          <div className="col-4-md  text-center">
-            <div className="card pt-5">
+          <div className="col-md-4 col-lg-2" />
+          <div className="col-md-4 col-lg-8  text-center">
+            <div className="card pt-5 border-0">
               <div className="card-body">
                 <Alert color="light " className="lead">
                   Change your password{' '}

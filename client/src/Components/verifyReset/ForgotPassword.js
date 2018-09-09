@@ -52,9 +52,9 @@ class ForgotPassword extends Component {
     return (
       <div className="py-5 container ">
         <div className="row">
-          <div className="col-4-md " />
-          <div className="col-4-md  text-center">
-            <div className="card pt-5">
+          <div className="col-md-4 col-lg-2" />
+          <div className="col-md-4 col-lg-8 text-center">
+            <div className="card pt-5 border-0">
               <div className="card-body">
                 <h3 className="text-dark display-4 mb-5">
                   forgot your password ?{' '}
@@ -99,6 +99,7 @@ class ForgotPassword extends Component {
               </div>
             </div>
           </div>
+          <div className="col-md-4 " />
         </div>
       </div>
     );

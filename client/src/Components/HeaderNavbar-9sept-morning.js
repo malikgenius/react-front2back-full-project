@@ -137,216 +137,195 @@ class HeaderNavbar extends React.Component {
     const { isAuthenticated, user } = this.props.auth;
     // Check if authenticated or not.
     const authLinks = (
-      <div>
-        <Menu
-          isOpen={this.state.menuOpen}
-          onStateChange={state => this.handleStateChange(state)}
-          // Default icon disabled so we can use navbar-expand-all icon for it.
-          customBurgerIcon={false}
-          // customCrossIcon={false}
-          //ClassNames changed
-          // itemListClassName={'nav-item'}
-        >
-          <div className="my-3">
-            {user.photo ? (
-              <NavItem
-                onClick={this.onCollapse}
-                style={{
-                  textDecoration: 'none',
-                  fontWeight: '400',
-                  color: '#FFFAFA',
-                  cursor: 'pointer',
-                  listStyle: 'none',
-                  fontSize: '25px'
-                }}
-              >
-                <img
-                  className="rounded-circle"
-                  src={user.photo}
-                  alt={user.name}
-                  style={{ width: '35px' }}
-                  title={user.name}
-                />{' '}
-                {user.name}
-              </NavItem>
-            ) : (
-              <NavItem
-                onClick={this.onCollapse}
-                className="text-center"
-                style={{
-                  textDecoration: 'none',
-                  fontWeight: '400',
-                  color: '#FFFAFA',
-                  cursor: 'pointer',
-                  listStyle: 'none',
-                  fontSize: '25px'
-                }}
-              >
-                <img
-                  className="rounded-circle"
-                  src="/img/placeholder.jpg"
-                  alt={user.name}
-                  style={{ width: '35px' }}
-                  title="You must have a Gravatar connected to your email to display an image"
-                />{' '}
-                {user.name}
-              </NavItem>
-            )}
-            {user.method === 'local' ? (
-              <Collapse isOpen={this.state.collapse}>
-                <NavItem
-                  // ml-5 to keep collapsed menus under name margin left.
-                  className="ml-5"
-                  style={{
-                    textDecoration: 'none',
-                    fontWeight: '400',
-                    color: '',
-                    cursor: 'pointer',
-                    listStyle: 'none',
-                    fontSize: '20px'
-                  }}
-                >
-                  <Link
-                    onClick={this.closeMenu}
-                    // className="bm-item h1 mr-2"
-                    style={{
-                      textDecoration: 'none',
-                      color: '#17a2b8'
-                    }}
-                    to="/forgotpassword"
-                  >
-                    Change Password{' '}
-                  </Link>
-                </NavItem>
-                <NavItem
-                  to="/"
-                  onClick={this.onLogoutClick.bind(this)}
-                  className="ml-5 link"
-                  style={{
-                    // textDecoration: 'none',
-                    fontWeight: '400',
-                    color: '#17a2b8',
-                    cursor: 'pointer',
-                    listStyle: 'none',
-                    fontSize: '20px'
-                  }}
-                >
-                  Sign Out
-                </NavItem>
-              </Collapse>
-            ) : (
-              <Collapse isOpen={this.state.collapse}>
-                <NavItem
-                  to="/"
-                  onClick={this.onLogoutClick.bind(this)}
-                  className="ml-5 link"
-                  style={{
-                    // textDecoration: 'none',
-                    fontWeight: '400',
-                    color: '#17a2b8',
-                    cursor: 'pointer',
-                    listStyle: 'none',
-                    fontSize: '20px'
-                  }}
-                >
-                  Sign Out
-                </NavItem>
-              </Collapse>
-            )}
-          </div>
-        </Menu>
+      <div className="my-3">
+        {user.photo ? (
+          <NavItem
+            onClick={this.onCollapse}
+            style={{
+              textDecoration: 'none',
+              fontWeight: '600',
+              color: 'gray',
+              cursor: 'pointer',
+              listStyle: 'none',
+              fontSize: '25px'
+            }}
+          >
+            <img
+              className="rounded-circle"
+              src={user.photo}
+              alt={user.name}
+              style={{ width: '35px' }}
+              title={user.name}
+            />{' '}
+            {user.name}
+          </NavItem>
+        ) : (
+          <NavItem
+            onClick={this.onCollapse}
+            className="text-center"
+            style={{
+              textDecoration: 'none',
+              fontWeight: '600',
+              color: 'gray',
+              cursor: 'pointer',
+              listStyle: 'none',
+              fontSize: '25px'
+            }}
+          >
+            <img
+              className="rounded-circle"
+              src="/img/placeholder.jpg"
+              alt={user.name}
+              style={{ width: '35px' }}
+              title="You must have a Gravatar connected to your email to display an image"
+            />{' '}
+            {user.name}
+          </NavItem>
+        )}
+        {user.method === 'local' ? (
+          <Collapse isOpen={this.state.collapse}>
+            <Link
+              onClick={this.closeMenu}
+              // className="bm-item h1 mr-2"
+              style={{
+                textDecoration: 'none',
+                fontWeight: '400',
+                color: 'gray',
+                cursor: 'pointer',
+                listStyle: 'none',
+                fontSize: '20px'
+              }}
+              to="/forgotpassword"
+            >
+              Change Password{' '}
+            </Link>
+            <NavItem
+              to="/"
+              onClick={this.onLogoutClick.bind(this)}
+              // className="bm-item mr-2"
+              style={{
+                textDecoration: 'none',
+                fontWeight: '400',
+                color: 'gray',
+                cursor: 'pointer',
+                listStyle: 'none',
+                fontSize: '20px'
+              }}
+            >
+              Sign Out
+            </NavItem>
+          </Collapse>
+        ) : (
+          <Collapse isOpen={this.state.collapse}>
+            <NavItem
+              to="/"
+              onClick={this.onLogoutClick.bind(this)}
+              // className="bm-item  ml-5 "
+              style={{
+                textDecoration: 'none',
+                fontWeight: '400',
+                color: 'gray',
+                cursor: 'pointer',
+                listStyle: 'none',
+                fontSize: '20px'
+              }}
+            >
+              Sign Out
+            </NavItem>
+          </Collapse>
+        )}
       </div>
     );
 
     const guestLinks = (
-      <div>
-        <Menu
-          isOpen={this.state.menuOpen}
-          onStateChange={state => this.handleStateChange(state)}
-          // Default icon disabled so we can use navbar-expand-all icon for it.
-          customBurgerIcon={false}
-          // customCrossIcon={false}
-          //ClassNames changed
-          // itemListClassName={'nav-item'}
+      <div className="my-3">
+        <Button
+          outline
+          color="secondary"
+          className="btn-block"
+          onClick={this.onCollapse}
+          style={{ marginBottom: '1rem' }}
         >
-          <div className="my-3">
-            <Button
-              outline
-              color="secondary"
-              className="btn-block"
-              onClick={this.onCollapse}
-              style={{ marginBottom: '1rem' }}
+          Already a Member ?
+        </Button>
+        <Collapse isOpen={this.state.collapse}>
+          <NavItem
+            // className="bm-item"
+            style={{
+              textDecoration: 'none',
+              fontWeight: '400',
+              color: 'gray',
+              cursor: 'pointer',
+              listStyle: 'none',
+              fontSize: '20px'
+            }}
+            // it will close the burger menu and false the Collapse button & toggle the login modal .. check toggle function.
+            onClick={this.toggle}
+          >
+            {' '}
+            Sign In
+          </NavItem>
+          <NavItem
+            style={{
+              textDecoration: 'none',
+              fontWeight: '400',
+              color: 'gray',
+              fontSize: '20px',
+              listStyle: 'none'
+            }}
+          >
+            <Link
+              onClick={this.closeMenu}
+              to="/forgotpassword"
+              style={{
+                textDecoration: 'none',
+                color: 'gray'
+              }}
             >
-              Already a Member ?
-            </Button>
-            <Collapse isOpen={this.state.collapse}>
-              <NavItem
-                // className="bm-item"
-                style={{
-                  textDecoration: 'none',
-                  fontWeight: '400',
-                  color: 'gray',
-                  cursor: 'pointer',
-                  listStyle: 'none',
-                  fontSize: '20px'
-                }}
-                // it will close the burger menu and false the Collapse button & toggle the login modal .. check toggle function.
-                onClick={this.toggle}
-              >
-                {' '}
-                Sign In
-              </NavItem>
-              <NavItem
-                style={{
-                  textDecoration: 'none',
-                  fontWeight: '400',
-                  color: 'gray',
-                  fontSize: '20px',
-                  listStyle: 'none'
-                }}
-              >
-                <Link
-                  onClick={this.closeMenu}
-                  to="/forgotpassword"
-                  style={{
-                    textDecoration: 'none',
-                    color: 'gray'
-                  }}
-                >
-                  Reset password
-                </Link>
-              </NavItem>
-            </Collapse>
-          </div>
-          <HashLink
-            onClick={this.closeMenu}
-            className="menu-item display-4"
-            to="/#explore"
-          >
-            Explore
-          </HashLink>
-          <HashLink
-            onClick={this.closeMenu}
-            className="menu-item display-4"
-            to="/#footer"
-          >
-            Contact
-          </HashLink>
-
-          <a
-            onClick={this.showSettings}
-            className="menu-item display-4"
-            href=""
-          >
-            Settings
-          </a>
-        </Menu>
+              Reset password
+            </Link>
+          </NavItem>
+        </Collapse>
       </div>
     );
 
     return (
       <div>
-        <div>{isAuthenticated ? authLinks : guestLinks}</div>
+        <div>
+          <Menu
+            isOpen={this.state.menuOpen}
+            onStateChange={state => this.handleStateChange(state)}
+            // Default icon disabled so we can use navbar-expand-all icon for it.
+            customBurgerIcon={false}
+            // customCrossIcon={false}
+            //ClassNames changed
+            // itemListClassName={'nav-item'}
+          >
+            {isAuthenticated ? authLinks : guestLinks}
+            <HashLink
+              onClick={this.closeMenu}
+              className="menu-item display-4"
+              to="/#explore"
+            >
+              Explore
+            </HashLink>
+            <HashLink
+              onClick={this.closeMenu}
+              className="menu-item display-4"
+              to="/#footer"
+            >
+              Contact
+            </HashLink>
+
+            <a
+              onClick={this.showSettings}
+              className="menu-item display-4"
+              href=""
+            >
+              Settings
+            </a>
+          </Menu>
+        </div>
         <nav
           className="navbar navbar-expand-all bg-dark navbar-dark fixed-top"
           // style={{ backgroundColor: 'none', borderBottom: 'none' }}
@@ -361,11 +340,14 @@ class HeaderNavbar extends React.Component {
             <span className="navbar-toggler-icon" />
           </button>
 
-          <div>
-            <HashLink to="/#home-page" className="navbar-brand ml-auto ">
+          <div className="container">
+            <HashLink
+              to="/#home-page"
+              className="navbar-brand ml-auto float-right text-center "
+            >
               T3CH GeeGs
             </HashLink>
-            {/* <div className="collapse navbar-collapse " id="navbarCollapse">
+            <div className="collapse navbar-collapse " id="navbarCollapse">
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
                   <Link className="nav-link" to="/#explore">
@@ -393,7 +375,7 @@ class HeaderNavbar extends React.Component {
                   ''
                 )}
               </ul>
-            </div> */}
+            </div>
           </div>
         </nav>
 

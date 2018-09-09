@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { contactEmail } from '../actions/contactAction';
 
 class FooterModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
+      name: '',
+      email: '',
+      message: '',
+      errors: '',
+      success: undefined
     };
   }
 
@@ -14,6 +21,28 @@ class FooterModal extends Component {
     this.setState({
       modal: !this.state.modal
     });
+  };
+
+  // onFocus clear all the errors, while user is typing in email or password, we dont need to show them old error.
+  onFocus = () => {
+    this.setState({
+      errors: '',
+      success: undefined
+    });
+  };
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onformSubmit = e => {
+    e.preventDefault();
+    const userData = {
+      name: this.state.name,
+      email: this.state.email,
+      message: this.state.message
+    };
+    this.props.contactEmail(userData, this.props.history);
   };
 
   render() {
@@ -70,23 +99,37 @@ class FooterModal extends Component {
                   <div class="card-body">
                     <h3 class="text-white display-4 mb-5">Speak Up</h3>
 
-                    <form class="card-form">
-                      <div class="form-group ">
+                    <form onSubmit={this.onformSubmit} class="card-form">
+                      <div class="form-group text-light">
                         <input
+                          name="name"
                           type="text"
-                          class="form-control form-control-lg mb-2 bg-dark"
+                          className="form-control form-control-lg mb-2 bg-dark text-light"
                           placeholder="Name "
+                          value={this.state.name}
+                          onChange={this.onChange}
+                          onFocus={this.onFocus}
                         />
                         <input
+                          name="email"
                           type="email"
-                          class="form-control form-control-lg mb-2 bg-dark"
+                          className="form-control form-control-lg mb-2 bg-dark text-light"
                           placeholder="Email "
+                          value={this.state.email}
+                          onChange={this.onChange}
+                          onFocus={this.onFocus}
                         />
                         <textarea
-                          class="form-control form-control-lg mb-4 bg-light "
+                          name="message"
+                          className="form-control form-control-lg mb-2 bg-dark text-light"
+                          placeholder="your message here "
+                          value={this.state.message}
+                          onChange={this.onChange}
+                          onFocus={this.onFocus}
                           rows="5"
                         />
                         <button
+                          type="submit"
                           //   onClick={}
                           class="btn btn-outline-secondary btn-block text-white"
                         >
@@ -100,42 +143,22 @@ class FooterModal extends Component {
               </ModalBody>
             </Modal>
           </div>
-
-          {/* <div class="modal fade" id="contactModal">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Contact Us</h5>
-                  <buton class="close" data-dismiss="modal">
-                    <span> &times; </span>
-                  </buton>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="form-group">
-                      <label for="name"> Name</label>
-                      <input class="form-control" type="text" />
-                    </div>
-                    <div class="form-group">
-                      <label for="email"> Email </label>
-                      <input class="form-control" type="text" />
-                    </div>
-                    <div class="form-group">
-                      <label for="name"> Message</label>
-                      <textarea class="form-control"> </textarea>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-primary btn-block"> Submit </button>
-                </div>
-              </div>
-            </div>
-          </div> */}
         </div>
       </footer>
     );
   }
 }
 
-export default FooterModal;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    auth: state.auth,
+    // login errors are different than normal errors, just to show it on Modals.
+    errors: state.errors,
+    success: state.success
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { contactEmail }
+)(withRouter(FooterModal));

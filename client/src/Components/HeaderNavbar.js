@@ -365,35 +365,6 @@ class HeaderNavbar extends React.Component {
             <HashLink to="/#home-page" className="navbar-brand ml-auto ">
               T3CH GeeGs
             </HashLink>
-            {/* <div className="collapse navbar-collapse " id="navbarCollapse">
-              <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <Link className="nav-link" to="/#explore">
-                    Explore
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <HashLink className="nav-link" to="/#footer">
-                    Contact
-                  </HashLink>
-                </li>
-                <li className="nav-item">
-                  {isAuthenticated ? authLinks : guestLinks}
-                </li>
-                {isAuthenticated ? (
-                  <li
-                    className="nav-link"
-                    style={{ cursor: 'pointer' }}
-                    onClick={this.onLogoutClick}
-                  >
-                    {' '}
-                    Log Out
-                  </li>
-                ) : (
-                  ''
-                )}
-              </ul>
-            </div> */}
           </div>
         </nav>
 

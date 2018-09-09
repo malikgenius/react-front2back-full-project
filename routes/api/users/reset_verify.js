@@ -220,4 +220,65 @@ router.get(
   }
 );
 
+// Contact US --- Email to Admin and auto reply to sender.
+
+router.post('/contact', (req, res) => {
+  let { name, email, message } = req.body;
+  // Joi Validation
+  const schema = {
+    name: Joi.string(),
+    email: Joi.string()
+      .email()
+      .required(),
+    message: Joi.string()
+  };
+  let Validate = Joi.validate(req.body, schema);
+  if (Validate.error) {
+    return res.status(400).json(Validate.error.details[0].message);
+  }
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    // secure: false, // true for 465, false for other ports
+    auth: {
+      user: GmailUser, // generated ethereal user
+      pass: GmailPass, // generated ethereal password
+      requireTLS: true
+    },
+    tls: {
+      ciphers: 'SSLv3'
+    }
+  });
+
+  // Send verification Email to Users email address.
+  let mailOptions = {
+    from: GmailUser, // sender address
+    to: email,
+    bcc: GmailUser, // list of receivers
+    subject: 'Thanks for Contacting Us', // Subject line
+    // text: `Hello ${name}`, // plain text body
+    html: `<br/>
+          Hi, ${name}!
+          <br/><br/>
+          we have received your email and if required will reply you soon.
+          <br/>
+          Your message in email 
+          <br/>
+          <br/>
+         ${message}
+          </br></br>
+          `
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    console.log('Message sent: %s', info.messageId);
+    // Preview only available when sending through an Ethereal account
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+  });
+  return res.json('Thanks, we have recieved your email.');
+});
+
 module.exports = router;

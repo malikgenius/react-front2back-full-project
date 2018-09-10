@@ -6,9 +6,9 @@ $dark-overlay-burger: rgba(46, 40, 40, 0.9);
 $font-size: 42px;
 
 body {
-  background-color: $dark-overlay;
+  // background-color: $dark-overlay;
 }
-.home-page {
+.home-section {
   background: $bg-color;
   // background-color: $dark-overlay;
   color: $font-color;
@@ -16,22 +16,29 @@ body {
   background-size: cover;
   background-attachment: fixed;
   min-height: 700px;
+  position: relative;
   .dark-overlay {
     background-color: $dark-overlay;
+    position: absolute;
     background-size: cover;
-    min-height: 700px;
+    height: 700px;
     position: absolute;
     top: 0;
     left: 0;
+
     width: 100%;
   }
   .home-inner {
     padding-top: 100px;
     // background-color: $dark-overlay;
   }
-  .explore-head-section {
-    // padding-top: 100px;
-  }
+  // .explore-head-section {
+  //   padding-top: 100px;
+  // }
+}
+
+.explore-head-section {
+  background: $bg-color;
 }
 
 .card-form {

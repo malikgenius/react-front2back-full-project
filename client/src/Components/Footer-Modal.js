@@ -51,7 +51,7 @@ class FooterModal extends Component {
         <div>
           <div id="footer" class="bg-dark text-muted ">
             <div class="container">
-              <div class="row">
+              <div class="row mr-0 ml-0">
                 <div class="col text-center">
                   <div class="py-2">
                     <h1 class="h5">T3CH GeeGs L.L.C</h1>

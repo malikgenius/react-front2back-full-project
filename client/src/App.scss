@@ -6,7 +6,11 @@ $dark-overlay-burger: rgba(46, 40, 40, 0.9);
 $font-size: 42px;
 
 body {
-  // background-color: $dark-overlay;
+  background-color: $dark-overlay;
+}
+.row {
+  margin-right: 0;
+  margin-left: 0;
 }
 .home-section {
   background: $bg-color;
@@ -17,6 +21,7 @@ body {
   background-attachment: fixed;
   min-height: 700px;
   position: relative;
+  width: 100%;
   .dark-overlay {
     background-color: $dark-overlay;
     position: absolute;
@@ -25,7 +30,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-
+    right: 0;
     width: 100%;
   }
   .home-inner {

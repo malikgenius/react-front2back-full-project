@@ -23,6 +23,7 @@ class HomeSection extends Component {
 
   // home-page has 12 Row and 12 cols, 8 are defined here but 4 for Sign Up form are in seperate file now.
   // d-none will not display below 8 col in small screens.
+  // className="row mr- -10 ml- -10"  by default its -15 we can even go for mr-0 and ml-0 check yourself.
   render() {
     return (
       <div>
@@ -30,7 +31,7 @@ class HomeSection extends Component {
           <div class="dark-overlay">
             <div class="home-inner">
               <div className="container">
-                <div className="row">
+                <div className="row mr- -10 ml- -10">
                   <div className="col-lg-8 d-none d-lg-block">
                     <h1 class="display-4">
                       Build <strong>social profile</strong> to join{' '}
@@ -85,7 +86,7 @@ class HomeSection extends Component {
         <section class="explore-head-section " id="explore">
           {/* <div class="dark-overlay"> */}
           <div class="container">
-            <div class="row">
+            <div class="row mr- -10 ml- -10">
               <div class="col text-center">
                 <div class="py-5">
                   <h1 class="display-4 text-light">Explore</h1>
@@ -109,8 +110,8 @@ class HomeSection extends Component {
 
         <section class="explore-section bg-light text-muted pt-5 pb-2">
           <div class="container">
-            <div class="row">
-              <div class="row">
+            <div class="row mr-0 ml-0">
+              <div class="row ">
                 <div class="col-md-6 align-self-center ">
                   <img
                     src="img/explore-section1.jpg"

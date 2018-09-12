@@ -6,12 +6,15 @@ $dark-overlay-burger: rgba(46, 40, 40, 0.9);
 $font-size: 42px;
 
 body {
-  background-color: $dark-overlay;
+  // background-color: $dark-overlay;
 }
-.row {
-  margin-right: 0;
-  margin-left: 0;
-}
+// .row {
+//   margin-right: 0;
+//   margin-left: 0;
+// }
+// .a {
+//   color: $font-color;
+// }
 .home-section {
   background: $bg-color;
   // background-color: $dark-overlay;
@@ -63,9 +66,30 @@ body {
   opacity: 0.9;
 }
 
+.navbar-header {
+  float: left;
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+}
+.navbar-brand {
+  float: none;
+}
+
 // .nav-link {
 //   color: 'white';
 // }
+
+// dropDown toggle and Drop Down
+
+.btn-btn-secondar {
+  background: 'none';
+  border: 'none';
+  :hover {
+    background: 'none';
+    border: 'none';
+  }
+}
 
 // React Burger Menu
 /* Position and sizing of burger button */

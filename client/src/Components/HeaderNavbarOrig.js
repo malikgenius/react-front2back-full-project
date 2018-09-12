@@ -10,7 +10,6 @@ import {
   Modal,
   ModalBody,
   UncontrolledDropdown,
-  Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
@@ -24,7 +23,6 @@ import {
   loginSocialUser,
   getSuccessReset
 } from '../actions/authAction';
-import { link } from 'fs';
 
 class HeaderNavbar extends React.Component {
   constructor(props) {
@@ -37,8 +35,7 @@ class HeaderNavbar extends React.Component {
       success: '',
       modal: false,
       menuOpen: false,
-      collapse: false,
-      dropdown: false
+      collapse: false
     };
   }
 
@@ -94,24 +91,6 @@ class HeaderNavbar extends React.Component {
       collapse: false
     });
   };
-
-  // onLogoutClick clearning success and errors & All
-
-  onLogoutClear = () => {
-    this.setState({
-      errors: '',
-      email: '',
-      password: '',
-      success: '',
-      menuOpen: false,
-      collapse: false
-    });
-  };
-
-  // User Dropdown toggle
-  toggleDropdown = () => {
-    this.setState({ dropdown: !this.state.dropdown });
-  };
   // React Burger menu options.
   toggleMenu = () => {
     this.setState({ menuOpen: !this.state.menuOpen });
@@ -136,7 +115,7 @@ class HeaderNavbar extends React.Component {
   onLogoutClick = e => {
     e.preventDefault();
     this.props.logoutUser(this.props.history);
-    this.onLogoutClear();
+    this.toggle();
   };
 
   showSettings = event => {
@@ -160,107 +139,6 @@ class HeaderNavbar extends React.Component {
     // Check if authenticated or not.
     const authLinks = (
       <div>
-        <nav
-          className="navbar navbar-expand-all bg-dark navbar-dark fixed-top"
-          // style={{ backgroundColor: 'none', borderBottom: 'none' }}
-        >
-          <button
-            onClick={this.toggleMenu}
-            type="button"
-            className="navbar-toggler"
-            // data-toggle="collapse"
-            // data-target="#navbarCollapse"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-
-          <HashLink
-            to="/#home-page"
-            className="navbar-brand ml-auto d-none d-md-block"
-          >
-            T3CH GeeGs
-          </HashLink>
-
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <div>
-                {user.photo ? (
-                  <Dropdown
-                    isOpen={this.state.dropdown}
-                    toggle={this.toggleDropdown}
-                  >
-                    <DropdownToggle className=" btn btn-link border-0 p-0">
-                      <img
-                        className="rounded-circle"
-                        src={user.photo}
-                        alt={user.name}
-                        style={{ width: '40px' }}
-                        title={user.name}
-                      />{' '}
-                    </DropdownToggle>
-                    <DropdownMenu
-                      class="dropdown-menu"
-                      right
-                      style={{
-                        boxShadow: '100px',
-                        borderRadius: 'none'
-                      }}
-                    >
-                      <DropdownItem onClick={this.onLogoutClick}>
-                        Sign Out
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                ) : (
-                  <Dropdown
-                    isOpen={this.state.dropdown}
-                    toggle={this.toggleDropdown}
-                  >
-                    <DropdownToggle
-                      className=" btn btn-outline-secondary  rounded rounded-circle p-2 "
-                      style={{ border: 'none' }}
-                    >
-                      <i
-                        class="fas fa-user-alt fa-lg fa-white text-light"
-                        aria-hidden="true"
-                      />
-                    </DropdownToggle>
-                    <DropdownMenu
-                      class="dropdown-menu pt-5"
-                      right
-                      style={{
-                        boxShadow: '100px',
-                        borderRadius: 'none'
-                      }}
-                    >
-                      <DropdownItem>
-                        <Link
-                          to="/forgotpassword"
-                          style={{
-                            textDecoration: 'none',
-                            color: '#17a2b8'
-                          }}
-                        >
-                          Reset Password
-                        </Link>
-                      </DropdownItem>
-                      <DropdownItem
-                        onClick={this.onLogoutClick}
-                        style={{
-                          textDecoration: 'none',
-                          color: '#17a2b8'
-                        }}
-                      >
-                        Sign Out
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                )}
-              </div>
-            </li>
-          </ul>
-        </nav>
-
         <Menu
           isOpen={this.state.menuOpen}
           onStateChange={state => this.handleStateChange(state)}
@@ -383,34 +261,6 @@ class HeaderNavbar extends React.Component {
 
     const guestLinks = (
       <div>
-        <nav
-          className="navbar navbar-expand-all bg-dark navbar-dark fixed-top"
-          // style={{ backgroundColor: 'none', borderBottom: 'none' }}
-        >
-          <button
-            onClick={this.toggleMenu}
-            type="button"
-            className="navbar-toggler"
-            // data-toggle="collapse"
-            // data-target="#navbarCollapse"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-
-          <HashLink
-            to="/#home-page"
-            className="navbar-brand ml-auto d-none d-md-block "
-          >
-            T3CH GeeGs
-          </HashLink>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <Link class="nav-link" to="#" onClick={this.toggle}>
-                Sign In
-              </Link>
-            </li>
-          </ul>
-        </nav>
         <Menu
           isOpen={this.state.menuOpen}
           onStateChange={state => this.handleStateChange(state)}
@@ -498,7 +348,7 @@ class HeaderNavbar extends React.Component {
     return (
       <div>
         <div>{isAuthenticated ? authLinks : guestLinks}</div>
-        {/* <nav
+        <nav
           className="navbar navbar-expand-all bg-dark navbar-dark fixed-top"
           // style={{ backgroundColor: 'none', borderBottom: 'none' }}
         >
@@ -515,7 +365,7 @@ class HeaderNavbar extends React.Component {
           <HashLink to="/#home-page" className="navbar-brand ">
             T3CH GeeGs
           </HashLink>
-        </nav> */}
+        </nav>
 
         <div className="container.fluid">
           <div className="row">

@@ -104,7 +104,8 @@ class HeaderNavbar extends React.Component {
       password: '',
       success: '',
       menuOpen: false,
-      collapse: false
+      collapse: false,
+      dropdown: false
     });
   };
 
@@ -160,16 +161,11 @@ class HeaderNavbar extends React.Component {
     // Check if authenticated or not.
     const authLinks = (
       <div>
-        <nav
-          className="navbar navbar-expand-all bg-dark navbar-dark fixed-top"
-          // style={{ backgroundColor: 'none', borderBottom: 'none' }}
-        >
+        <nav className="navbar navbar-expand-all bg-dark navbar-dark fixed-top">
           <button
             onClick={this.toggleMenu}
             type="button"
             className="navbar-toggler"
-            // data-toggle="collapse"
-            // data-target="#navbarCollapse"
           >
             <span className="navbar-toggler-icon" />
           </button>
@@ -189,7 +185,10 @@ class HeaderNavbar extends React.Component {
                     isOpen={this.state.dropdown}
                     toggle={this.toggleDropdown}
                   >
-                    <DropdownToggle className=" btn btn-link border-0 p-0">
+                    <DropdownToggle
+                      className=" btn btn-link  rounded rounded-circle p-2 "
+                      style={{ border: 'none' }}
+                    >
                       <img
                         className="rounded-circle"
                         src={user.photo}
@@ -199,16 +198,47 @@ class HeaderNavbar extends React.Component {
                       />{' '}
                     </DropdownToggle>
                     <DropdownMenu
-                      class="dropdown-menu"
+                      class="shadow-lg"
                       right
                       style={{
-                        boxShadow: '100px',
-                        borderRadius: 'none'
+                        borderRadius: '5px',
+                        width: '250px',
+                        marginTop: '10px',
+                        marginRight: '10px'
                       }}
                     >
-                      <DropdownItem onClick={this.onLogoutClick}>
+                      <div class="dropdown-item">
+                        <div
+                          class="row justify-content-start "
+                          // style={{ height: '100px' }}
+                        >
+                          <div class="col-4 align-self-start">
+                            <div class="card-img ">
+                              <img
+                                className="rounded-circle"
+                                src={user.photo}
+                                alt={user.name}
+                                style={{ width: '50px' }}
+                                title={user.name}
+                              />{' '}
+                            </div>
+                          </div>
+                          <div class="col-8 align-self-center ">
+                            <div class=" text-small ">{user.name}</div>
+                            <p class="text-muted" style={{ fontSize: '9px' }}>
+                              {user.email}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="dropdown-divider" />
+
+                      <div
+                        class="dropdown-item btn"
+                        onClick={this.onLogoutClick}
+                      >
                         Sign Out
-                      </DropdownItem>
+                      </div>
                     </DropdownMenu>
                   </Dropdown>
                 ) : (
@@ -217,23 +247,78 @@ class HeaderNavbar extends React.Component {
                     toggle={this.toggleDropdown}
                   >
                     <DropdownToggle
-                      className=" btn btn-outline-secondary  rounded rounded-circle p-2 "
+                      className=" btn btn-link  rounded rounded-circle p-2 "
                       style={{ border: 'none' }}
                     >
                       <i
                         class="fas fa-user-alt fa-lg fa-white text-light"
                         aria-hidden="true"
+                        title={user.name}
                       />
                     </DropdownToggle>
                     <DropdownMenu
-                      class="dropdown-menu pt-5"
+                      class="shadow-lg"
                       right
                       style={{
-                        boxShadow: '100px',
-                        borderRadius: 'none'
+                        borderRadius: '5px',
+                        width: '250px',
+                        marginTop: '10px',
+                        marginRight: '10px'
                       }}
                     >
-                      <DropdownItem>
+                      {/* <DropdownItem onClick={this.onLogoutClick}> */}
+
+                      <div
+                        class="dropdown-item"
+                        // style={{ width: '210px', borderRadius: '50%' }}
+                      >
+                        <div
+                          class="row justify-content-start "
+                          // style={{ height: '100px' }}
+                        >
+                          <div class="col-4 align-self-start">
+                            <div class="card-img ">
+                              <img
+                                className="rounded-circle"
+                                src="/img/placeholder.jpg"
+                                // alt={user.name}
+                                style={{ width: '50px' }}
+                                title={user.name}
+                              />{' '}
+                            </div>
+                          </div>
+                          <div class="col-8 align-self-center ">
+                            <div class=" text-small ">{user.name}</div>
+                            <p class="text-muted" style={{ fontSize: '9px' }}>
+                              {user.email}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="dropdown-divider" />
+                      <div class="dropdown-item">
+                        <Link
+                          class="dropdown-item pl-0"
+                          to="/forgotpassword"
+                          onClick={this.toggleDropdown}
+                        >
+                          Reset Password
+                        </Link>
+                      </div>
+                      <div class="dropdown-divider" />
+
+                      <div
+                        class="dropdown-item btn"
+                        onClick={this.onLogoutClick}
+                      >
+                        Sign Out
+                      </div>
+
+                      {/* </div>
+                      </div> */}
+                      {/* </DropdownItem> */}
+
+                      {/* <DropdownItem>
                         <Link
                           to="/forgotpassword"
                           style={{
@@ -252,7 +337,7 @@ class HeaderNavbar extends React.Component {
                         }}
                       >
                         Sign Out
-                      </DropdownItem>
+                      </DropdownItem> */}
                     </DropdownMenu>
                   </Dropdown>
                 )}

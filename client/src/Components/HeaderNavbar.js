@@ -186,7 +186,7 @@ class HeaderNavbar extends React.Component {
                     toggle={this.toggleDropdown}
                   >
                     <DropdownToggle
-                      className=" btn btn-link  rounded rounded-circle p-2 "
+                      className=" btn btn-link  rounded rounded-circle "
                       style={{ border: 'none' }}
                     >
                       <img
@@ -198,7 +198,7 @@ class HeaderNavbar extends React.Component {
                       />{' '}
                     </DropdownToggle>
                     <DropdownMenu
-                      class="shadow-lg"
+                      class="shadow-lg bg-0"
                       right
                       style={{
                         borderRadius: '5px',
@@ -207,9 +207,9 @@ class HeaderNavbar extends React.Component {
                         marginRight: '10px'
                       }}
                     >
-                      <div class="dropdown-item">
+                      <div class="dropdown-item bg-white">
                         <div
-                          class="row justify-content-start "
+                          class="row justify-content-start ml- -50 mr-0 "
                           // style={{ height: '100px' }}
                         >
                           <div class="col-4 align-self-start">
@@ -224,17 +224,21 @@ class HeaderNavbar extends React.Component {
                             </div>
                           </div>
                           <div class="col-8 align-self-center ">
-                            <div class=" text-small ">{user.name}</div>
+                            <div class=" text-small text-dark">{user.name}</div>
                             <p class="text-muted" style={{ fontSize: '9px' }}>
                               {user.email}
                             </p>
                           </div>
+                          <button class="btn btn-light ml-auto text-dark border-1">
+                            <i class="fa fa-wrench" aria-hidden="true" />{' '}
+                            Profile
+                          </button>
                         </div>
                       </div>
                       <div class="dropdown-divider" />
 
                       <div
-                        class="dropdown-item btn"
+                        class="dropdown-item btn text-dark bg-white"
                         onClick={this.onLogoutClick}
                       >
                         Sign Out
@@ -257,7 +261,7 @@ class HeaderNavbar extends React.Component {
                       />
                     </DropdownToggle>
                     <DropdownMenu
-                      class="shadow-lg"
+                      class="shadow-lg bg-0"
                       right
                       style={{
                         borderRadius: '5px',
@@ -266,14 +270,9 @@ class HeaderNavbar extends React.Component {
                         marginRight: '10px'
                       }}
                     >
-                      {/* <DropdownItem onClick={this.onLogoutClick}> */}
-
-                      <div
-                        class="dropdown-item"
-                        // style={{ width: '210px', borderRadius: '50%' }}
-                      >
+                      <div class="dropdown-item bg-white">
                         <div
-                          class="row justify-content-start "
+                          class="row justify-content-start ml- -50 mr-0"
                           // style={{ height: '100px' }}
                         >
                           <div class="col-4 align-self-start">
@@ -287,20 +286,25 @@ class HeaderNavbar extends React.Component {
                               />{' '}
                             </div>
                           </div>
-                          <div class="col-8 align-self-center ">
-                            <div class=" text-small ">{user.name}</div>
+                          <div class="col-8 align-self-start ">
+                            <div class=" text-small text-dark">{user.name}</div>
                             <p class="text-muted" style={{ fontSize: '9px' }}>
                               {user.email}
                             </p>
                           </div>
+                          <button class="btn btn-light ml-auto text-dark border-1">
+                            <i class="fa fa-wrench" aria-hidden="true" />{' '}
+                            Profile
+                          </button>
                         </div>
                       </div>
                       <div class="dropdown-divider" />
-                      <div class="dropdown-item">
+                      <div class="dropdown-item bg-white">
                         <Link
-                          class="dropdown-item pl-0"
+                          class="nav-link text-dark"
                           to="/forgotpassword"
                           onClick={this.toggleDropdown}
+                          style={{ textDecoration: 'none', background: 'none' }}
                         >
                           Reset Password
                         </Link>
@@ -308,7 +312,7 @@ class HeaderNavbar extends React.Component {
                       <div class="dropdown-divider" />
 
                       <div
-                        class="dropdown-item btn"
+                        class="dropdown-item btn text-dark bg-white"
                         onClick={this.onLogoutClick}
                       >
                         Sign Out

@@ -313,31 +313,6 @@ class HeaderNavbar extends React.Component {
                       >
                         Sign Out
                       </div>
-
-                      {/* </div>
-                      </div> */}
-                      {/* </DropdownItem> */}
-
-                      {/* <DropdownItem>
-                        <Link
-                          to="/forgotpassword"
-                          style={{
-                            textDecoration: 'none',
-                            color: '#17a2b8'
-                          }}
-                        >
-                          Reset Password
-                        </Link>
-                      </DropdownItem>
-                      <DropdownItem
-                        onClick={this.onLogoutClick}
-                        style={{
-                          textDecoration: 'none',
-                          color: '#17a2b8'
-                        }}
-                      >
-                        Sign Out
-                      </DropdownItem> */}
                     </DropdownMenu>
                   </Dropdown>
                 )}
@@ -355,113 +330,29 @@ class HeaderNavbar extends React.Component {
           //ClassNames changed
           // itemListClassName={'nav-item'}
         >
-          <div className="my-3">
-            {user.photo ? (
-              <NavItem
-                onClick={this.onCollapse}
-                style={{
-                  textDecoration: 'none',
-                  fontWeight: '400',
-                  color: '#FFFAFA',
-                  cursor: 'pointer',
-                  listStyle: 'none',
-                  fontSize: '25px'
-                }}
-              >
-                <img
-                  className="rounded-circle"
-                  src={user.photo}
-                  alt={user.name}
-                  style={{ width: '35px' }}
-                  title={user.name}
-                />{' '}
-                {user.name}
-              </NavItem>
-            ) : (
-              <NavItem
-                onClick={this.onCollapse}
-                className="text-center"
-                style={{
-                  textDecoration: 'none',
-                  fontWeight: '400',
-                  color: '#FFFAFA',
-                  cursor: 'pointer',
-                  listStyle: 'none',
-                  fontSize: '25px'
-                }}
-              >
-                <img
-                  className="rounded-circle"
-                  src="/img/placeholder.jpg"
-                  alt={user.name}
-                  style={{ width: '35px' }}
-                  title="You must have a Gravatar connected to your email to display an image"
-                />{' '}
-                {user.name}
-              </NavItem>
-            )}
-            {user.method === 'local' ? (
-              <Collapse isOpen={this.state.collapse}>
-                <NavItem
-                  // ml-5 to keep collapsed menus under name margin left.
-                  className="ml-5"
-                  style={{
-                    textDecoration: 'none',
-                    fontWeight: '400',
-                    color: '',
-                    cursor: 'pointer',
-                    listStyle: 'none',
-                    fontSize: '20px'
-                  }}
-                >
-                  <Link
-                    onClick={this.closeMenu}
-                    // className="bm-item h1 mr-2"
-                    style={{
-                      textDecoration: 'none',
-                      color: '#17a2b8'
-                    }}
-                    to="/forgotpassword"
-                  >
-                    Change Password{' '}
-                  </Link>
-                </NavItem>
-                <NavItem
-                  to="/"
-                  onClick={this.onLogoutClick.bind(this)}
-                  className="ml-5 link"
-                  style={{
-                    // textDecoration: 'none',
-                    fontWeight: '400',
-                    color: '#17a2b8',
-                    cursor: 'pointer',
-                    listStyle: 'none',
-                    fontSize: '20px'
-                  }}
-                >
-                  Sign Out
-                </NavItem>
-              </Collapse>
-            ) : (
-              <Collapse isOpen={this.state.collapse}>
-                <NavItem
-                  to="/"
-                  onClick={this.onLogoutClick.bind(this)}
-                  className="ml-5 link"
-                  style={{
-                    // textDecoration: 'none',
-                    fontWeight: '400',
-                    color: '#17a2b8',
-                    cursor: 'pointer',
-                    listStyle: 'none',
-                    fontSize: '20px'
-                  }}
-                >
-                  Sign Out
-                </NavItem>
-              </Collapse>
-            )}
-          </div>
+          <HashLink
+            onClick={this.closeMenu}
+            className="menu-item display-4"
+            to="/#explore"
+          >
+            Explore
+          </HashLink>
+          <HashLink
+            onClick={this.closeMenu}
+            className="menu-item display-4"
+            to="/#footer"
+          >
+            Contact
+          </HashLink>
+
+          <a
+            onClick={this.onLogoutClick}
+            className="menu-item display-5 text-danger"
+            href=""
+            title={user.name}
+          >
+            Sign Out
+          </a>
         </Menu>
       </div>
     );
@@ -583,25 +474,6 @@ class HeaderNavbar extends React.Component {
     return (
       <div>
         <div>{isAuthenticated ? authLinks : guestLinks}</div>
-        {/* <nav
-          className="navbar navbar-expand-all bg-dark navbar-dark fixed-top"
-          // style={{ backgroundColor: 'none', borderBottom: 'none' }}
-        >
-          <button
-            onClick={this.toggleMenu}
-            type="button"
-            className="navbar-toggler"
-            // data-toggle="collapse"
-            // data-target="#navbarCollapse"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-
-          <HashLink to="/#home-page" className="navbar-brand ">
-            T3CH GeeGs
-          </HashLink>
-        </nav> */}
-
         <div className="container.fluid">
           <div className="row">
             <Modal

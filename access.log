@@ -1594,3 +1594,6 @@
 ::ffff:127.0.0.1 - - [13/Sep/2018:08:32:46 +0000] "POST /api/users/login HTTP/1.1" 200 383
 ::ffff:127.0.0.1 - - [13/Sep/2018:08:33:01 +0000] "POST /api/users/facebook HTTP/1.1" 200 426
 ::ffff:127.0.0.1 - - [13/Sep/2018:08:43:37 +0000] "POST /api/users/login HTTP/1.1" 200 383
+::ffff:127.0.0.1 - - [13/Sep/2018:09:07:26 +0000] "POST /api/users/login HTTP/1.1" 200 383
+::ffff:127.0.0.1 - - [13/Sep/2018:09:32:47 +0000] "POST /api/users/login HTTP/1.1" 200 383
+::ffff:127.0.0.1 - - [13/Sep/2018:10:54:04 +0000] "POST /api/users/google HTTP/1.1" 200 460

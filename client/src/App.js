@@ -6,13 +6,20 @@ import './App.scss';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authAction';
+import { clearCurrentProfile } from './actions/profileAction';
 import { Provider } from 'react-redux';
 import configureStore from './reducers';
+// Private Route
+import PrivateRoute from './Components/Common/PrivateRoute';
 // Components
 import HeaderNavbar from './Components/HeaderNavbar';
 import HomeSection from './Components/HomeSection';
 import GoogleOauth from './Components/SocialLogin/GoogleOauth';
 import FacebookOauth from './Components/SocialLogin/FacebookOauth';
+import FooterModal from './Components/FooterModal';
+// Dashboard & Profile Components
+import Dashboard from './Components/Dashboard/Dashboard';
+import CreateProfile from './Components/CreateProfile/CreateProfile';
 
 // Email verification Reset Password ---
 import VerifyAccount from './Components/verifyReset/VerifyAccount';
@@ -22,6 +29,7 @@ import ChangePassword from './Components/verifyReset/ChangePassword';
 //FontAwesome and BootStrap config
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
+
 // Store
 const store = configureStore();
 
@@ -37,6 +45,7 @@ if (localStorage.jwtToken) {
   // check for expired token
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
+    store.dispatch(clearCurrentProfile());
     store.dispatch(logoutUser());
     window.location.href = '/';
   }
@@ -50,15 +59,18 @@ class App extends Component {
           <div>
             <HeaderNavbar />
 
+            <Route exact path="/" component={HomeSection} />
+            <Route path="/google" component={GoogleOauth} />
+            <Route path="/facebook" component={FacebookOauth} />
+            <Route path="/verifyAccount" component={VerifyAccount} />
+            <Route path="/emailverified" component={EmailVerified} />
+            <Route path="/forgotpassword" component={ForgotPassword} />
+            <Route path="/changepassword" component={ChangePassword} />
             <Switch>
-              <Route exact path="/" component={HomeSection} />
-              <Route path="/google" component={GoogleOauth} />
-              <Route path="/facebook" component={FacebookOauth} />
-              <Route path="/verifyAccount" component={VerifyAccount} />
-              <Route path="/emailverified" component={EmailVerified} />
-              <Route path="/forgotpassword" component={ForgotPassword} />
-              <Route path="/changepassword" component={ChangePassword} />
+              <PrivateRoute path="/dashboard" component={Dashboard} />
+              <PrivateRoute path="/createprofile" component={CreateProfile} />
             </Switch>
+            <FooterModal />
           </div>
         </Router>
       </Provider>

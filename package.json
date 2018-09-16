@@ -31,6 +31,7 @@
     "passport-google-plus-token": "^2.1.0",
     "passport-jwt": "^4.0.0",
     "randomstring": "^1.1.5",
+    "react-speech-recognition": "^1.0.7",
     "twilio": "^3.19.2",
     "web-push": "^3.3.2"
   },

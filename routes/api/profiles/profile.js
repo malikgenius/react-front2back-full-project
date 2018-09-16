@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const passport = require('passport');
 const Joi = require('joi');
 const ProfileValidation = require('./ProfileValidation-Joi');
@@ -34,7 +34,9 @@ router.post('/sms', (req, res) => {
 // @Private Route
 router.get(
   '/',
-  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', {
+    session: false
+  }),
   (req, res) => {
     Profile.findOne({
       user: req.user.id
@@ -43,12 +45,12 @@ router.get(
       .populate('user', ['name', 'email'])
       .then(profile => {
         if (!profile) {
-          res.status(404).json({ Error: 'Profile Not Found!' });
+          return res.status(404).json({ Error: 'Profile Not Found!' });
         }
-        res.json(profile);
+        return res.json(profile);
       })
       .catch(err => {
-        res.status(404).json(err);
+        return res.status(404).json(err);
       });
   }
 );
@@ -57,11 +59,91 @@ router.get(
 // @Private Route
 router.post(
   '/',
-  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', {
+    session: false
+  }),
   (req, res) => {
-    // Joi Validation Seperate File ProfileValidation-Joi Export ProfileValidation and provide args req.body, res
-    ProfileValidation(req.body, res);
-
+    // Joi Validation starts here ..
+    const {
+      handle,
+      company,
+      website,
+      location,
+      status,
+      bio,
+      birthday,
+      githubusername,
+      skills,
+      youtube,
+      facebook,
+      twitter,
+      linkedin,
+      instagram
+    } = req.body;
+    // // Joi Scheme
+    const schema = {
+      handle: Joi.string()
+        .min(2)
+        .max(40)
+        .required(),
+      company: Joi.string()
+        .allow('')
+        .min(2)
+        .max(400),
+      website: Joi.string()
+        .allow('')
+        .min(2)
+        .max(100),
+      location: Joi.string()
+        .allow('')
+        .min(2)
+        .max(100),
+      status: Joi.string()
+        .allow('')
+        .min(2)
+        .max(40)
+        .required(),
+      bio: Joi.string()
+        .allow('')
+        .min(2)
+        .max(40),
+      birthday: Joi.string().allow(''),
+      githubusername: Joi.string()
+        .allow('')
+        .min(2)
+        .max(40),
+      skills: Joi.string()
+        .allow('')
+        .min(2)
+        .max(100)
+        .required(),
+      youtube: Joi.string()
+        .allow('')
+        .min(5)
+        .max(100),
+      facebook: Joi.string()
+        .allow('')
+        .min(5)
+        .max(100),
+      twitter: Joi.string()
+        .allow('')
+        .min(5)
+        .max(100),
+      linkedin: Joi.string()
+        .allow('')
+        .min(5)
+        .max(100),
+      instagram: Joi.string()
+        .allow('')
+        .min(5)
+        .max(100)
+    };
+    // Joi Validation Check
+    const Validate = Joi.validate(req.body, schema);
+    if (Validate.error) {
+      console.log(Validate.error.details[0].message);
+      return res.status(400).send(Validate.error.details[0].message);
+    }
     // Get Fields for Profile
     const profileFields = {};
     profileFields.user = req.user.id;
@@ -100,17 +182,19 @@ router.post(
           //new: true means res.json will return new updated profile, we dont provide new it will res.json(old profile)
           //its just to see new updated profile on the fly in return and frontEnd
           { new: true }
-        ).then(profile => res.json(profile));
+        ).then(profile => {
+          return res.json(profile);
+        });
       } else {
         // Create
         // Check if the handle exists  for SEO
         Profile.findOne({ handle: profileFields.handle }).then(profile => {
           if (profile) {
-            res.status(400).json('Handle Exists');
+            return res.status(400).json('Handle Exists');
           }
           // Save Profile
           new Profile(profileFields).save().then(profile => {
-            res.json(profile);
+            return res.json(profile);
           });
         });
       }
@@ -121,12 +205,14 @@ router.post(
 // Add Experience to profile
 router.post(
   '/experience',
-  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', {
+    session: false
+  }),
   (req, res) => {
     ExperienceValidation(req.body, res);
     Profile.findOne({ user: req.user.id }).then(profile => {
       if (!profile) {
-        return res.json({ Error: 'No Profile Associated' });
+        return res.json('No Profile Associated');
       }
       const newExp = {
         title: req.body.title,
@@ -147,7 +233,9 @@ router.post(
 // Delete Experience from Profile by exp_id
 router.delete(
   '/experience/:exp_id',
-  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', {
+    session: false
+  }),
   (req, res) => {
     Profile.findOne(
       { user: req.user.id }
@@ -175,12 +263,14 @@ router.delete(
 // Add Education to profile
 router.post(
   '/education',
-  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', {
+    session: false
+  }),
   (req, res) => {
     EducationValidation(req.body, res);
     Profile.findOne({ user: req.user.id }).then(profile => {
       if (!profile) {
-        return res.json({ Error: 'No Profile Associated' });
+        return res.json('No Profile Associated');
       }
       const newEdu = {
         school: req.body.school,
@@ -201,11 +291,13 @@ router.post(
 // Delete Education
 router.delete(
   '/education/:edu_id',
-  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', {
+    session: false
+  }),
   (req, res) => {
     Profile.findOne({ user: req.user.id }).then(profile => {
       if (!profile) {
-        return res.json({ Error: 'No Profile Associated with user' });
+        return res.json('No Profile Associated with user');
       }
       const removeIndex = profile.education
         .map(item => item.id)
@@ -223,17 +315,39 @@ router.delete(
   }
 );
 
-// Delete Profile and User
+// Delete Profile
 router.delete(
-  '/',
-  passport.authenticate('jwt', { session: false }),
+  '/deleteprofile',
+  passport.authenticate('jwt', {
+    session: false
+  }),
   (req, res) => {
     // if we only want to delete the profile we can stop after below linke and after .then(() => res.json(bla bla bla ))
-    Profile.findOneAndRemove({ user: req.user.id }).then(() => {
-      User.findOneAndRemove({ _id: req.user.id }).then(() =>
-        res.json({ ProfileRemoved: 'Sad to See you Going' })
-      );
+    Profile.findOneAndDelete({ user: req.user.id }).then(() => {
+      // User.findOneAndDelete({ _id: req.user.id }).then(() =>
+      return res.json('Sad to See you Going');
+      // );
     });
+  }
+);
+
+// Delete User
+router.delete(
+  '/deleteuser',
+  passport.authenticate('jwt', {
+    session: false
+  }),
+  (req, res) => {
+    // if we only want to delete the profile we can stop after below linke and after .then(() => res.json(bla bla bla ))
+    User.findOneAndDelete({ _id: req.user.id })
+      .then(() => {
+        // User.findOneAndDelete({ _id: req.user.id }).then(() =>
+        return res.json('Sad to See you Going');
+        // );
+      })
+      .catch(err => {
+        return res.status(400).json('Something Went Wrong, Try again Later');
+      });
   }
 );
 

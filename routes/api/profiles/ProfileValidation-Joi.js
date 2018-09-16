@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 module.exports = function ProfileValidation(data, res) {
   const {
@@ -18,45 +18,61 @@ module.exports = function ProfileValidation(data, res) {
     instagram
   } = data;
 
+  // Joi Scheme
   const schema = {
     handle: Joi.string()
       .min(2)
       .max(40)
       .required(),
     company: Joi.string()
+      .allow('')
       .min(2)
-      .max(40),
+      .max(400),
+    website: Joi.string()
+      .allow('')
+      .min(2)
+      .max(100),
     location: Joi.string()
+      .allow('')
       .min(2)
-      .max(40),
+      .max(100),
     status: Joi.string()
+      .allow('')
       .min(2)
       .max(40)
       .required(),
     bio: Joi.string()
+      .allow('')
       .min(2)
       .max(40),
-    birthday: Joi.string(),
+    birthday: Joi.string().allow(''),
     githubusername: Joi.string()
+      .allow('')
       .min(2)
       .max(40),
     skills: Joi.string()
+      .allow('')
       .min(2)
-      .max(40)
+      .max(100)
       .required(),
     youtube: Joi.string()
+      .allow('')
       .min(5)
       .max(100),
     facebook: Joi.string()
+      .allow('')
       .min(5)
       .max(100),
     twitter: Joi.string()
+      .allow('')
       .min(5)
       .max(100),
     linkedin: Joi.string()
+      .allow('')
       .min(5)
       .max(100),
     instagram: Joi.string()
+      .allow('')
       .min(5)
       .max(100)
   };

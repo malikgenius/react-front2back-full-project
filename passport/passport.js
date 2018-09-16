@@ -121,7 +121,7 @@ passport.use(
           }
         });
         await newUser.save();
-        done(null, newUser);
+        return done(null, newUser);
       } catch (err) {
         done(err, false, err.message);
       }

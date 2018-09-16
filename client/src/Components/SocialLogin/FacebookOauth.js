@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { loginSocialUser } from '../../actions/authAction';
 import clientId from '../../config/Keys';
 import axios from 'axios';
+import { Alert } from 'reactstrap';
 
 class FacebookOauth extends Component {
   constructor() {
@@ -45,32 +46,35 @@ class FacebookOauth extends Component {
     };
 
     return (
-      <div className="container invisible">
-        <div className="alert alert-light" role="alert" size="large">
-          <h4>
-            Popup will take you to Facebook Login page, if you dont see any
-            popup please Click on link below.
-          </h4>
-        </div>
+      <div className=" mt-5 ">
+        <Alert color="info">
+          Please allow popups for this site and refresh the page if you dont see
+          Facebook Login page.
+        </Alert>
+        <div className="container invisible">
+          <div className="alert alert-light" role="alert" size="large">
+            <h4>
+              Popup will take you to Facebook Login page, if you dont see any
+              popup please Click on link below.
+            </h4>
+          </div>
 
-        <FacebookLogin
-          appId={clientId.facebookClientID}
-          autoLoad={true}
-          fields="name,email,picture"
-          scope="public_profile, email"
-          callback={responseFacebook}
-          // cssClass="btnFacebook"
-          // icon={<i className="fa fa-facebook" />}
-          // textButton="&nbsp;&nbsp;Sign In with Facebook"
-        >
-          <i
-            className="fa fa-facebook"
-            style={{
-              marginLeft: '5px'
-            }}
-          />
-          <span>&nbsp;&nbsp;Sign In with Facebook</span>
-        </FacebookLogin>
+          <FacebookLogin
+            appId={clientId.facebookClientID}
+            autoLoad={true}
+            fields="name,email,picture"
+            scope="public_profile, email"
+            callback={responseFacebook}
+          >
+            {/* <i
+              className="fa fa-facebook"
+              style={{
+                marginLeft: '5px'
+              }}
+            />
+            <span>&nbsp;&nbsp;Sign In with Facebook</span> */}
+          </FacebookLogin>
+        </div>
       </div>
     );
   }

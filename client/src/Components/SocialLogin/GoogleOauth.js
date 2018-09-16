@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { loginSocialUser } from '../../actions/authAction';
 import clientId from '../../config/Keys';
 import axios from 'axios';
+import { Alert } from 'reactstrap';
 // or
 // import { GoogleLogin } from 'react-google-login';
 class GoogleOauth extends Component {
@@ -50,22 +51,28 @@ class GoogleOauth extends Component {
     };
 
     return (
-      <div className="container invisible">
-        <div className="alert alert-light" role="alert">
-          Popup will take you to Google Login page, if you dont see any popup
-          please Click on link below.
-        </div>
-        <GoogleLogin
-          clientId={clientId.googleClientID2}
-          // buttonText="Login with Google"
-          // name="google"
-          autoLoad={true}
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-        >
-          {/* <FontAwesome name="google" />
+      <div className=" mt-5 ">
+        <Alert color="info">
+          Please allow popups for this site and refresh the page if you dont see
+          Google Login page.
+        </Alert>
+        <div className="container invisible">
+          <div className="alert alert-light" role="alert">
+            Popup will take you to Google Login page, if you dont see any popup
+            please Click on link below.
+          </div>
+          <GoogleLogin
+            clientId={clientId.googleClientID2}
+            // buttonText="Login with Google"
+            // name="google"
+            autoLoad={true}
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+          >
+            {/* <FontAwesome name="google" />
         <span> Login with Google</span> */}
-        </GoogleLogin>
+          </GoogleLogin>
+        </div>
       </div>
     );
   }

@@ -24,7 +24,9 @@ import {
   loginSocialUser,
   getSuccessReset
 } from '../actions/authAction';
-import { link } from 'fs';
+import { clearCurrentProfile } from '../actions/profileAction';
+import InputGroup from './Common/InputGroup';
+// import { link } from 'fs';
 
 class HeaderNavbar extends React.Component {
   constructor(props) {
@@ -136,13 +138,13 @@ class HeaderNavbar extends React.Component {
 
   onLogoutClick = e => {
     e.preventDefault();
+    this.props.clearCurrentProfile();
     this.props.logoutUser(this.props.history);
     this.onLogoutClear();
   };
 
   showSettings = event => {
     event.preventDefault();
-    console.log('clicked');
   };
 
   // Login Button Collapse in Burger Menu
@@ -154,14 +156,22 @@ class HeaderNavbar extends React.Component {
   closeMenu() {
     this.setState({ menuOpen: false });
   }
-
   render() {
     const { errors, success } = this.state;
     const { isAuthenticated, user } = this.props.auth;
+    // Capitalize first letter in words..
+    String.prototype.capitalize = function() {
+      return this.replace(/(?:^|\s)\S/g, function(a) {
+        return a.toUpperCase();
+      });
+    };
     // Check if authenticated or not.
     const authLinks = (
-      <div>
-        <nav className="navbar navbar-expand-all bg-dark navbar-dark fixed-top">
+      <div style={{ paddingBottom: '20px', marginBottom: '50px' }}>
+        <nav
+          className="navbar navbar-expand-all bg-dark navbar-dark fixed-top "
+          // style={{ opacity: 0.9 }}
+        >
           <button
             onClick={this.toggleMenu}
             type="button"
@@ -169,16 +179,14 @@ class HeaderNavbar extends React.Component {
           >
             <span className="navbar-toggler-icon" />
           </button>
-
           <HashLink
             to="/#home-page"
             className="navbar-brand ml-auto d-none d-md-block"
           >
             T3CH GeeGs
           </HashLink>
-
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
+          <ul className="navbar-nav ml-auto ">
+            <li className="nav-item ">
               <div>
                 {user.photo ? (
                   <Dropdown
@@ -186,11 +194,11 @@ class HeaderNavbar extends React.Component {
                     toggle={this.toggleDropdown}
                   >
                     <DropdownToggle
-                      className=" btn btn-link  rounded rounded-circle "
+                      className=" btn btn-link  rounded rounded-circle p-0"
                       style={{ border: 'none' }}
                     >
                       <img
-                        className="rounded-circle"
+                        className="rounded-circle text-capitalize"
                         src={user.photo}
                         alt={user.name}
                         style={{ width: '40px' }}
@@ -198,7 +206,7 @@ class HeaderNavbar extends React.Component {
                       />{' '}
                     </DropdownToggle>
                     <DropdownMenu
-                      class="shadow-lg bg-0"
+                      className="shadow-lg bg-0 "
                       right
                       style={{
                         borderRadius: '5px',
@@ -207,15 +215,15 @@ class HeaderNavbar extends React.Component {
                         marginRight: '10px'
                       }}
                     >
-                      <div class="dropdown-item bg-white">
+                      <div className="dropdown-item bg-white">
                         <div
-                          class="row justify-content-start ml- -50 mr-0 "
+                          className="row justify-content-start ml- -50 mr-0 "
                           // style={{ height: '100px' }}
                         >
-                          <div class="col-4 align-self-start">
-                            <div class="card-img ">
+                          <div className="col-4 align-self-start">
+                            <div className="card-img ">
                               <img
-                                className="rounded-circle"
+                                className="rounded-circle text-capitalize"
                                 src={user.photo}
                                 alt={user.name}
                                 style={{ width: '50px' }}
@@ -223,22 +231,27 @@ class HeaderNavbar extends React.Component {
                               />{' '}
                             </div>
                           </div>
-                          <div class="col-8 align-self-center ">
-                            <div class=" text-small text-dark">{user.name}</div>
-                            <p class="text-muted" style={{ fontSize: '9px' }}>
+                          <div className="col-8 align-self-center ">
+                            <div className=" text-small text-dark text-capitalize">
+                              {user.name}
+                            </div>
+                            <p
+                              className="text-muted"
+                              style={{ fontSize: '9px' }}
+                            >
                               {user.email}
                             </p>
                           </div>
-                          <button class="btn btn-light ml-auto text-dark border-1">
-                            <i class="fa fa-wrench" aria-hidden="true" />{' '}
+                          <button className="btn btn-light ml-auto text-dark border-1">
+                            <i className="fa fa-wrench" aria-hidden="true" />{' '}
                             Profile
                           </button>
                         </div>
                       </div>
-                      <div class="dropdown-divider" />
+                      <div className="dropdown-divider" />
 
                       <div
-                        class="dropdown-item btn text-dark bg-white"
+                        className="dropdown-item btn text-dark bg-white"
                         onClick={this.onLogoutClick}
                       >
                         Sign Out
@@ -255,13 +268,13 @@ class HeaderNavbar extends React.Component {
                       style={{ border: 'none' }}
                     >
                       <i
-                        class="fas fa-user-alt fa-lg fa-white text-light"
+                        className="fas fa-user-alt fa-lg fa-white text-light text-capitalize"
                         aria-hidden="true"
                         title={user.name}
                       />
                     </DropdownToggle>
                     <DropdownMenu
-                      class="shadow-lg bg-0"
+                      className="shadow-lg bg-white"
                       right
                       style={{
                         borderRadius: '5px',
@@ -270,15 +283,15 @@ class HeaderNavbar extends React.Component {
                         marginRight: '10px'
                       }}
                     >
-                      <div class="dropdown-item bg-white">
+                      <div className="dropdown-item bg-white ">
                         <div
-                          class="row justify-content-start ml- -50 mr-0"
+                          className="row justify-content-start ml- -50 mr-0"
                           // style={{ height: '100px' }}
                         >
-                          <div class="col-4 align-self-start">
-                            <div class="card-img ">
+                          <div className="col-4 align-self-start ">
+                            <div className="card-img ">
                               <img
-                                className="rounded-circle"
+                                className="rounded-circle text-capitalize"
                                 src="/img/placeholder.jpg"
                                 // alt={user.name}
                                 style={{ width: '50px' }}
@@ -286,22 +299,27 @@ class HeaderNavbar extends React.Component {
                               />{' '}
                             </div>
                           </div>
-                          <div class="col-8 align-self-start ">
-                            <div class=" text-small text-dark">{user.name}</div>
-                            <p class="text-muted" style={{ fontSize: '9px' }}>
+                          <div className="col-8 align-self-start ">
+                            <div className=" text-small text-dark text-capitalize">
+                              {user.name}
+                            </div>
+                            <p
+                              className="text-muted"
+                              style={{ fontSize: '9px' }}
+                            >
                               {user.email}
                             </p>
                           </div>
-                          <button class="btn btn-light ml-auto text-dark border-1">
-                            <i class="fa fa-wrench" aria-hidden="true" />{' '}
+                          <button className="btn btn-light ml-auto text-dark border-1">
+                            <i className="fa fa-wrench" aria-hidden="true" />{' '}
                             Profile
                           </button>
                         </div>
                       </div>
-                      <div class="dropdown-divider" />
-                      <div class="dropdown-item bg-white">
+                      <div className="dropdown-divider" />
+                      <div className="dropdown-item bg-white">
                         <Link
-                          class="nav-link text-dark"
+                          className="nav-link text-dark"
                           to="/forgotpassword"
                           onClick={this.toggleDropdown}
                           style={{ textDecoration: 'none', background: 'none' }}
@@ -309,10 +327,10 @@ class HeaderNavbar extends React.Component {
                           Reset Password
                         </Link>
                       </div>
-                      <div class="dropdown-divider" />
+                      <div className="dropdown-divider" />
 
                       <div
-                        class="dropdown-item btn text-dark bg-white"
+                        className="dropdown-item btn text-dark bg-white"
                         onClick={this.onLogoutClick}
                       >
                         Sign Out
@@ -351,7 +369,7 @@ class HeaderNavbar extends React.Component {
 
           <a
             onClick={this.onLogoutClick}
-            className="menu-item display-5 text-danger"
+            className="menu-item display-5 text-danger text-capitalize"
             href=""
             title={user.name}
           >
@@ -376,16 +394,15 @@ class HeaderNavbar extends React.Component {
           >
             <span className="navbar-toggler-icon" />
           </button>
-
           <HashLink
             to="/#home-page"
             className="navbar-brand ml-auto d-none d-md-block "
           >
             T3CH GeeGs
           </HashLink>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <Link class="nav-link" to="#" onClick={this.toggle}>
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link className="nav-link" to="#" onClick={this.toggle}>
                 Sign In
               </Link>
             </li>
@@ -488,7 +505,7 @@ class HeaderNavbar extends React.Component {
               style={{ color: 'green' }}
             >
               {/* <ModalHeader
-              toggle={this.toggle}
+              toggle={this.toggle}\
               style={{ backgroundColor: 'none' }}
             /> */}
               <ModalBody className="bg-dark">
@@ -497,12 +514,12 @@ class HeaderNavbar extends React.Component {
                   style={{ borderRadius: '5px' }}
                 >
                   <div
-                    class="modal-header p-0"
+                    className="modal-header p-0"
                     style={{ borderBottom: 'none', padding: 'none' }}
                   >
                     <button
                       type="button"
-                      class="close text-white"
+                      className="close text-white"
                       onClick={this.toggle}
                       aria-label="Close"
                     >
@@ -521,7 +538,25 @@ class HeaderNavbar extends React.Component {
                     )}
                     <form className="card-form" onSubmit={this.onSubmit}>
                       <div className="form-group text-light">
-                        <input
+                        <InputGroup
+                          placeholder="Email"
+                          name="email"
+                          type="email"
+                          icon="fa fa-at"
+                          value={this.state.email}
+                          onChange={this.onChange}
+                          onFocus={this.onFocus}
+                        />
+                        <InputGroup
+                          placeholder="Password"
+                          name="password"
+                          type="password"
+                          icon="fa fa-key"
+                          value={this.state.password}
+                          onChange={this.onChange}
+                          onFocus={this.onFocus}
+                        />
+                        {/* <input
                           name="email"
                           type="email"
                           className="form-control form-control-lg mb-2 bg-dark text-light"
@@ -529,8 +564,8 @@ class HeaderNavbar extends React.Component {
                           value={this.state.email}
                           onChange={this.onChange}
                           onFocus={this.onFocus}
-                        />
-                        <input
+                        /> */}
+                        {/* <input
                           name="password"
                           type="password"
                           className="form-control form-control-lg mb-4 bg-dark text-light"
@@ -538,14 +573,14 @@ class HeaderNavbar extends React.Component {
                           value={this.state.password}
                           onChange={this.onChange}
                           onFocus={this.onFocus}
-                        />
+                        /> */}
 
                         <button
                           type="submit"
-                          className="btn btn-outline-secondary btn-block text-white border-light "
+                          className="btn btn-outline-secondary btn-block text-white border-light border-0 "
                         >
                           {' '}
-                          Log in{' '}
+                          Sign in{' '}
                         </button>
                       </div>
                       {errors ? (
@@ -598,5 +633,11 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  { logoutUser, loginUser, loginSocialUser, getSuccessReset }
+  {
+    logoutUser,
+    clearCurrentProfile,
+    loginUser,
+    loginSocialUser,
+    getSuccessReset
+  }
 )(withRouter(HeaderNavbar));

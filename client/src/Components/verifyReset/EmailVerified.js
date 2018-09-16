@@ -25,7 +25,7 @@ class EmailVerified extends Component {
         {this.props.errors.error ? (
           <Alert color="warning">{this.props.errors.error}</Alert>
         ) : (
-          <Alert color="success">{this.props.success.success}</Alert>
+          <Alert color="light">{this.props.success.success}</Alert>
         )}
       </div>
     );

@@ -65,18 +65,18 @@ class SignUpBootStrap4Col extends Component {
       <div>
         <div>
           <div
-            class=" text-center card-form bg-info border-primary"
+            className=" text-center card-form bg-info border-primary"
             style={{ borderRadius: '5px' }}
           >
-            <div class="card-body">
-              <h3 class="text-white display-4">Sign Up</h3>
-              <p class="text-dark lead">Please fill the form to register</p>
-              <form class="card-form" onSubmit={this.onSubmit}>
-                <div class="form-group ">
+            <div className="card-body">
+              <h3 className="text-white display-4">Sign Up</h3>
+              <p className="text-dark lead">Please fill the form to register</p>
+              <form className="card-form" onSubmit={this.onSubmit}>
+                <div className="form-group ">
                   <input
                     name="name"
                     type="text"
-                    class="form-control form-control-lg mb-1"
+                    className="form-control form-control-lg mb-1"
                     placeholder="Name "
                     value={this.state.name}
                     onChange={this.onChange}
@@ -85,7 +85,7 @@ class SignUpBootStrap4Col extends Component {
                   <input
                     name="email"
                     type="email"
-                    class="form-control form-control-lg mb-1"
+                    className="form-control form-control-lg mb-1"
                     placeholder="Email"
                     value={this.state.email}
                     onChange={this.onChange}
@@ -94,7 +94,7 @@ class SignUpBootStrap4Col extends Component {
                   <input
                     name="password"
                     type="password"
-                    class="form-control form-control-lg mb-1"
+                    className="form-control form-control-lg mb-1"
                     placeholder="Password "
                     value={this.state.password}
                     onChange={this.onChange}
@@ -103,7 +103,7 @@ class SignUpBootStrap4Col extends Component {
                   <input
                     name="password2"
                     type="password"
-                    class="form-control form-control-lg mb-3"
+                    className="form-control form-control-lg mb-3"
                     placeholder="Password "
                     value={this.state.password2}
                     onChange={this.onChange}
@@ -111,7 +111,7 @@ class SignUpBootStrap4Col extends Component {
                   />
                   <button
                     type="submit"
-                    class="btn btn-secondary btn-block text-white"
+                    className="btn btn-secondary btn-block text-white"
                   >
                     {' '}
                     Submit{' '}
@@ -151,12 +151,11 @@ class SignUpBootStrap4Col extends Component {
                   {/* <GoogleOauth autoLoad={this.state.autoLoad} /> */}
                 </div>
               </form>
-              <div class=" mb-2">
+              <div className=" mb-2">
                 have an account ?
                 <button
-                  lead
                   onClick={this.onLoginModalOpen}
-                  class="btn btn-link border-0  lead text-white"
+                  className="btn btn-link border-0  lead text-white"
                 >
                   {' '}
                   <h5>Sign In</h5>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { resetPassword } from '../../actions/authAction';
+import InputGroup from '../Common/InputGroup';
 
 class ForgotPassword extends Component {
   state = {
@@ -10,14 +11,14 @@ class ForgotPassword extends Component {
     success: ''
   };
 
-  componentDidMount = () => {
-    if (this.props.errors) {
-      this.setState({ errors: this.props.errors.error });
-    }
-    if (this.props.success) {
-      this.setState({ success: this.props.success.success });
-    }
-  };
+  // componentDidMount = () => {
+  //   if (this.props.errors) {
+  //     this.setState({ errors: this.props.errors.error });
+  //   }
+  //   if (this.props.success) {
+  //     this.setState({ success: this.props.success.success });
+  //   }
+  // };
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors) {
       // console.log(nextProps.errors);
@@ -33,7 +34,8 @@ class ForgotPassword extends Component {
   };
   onFocus = () => {
     this.setState({
-      errors: ''
+      errors: '',
+      success: undefined
     });
   };
   onSubmit = e => {
@@ -41,19 +43,17 @@ class ForgotPassword extends Component {
     const Email = {
       email: this.state.email
     };
-    console.log(e, Email);
     // we can take our history to Action through this way, its different than Andrew Mead React way.
     this.props.resetPassword(Email, this.props.history);
   };
 
   render() {
-    console.log(this.props);
     const { errors, success } = this.state;
     return (
-      <div className="py-5 container ">
+      <div className=" container ">
         <div className="row">
-          <div className="col-md-4 col-lg-2" />
-          <div className="col-md-4 col-lg-8 text-center">
+          {/* <div className="col-md-4 col-lg-2" /> */}
+          <div className="col-md-8 m-auto  text-center">
             <div className="card pt-5 border-0">
               <div className="card-body">
                 <h3 className="text-dark display-4 mb-5">
@@ -62,7 +62,16 @@ class ForgotPassword extends Component {
 
                 <form className="card-form" onSubmit={this.onSubmit}>
                   <div className="form-group text-light">
-                    <input
+                    <InputGroup
+                      placeholder="email here "
+                      name="email"
+                      type="email"
+                      icon="fa fa-at"
+                      value={this.state.email}
+                      onChange={this.onChange}
+                      onFocus={this.onFocus}
+                    />
+                    {/* <InputGroup
                       name="email"
                       type="email"
                       className="form-control form-control-lg mb-2 bg-light text-dark"
@@ -70,7 +79,7 @@ class ForgotPassword extends Component {
                       value={this.state.email}
                       onChange={this.onChange}
                       onFocus={this.onFocus}
-                    />
+                    /> */}
                     <button
                       type="submit"
                       className="btn btn-secondary btn-block text-white border-light "
@@ -99,7 +108,7 @@ class ForgotPassword extends Component {
               </div>
             </div>
           </div>
-          <div className="col-md-4 " />
+          {/* <div className="col-md-4 " /> */}
         </div>
       </div>
     );

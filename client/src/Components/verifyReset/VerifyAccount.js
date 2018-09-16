@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { verificationEmail } from '../../actions/authAction';
-import { Alert } from 'reactstrap';
 
 class VerifyAccount extends Component {
   componentDidMount = () => {

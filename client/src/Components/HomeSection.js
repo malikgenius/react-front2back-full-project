@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import FooterModal from './Footer-Modal';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SignUpBootStrap4Col from './SignUpBootStrap4Col';
@@ -27,32 +26,32 @@ class HomeSection extends Component {
   render() {
     return (
       <div>
-        <div class="home-section" id="home-page">
-          <div class="dark-overlay">
-            <div class="home-inner">
+        <div className="home-section" id="home-page">
+          <div className="dark-overlay">
+            <div className="home-inner">
               <div className="container">
                 <div className="row mr- -10 ml- -10">
                   <div className="col-lg-8 d-none d-lg-block">
-                    <h1 class="display-4">
+                    <h1 className="display-4">
                       Build <strong>social profile</strong> to join{' '}
                       <strong> IT-Professionals in Oman</strong>
                     </h1>
-                    <div class="d-flex flex-row">
-                      <div class="p-4 align-self-start">
-                        <i class="fa fa-check-square-o" />
+                    <div className="d-flex flex-row">
+                      <div className="p-4 align-self-start">
+                        <i className="fa fa-check-square-o" />
                       </div>
-                      <div class="p-4 align-self-end">
+                      <div className="p-4 align-self-end">
                         Id eiusmod laborum sint sint irure consectetur ipsum ex
                         aute commodo do.Aliquip deserunt quis aute nostrud
                         proident ipsum laborum ex velit
                       </div>
                     </div>
 
-                    <div class="d-flex flex-row">
-                      <div class="p-4 align-self-start">
-                        <i class="fa fa-check-square-o" />
+                    <div className="d-flex flex-row">
+                      <div className="p-4 align-self-start">
+                        <i className="fa fa-check-square-o" />
                       </div>
-                      <div class="p-4 align-self-end">
+                      <div className="p-4 align-self-end">
                         Quis ullamco ad nulla sint sint ex dolore Lorem qui ea.
                         Elit excepteur officia consequat excepteur cupidatat
                         labore ipsum. Elit sint exercitation veniam pariatur
@@ -63,18 +62,18 @@ class HomeSection extends Component {
                       </div>
                     </div>
 
-                    <div class="d-flex flex-row">
-                      <div class="p-4 align-self-start">
-                        <i class="fa fa-check-square-o" />
+                    <div className="d-flex flex-row">
+                      <div className="p-4 align-self-start">
+                        <i className="fa fa-check-square-o" />
                       </div>
-                      <div class="p-4 align-self-end">
+                      <div className="p-4 align-self-end">
                         Velit nisi veniam eu mollit ea officia duis
                         cillum.Aliquip deserunt quis aute nostrud proident ipsum
                         laborum ex velit
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-4">
+                  <div className="col-lg-4">
                     <SignUpBootStrap4Col />
                   </div>
                 </div>
@@ -83,14 +82,14 @@ class HomeSection extends Component {
           </div>
         </div>
 
-        <section class="explore-head-section " id="explore">
-          {/* <div class="dark-overlay"> */}
-          <div class="container">
-            <div class="row mr- -10 ml- -10">
-              <div class="col text-center">
-                <div class="py-5">
-                  <h1 class="display-4 text-light">Explore</h1>
-                  <p class="lead text-muted">
+        <section className="explore-head-section " id="explore">
+          {/* <div className="dark-overlay"> */}
+          <div className="container">
+            <div className="row mr- -10 ml- -10">
+              <div className="col text-center">
+                <div className="py-5">
+                  <h1 className="display-4 text-light">Explore</h1>
+                  <p className="lead text-muted">
                     Pariatur adipisicing est et ut tempor do pariatur laborum
                     tempor qui cupidatat. Officia officia eiusmod excepteur
                     nulla ea laborum nisi incididunt proident aute sunt. Do elit
@@ -98,7 +97,7 @@ class HomeSection extends Component {
                     laboris ut non eu. Commodo ipsum adipisicing cupidatat
                     laboris occaecat est commodo ad consectetur.
                   </p>
-                  <a href="#" class="btn btn-outline-secondary">
+                  <a href="#" className="btn btn-outline-secondary">
                     Find Out More
                   </a>
                 </div>
@@ -108,18 +107,18 @@ class HomeSection extends Component {
           {/* </div> */}
         </section>
 
-        <section class="explore-section bg-light text-muted pt-5 pb-2">
-          <div class="container">
-            <div class="row mr-0 ml-0">
-              <div class="row ">
-                <div class="col-md-6 align-self-center ">
+        <section className="explore-section bg-light text-muted pt-5 pb-2">
+          <div className="container">
+            <div className="row mr-0 ml-0">
+              <div className="row ">
+                <div className="col-md-6 align-self-center ">
                   <img
                     src="img/explore-section1.jpg"
-                    class="img-fluid rounded-circle"
+                    className="img-fluid rounded-circle"
                     alt="Round Image"
                   />
                 </div>
-                <div class="col-md-6">
+                <div className="col-md-6">
                   <h3>Explore & Connect</h3>
                   <p>
                     Mollit aute veniam mollit do voluptate consequat ipsum
@@ -127,11 +126,11 @@ class HomeSection extends Component {
                     aute dolor mollit ea fugiat id consectetur. Veniam
                     adipisicing aute ut ipsum laborum pariatur pariatur.
                   </p>
-                  <div class="d-flex flex-row">
-                    <div class="p-4 align-self-start">
-                      <i class="fa fa-check-square-o" />
+                  <div className="d-flex flex-row">
+                    <div className="p-4 align-self-start">
+                      <i className="fa fa-check-square-o" />
                     </div>
-                    <div class="p-4 align-self-end">
+                    <div className="p-4 align-self-end">
                       <p>
                         Lorem nisi amet incididunt id qui sit. Aliqua consequat
                         id Lorem tempor aliquip velit ut non id. Ut laboris
@@ -145,11 +144,11 @@ class HomeSection extends Component {
                     </div>
                   </div>
 
-                  <div class="d-flex flex-row">
-                    <div class="p-4 align-self-start">
-                      <i class="fa fa-check-square-o" />
+                  <div className="d-flex flex-row">
+                    <div className="p-4 align-self-start">
+                      <i className="fa fa-check-square-o" />
                     </div>
-                    <div class="p-4 align-self-end">
+                    <div className="p-4 align-self-end">
                       <p>
                         {' '}
                         Hello its my first Bootstrap & React Site, what about
@@ -163,7 +162,6 @@ class HomeSection extends Component {
             </div>
           </div>
         </section>
-        <FooterModal id="footer" />
       </div>
     );
   }

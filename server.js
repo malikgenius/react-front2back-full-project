@@ -21,7 +21,7 @@ const push = require('./routes/api/notification/pushnotification');
 const notification = require('./routes/api/notification/notification');
 const users = require('./routes/api/users/users');
 const reset_verify = require('./routes/api/users/reset_verify');
-const profile = require('./routes/api/profile/profile');
+const profile = require('./routes/api/profiles/profile');
 
 const posts = require('./routes/api/posts/posts');
 const comments = require('./routes/api/comments/comments');

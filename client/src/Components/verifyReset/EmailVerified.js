@@ -22,10 +22,17 @@ class EmailVerified extends Component {
     return (
       <div className="py-5">
         {' '}
-        {this.props.errors.error ? (
-          <Alert color="warning">{this.props.errors.error}</Alert>
-        ) : (
-          <Alert color="light">{this.props.success.success}</Alert>
+        {this.props.errors.error && (
+          <Alert color="warning">
+            <i className="fas fa-exclamation-triangle text-danger" />
+            {this.props.errors.error}
+          </Alert>
+        )}
+        {this.props.success.success && (
+          <Alert color="light">
+            <i className="far fa-thumbs-up text-success mr-3" />
+            {this.props.success.success}
+          </Alert>
         )}
       </div>
     );

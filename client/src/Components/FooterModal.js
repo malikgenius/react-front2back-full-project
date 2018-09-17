@@ -19,6 +19,17 @@ class FooterModal extends Component {
     };
   }
 
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors.error });
+    }
+    // if email sent successfuly redux store will have success, we dont want contact
+    //modal to be shown if email sent !
+    if (nextProps.success.success) {
+      this.setState({ modal: false });
+    }
+  };
+
   toggle = () => {
     this.setState({
       modal: !this.state.modal
@@ -45,10 +56,11 @@ class FooterModal extends Component {
       message: this.state.message
     };
     this.props.contactEmail(userData, this.props.history);
-    this.setState({ modal: false });
+    // this.setState({ modal: false });
   };
 
   render() {
+    const { errors } = this.state;
     return (
       <footer className="footerModal">
         <div>
@@ -136,41 +148,20 @@ class FooterModal extends Component {
                           rows="5"
                         />
 
-                        {/* <input
-                          name="name"
-                          type="text"
-                          className="form-control form-control-lg mb-2 bg-dark text-light"
-                          placeholder="Name "
-                          value={this.state.name}
-                          onChange={this.onChange}
-                          onFocus={this.onFocus}
-                        /> */}
-                        {/* <input
-                          name="email"
-                          type="email"
-                          className="form-control form-control-lg mb-2 bg-dark text-light"
-                          placeholder="Email "
-                          value={this.state.email}
-                          onChange={this.onChange}
-                          onFocus={this.onFocus}
-                        /> */}
-                        {/* <textarea
-                          name="message"
-                          className="form-control form-control-lg mb-2 bg-dark text-light"
-                          placeholder="your message here "
-                          value={this.state.message}
-                          onChange={this.onChange}
-                          onFocus={this.onFocus}
-                          rows="5"
-                        /> */}
                         <button
                           type="submit"
                           //   onClick={}
                           className="btn btn-outline-secondary btn-block text-white"
                         >
-                          {' '}
-                          Send{' '}
+                          <i class="fas fa-envelope mr-2 lead" />
                         </button>
+                        {errors && (
+                          <div className="text-center  text-danger text-muted text-sm mt-2">
+                            {/* <strong>{errors}</strong> */}
+                            <i className="fas fa-exclamation-triangle text-danger" />
+                            {errors}
+                          </div>
+                        )}
                       </div>
                     </form>
                   </div>

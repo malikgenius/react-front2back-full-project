@@ -7,7 +7,8 @@ import {
   GET_SUCCESS,
   GET_LOGIN_ERRORS,
   EMAIL_VERIFIED_PASSWORD_RESET,
-  GET_SUCCESS_RESET
+  GET_SUCCESS_RESET,
+  GET_ERRORS_RESET
 } from './types';
 
 // can use Dispatch in same functions, other way is to use axios in one function and then dispatch to other one.
@@ -19,6 +20,9 @@ export const registerUser = (userData, history) => dispatch => {
         dispatch({
           type: GET_SUCCESS,
           payload: res.data
+        });
+        dispatch({
+          type: GET_ERRORS_RESET
         });
         history.push('/emailverified');
       }
@@ -54,6 +58,9 @@ export const verificationEmail = history => dispatch => {
         type: GET_SUCCESS,
         payload: res.data
       });
+      dispatch({
+        type: GET_ERRORS_RESET
+      });
       dispatch(LoginModalOpen());
       history.push('/emailverified');
     })
@@ -75,6 +82,9 @@ export const resetPassword = (Email, history) => dispatch => {
       dispatch({
         type: GET_SUCCESS,
         payload: res.data
+      });
+      dispatch({
+        type: GET_ERRORS_RESET
       });
       history.push('/forgotpassword');
     })
@@ -99,6 +109,9 @@ export const changePassword = (Password, history) => dispatch => {
       dispatch({
         type: GET_SUCCESS,
         payload: res.data
+      });
+      dispatch({
+        type: GET_ERRORS_RESET
       });
       // dispatch(LoginModalOpen());
       history.push('/changepassword');

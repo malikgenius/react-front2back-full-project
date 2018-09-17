@@ -42,7 +42,14 @@ router.get(
       user: req.user.id
     })
       // populate user info from user model and add it into response in profile fetch.
-      .populate('user', ['name', 'email'])
+      .populate('user', [
+        'local.name',
+        'local.email',
+        'google.name',
+        'google.email',
+        'facebook.name',
+        'facebook.email'
+      ])
       .then(profile => {
         if (!profile) {
           return res.status(404).json({ Error: 'Profile Not Found!' });
@@ -54,6 +61,107 @@ router.get(
       });
   }
 );
+
+// @route   GET api/profile/all
+// @desc    Get all profiles
+// @access  Private
+router.get(
+  '/all',
+  passport.authenticate('jwt', {
+    session: false
+  }),
+  (req, res) => {
+    const errors = {};
+
+    Profile.find()
+      .populate('user', [
+        'local.name',
+        'local.photo',
+        'google.name',
+        'google.photo',
+        'facebook.name',
+        'facebook.photo'
+      ])
+      .then(profiles => {
+        if (!profiles) {
+          errors.noprofile = 'There are no profiles';
+          return res.status(404).json(errors);
+        }
+
+        res.json(profiles);
+      })
+      .catch(err => res.status(404).json({ profile: 'There are no profiles' }));
+  }
+);
+
+// @route   GET api/profile/handle/:handle
+// @desc    Get profile by handle
+// @access  Private
+
+router.get(
+  '/handle/:handle',
+  passport.authenticate('jwt', {
+    session: false
+  }),
+  (req, res) => {
+    const errors = {};
+
+    Profile.findOne({ handle: req.params.handle })
+      .populate('user', [
+        'local.name',
+        'local.photo',
+        'google.name',
+        'google.photo',
+        'facebook.name',
+        'facebook.photo'
+      ])
+      .then(profile => {
+        if (!profile) {
+          errors.noprofile = 'There is no profile for this user';
+          res.status(404).json(errors);
+        }
+
+        res.json(profile);
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+// @route   GET api/profile/user/:user_id
+// @desc    Get profile by user ID
+// @access  Private
+
+router.get(
+  '/user/:user_id',
+  passport.authenticate('jwt', {
+    session: false
+  }),
+  (req, res) => {
+    const errors = {};
+
+    Profile.findOne({ user: req.params.user_id })
+      .populate('user', [
+        'local.name',
+        'local.photo',
+        'google.name',
+        'google.photo',
+        'facebook.name',
+        'facebook.photo'
+      ])
+      .then(profile => {
+        if (!profile) {
+          errors.noprofile = 'There is no profile for this user';
+          res.status(404).json(errors);
+        }
+
+        res.json(profile);
+      })
+      .catch(err =>
+        res.status(404).json({ profile: 'There is no profile for this user' })
+      );
+  }
+);
+
 // POST api/Profile
 // @desc Create or Update user profile
 // @Private Route
@@ -203,6 +311,7 @@ router.post(
 );
 
 // Add Experience to profile
+// @Private Route
 router.post(
   '/experience',
   passport.authenticate('jwt', {
@@ -231,6 +340,7 @@ router.post(
 );
 
 // Delete Experience from Profile by exp_id
+// @Private Route
 router.delete(
   '/experience/:exp_id',
   passport.authenticate('jwt', {
@@ -261,6 +371,7 @@ router.delete(
 );
 
 // Add Education to profile
+// @Private Route
 router.post(
   '/education',
   passport.authenticate('jwt', {
@@ -289,6 +400,7 @@ router.post(
 );
 
 // Delete Education
+// @Private Route
 router.delete(
   '/education/:edu_id',
   passport.authenticate('jwt', {
@@ -316,6 +428,7 @@ router.delete(
 );
 
 // Delete Profile
+// @Private Route
 router.delete(
   '/deleteprofile',
   passport.authenticate('jwt', {
@@ -332,6 +445,7 @@ router.delete(
 );
 
 // Delete User
+// @Private Route
 router.delete(
   '/deleteuser',
   passport.authenticate('jwt', {

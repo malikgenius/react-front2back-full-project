@@ -206,7 +206,7 @@ class HeaderNavbar extends React.Component {
                       />{' '}
                     </DropdownToggle>
                     <DropdownMenu
-                      className="shadow-lg bg-0 "
+                      className="shadow-sm bg-0 "
                       right
                       style={{
                         borderRadius: '5px',
@@ -274,7 +274,7 @@ class HeaderNavbar extends React.Component {
                       />
                     </DropdownToggle>
                     <DropdownMenu
-                      className="shadow-lg bg-white"
+                      className="shadow-sm bg-white"
                       right
                       style={{
                         borderRadius: '5px',
@@ -529,7 +529,8 @@ class HeaderNavbar extends React.Component {
                   <div className="card-body">
                     <h3 className="text-white display-4 mb-5">Log in</h3>
                     {success ? (
-                      <div className="text-center  text-success text-sm lead mb-2 ">
+                      <div className="text-center  text-muted text-sm lead mb-2 ">
+                        <i class="fas fa-check text-success" />
                         {/* <strong>{errors}</strong> */}
                         {success}
                       </div>
@@ -577,24 +578,22 @@ class HeaderNavbar extends React.Component {
 
                         <button
                           type="submit"
-                          className="btn btn-outline-secondary btn-block text-white border-light border-0 "
+                          className="btn btn-secondary btn-block text-white lead border-light  "
                         >
-                          {' '}
-                          Sign in{' '}
+                          <i className="fas fa-sign-in-alt pr-2" /> Sign in{' '}
                         </button>
                       </div>
-                      {errors ? (
-                        <div className="text-center  text-danger text-sm">
+                      {errors && (
+                        <div className="text-center  text-danger text-muted text-sm">
                           {/* <strong>{errors}</strong> */}
+                          <i className="fas fa-exclamation-triangle text-danger" />
                           {errors}
                         </div>
-                      ) : (
-                        ''
                       )}
                       <div>
                         <p className="text-white lead mb-4">
                           <br />
-                          use your social account to login
+                          login with social account
                         </p>
 
                         <Link to="/google" style={{ textDecoration: 'none' }}>

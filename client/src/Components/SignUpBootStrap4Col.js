@@ -34,6 +34,9 @@ class SignUpBootStrap4Col extends Component {
 
   onLoginModalOpen = () => {
     this.props.LoginModalOpen();
+    this.setState({
+      errors: ''
+    });
   };
 
   onSubmit = e => {
@@ -51,11 +54,15 @@ class SignUpBootStrap4Col extends Component {
     };
     // we can take our history to Action through this way, its different than Andrew Mead React way.
     this.props.registerUser(newUser, this.props.history);
+    this.setState({
+      errors: ''
+    });
   };
 
   onGoogleClick = () => {
     this.setState({
-      autoLoad: true
+      autoLoad: true,
+      errors: ''
     });
   };
   render() {
@@ -117,9 +124,9 @@ class SignUpBootStrap4Col extends Component {
                     Submit{' '}
                   </button>
                   {errors ? (
-                    <div className="text-center  text-danger text-sm">
-                      {/* <strong>{errors}</strong> */}
-                      {errors}
+                    <div className="text-center text-light  text-sm mt-2">
+                      <i className="fas fa-exclamation-triangle text-danger" />
+                      {/* <strong>{errors}</strong> */} {errors}
                     </div>
                   ) : (
                     ''

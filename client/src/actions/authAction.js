@@ -8,7 +8,8 @@ import {
   GET_LOGIN_ERRORS,
   EMAIL_VERIFIED_PASSWORD_RESET,
   GET_SUCCESS_RESET,
-  GET_ERRORS_RESET
+  GET_ERRORS_RESET,
+  GET_LOGIN_ERROR_RESET
 } from './types';
 
 // can use Dispatch in same functions, other way is to use axios in one function and then dispatch to other one.
@@ -128,6 +129,15 @@ export const changePassword = (Password, history) => dispatch => {
 // GET_SUCCESS_RESET will reset modal to false and success message of confirm account verification will go away.
 export const getSuccessReset = () => ({
   type: GET_SUCCESS_RESET
+});
+
+// GET_ERROR_RESET will reset all the errors in reducer ..
+export const getErrorReset = () => ({
+  type: GET_ERRORS_RESET
+});
+
+export const getLoginErrorReset = () => ({
+  type: GET_LOGIN_ERROR_RESET
 });
 
 // SET_CURRENT_USER after Login Successful and decoded token is retrieved from loginUser action function.

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import _ from 'lodash';
 import TextFieldGroup from '../Common/TextFieldGroup';
 import TextAreaFieldGroup from '../Common/TextAreaFieldGroup';
 import InputGroup from '../Common/InputGroup';
 import SelectListGroup from '../Common/SelectListGroup';
-import { createProfile } from '../../actions/profileAction';
+import { createProfile, getCurrentProfile } from '../../actions/profileAction';
+import isEmpty from '../../validation/is-empty';
 
-class CreateProfile extends Component {
+class EditProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,9 +31,62 @@ class CreateProfile extends Component {
     };
   }
 
+  componentDidMount = () => {
+    this.props.getCurrentProfile();
+  };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors.error });
+    }
+    if (nextProps.profile.profile) {
+      const profile = nextProps.profile.profile;
+      //Bring Skills array back to CSV- it will turn Array into comma seperated values
+      const skillsCSV = profile.skills.join(',');
+      // if Profile filed doesnt exist, make empty string.
+      profile.company = !_.isEmpty(profile.company) ? profile.company : '';
+      //   profile.company = !isEmpty(profile.company) ? profile.company : '';
+      profile.website = !_.isEmpty(profile.website) ? profile.website : '';
+      profile.location = !_.isEmpty(profile.location) ? profile.location : '';
+      profile.githubusername = !_.isEmpty(profile.githubusername)
+        ? profile.githubusername
+        : '';
+      profile.bio = !_.isEmpty(profile.bio) ? profile.bio : '';
+      // profile Social is an object and not string.
+      profile.social = !_.isEmpty(profile.social) ? profile.social : {};
+      profile.twitter = !_.isEmpty(profile.social.twitter)
+        ? profile.social.twitter
+        : '';
+      profile.facebook = !_.isEmpty(profile.social.facebook)
+        ? profile.social.facebook
+        : '';
+      profile.linkedin = !_.isEmpty(profile.social.linkedin)
+        ? profile.social.linkedin
+        : '';
+      profile.youtube = !_.isEmpty(profile.social.youtube)
+        ? profile.social.youtube
+        : '';
+      profile.instagram = !_.isEmpty(profile.social.instagram)
+        ? profile.social.instagram
+        : '';
+
+      // Set Component field state
+
+      this.setState({
+        handle: profile.handle,
+        company: profile.company,
+        website: profile.website,
+        location: profile.location,
+        status: profile.status,
+        skills: skillsCSV,
+        githubusername: profile.githubusername,
+        bio: profile.bio,
+        twitter: profile.twitter,
+        facebook: profile.facebook,
+        linkedin: profile.linkedin,
+        youtube: profile.youtube,
+        instagram: profile.instagram
+      });
     }
   }
 
@@ -130,7 +185,7 @@ class CreateProfile extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Create Your Profile</h1>
+              <h1 className="display-4 text-center">Edit Profile</h1>
               <p className="lead text-center">
                 Let's get some information to make your profile stand out
               </p>
@@ -218,7 +273,6 @@ class CreateProfile extends Component {
               </form>
               {errors && (
                 <div className="text-center  text-danger text-muted text-sm mt-2">
-                  {/* <strong>{errors}</strong> */}
                   <i className="fas fa-exclamation-triangle text-danger" />
                   {errors}
                 </div>
@@ -243,5 +297,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createProfile }
-)(withRouter(CreateProfile));
+  { createProfile, getCurrentProfile }
+)(withRouter(EditProfile));

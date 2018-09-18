@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getCurrentProfile } from '../../actions/profileAction';
+import {
+  getCurrentProfile,
+  deleteProfile,
+  deleteAccount
+} from '../../actions/profileAction';
 import SpinnerLottie from '../Common/spinnerLottie';
+import ProfileButtonsAction from './ProfileButtonsAction';
 
 class Dashboard extends Component {
   componentDidMount = () => {
     this.props.getCurrentProfile();
+  };
+
+  onDeleteProfile = () => {
+    this.props.deleteProfile(this.props.history);
+  };
+  onDeleteAccount = () => {
+    this.props.deleteAccount(this.props.history);
   };
   render() {
     const { user } = this.props.auth;
@@ -23,16 +35,41 @@ class Dashboard extends Component {
     } else {
       // check if user has a profile... Object.keys(profile) will check profile length, we can check anythings length with Object.keys
       if (Object.keys(profile).length > 0) {
-        dashboardContent = <h4 className="display-4">Display Profile</h4>;
+        dashboardContent = (
+          <div>
+            <p className="lead text-muted">
+              Welcome,{' '}
+              <Link to={`/profile/${profile.handle}`}>{user.name}</Link>{' '}
+            </p>
+            <ProfileButtonsAction />
+            {/* Todo: Exp and Edu */}
+            <div style={{ marginTop: '60px' }}>
+              <div className="btn-group" role="group">
+                <button
+                  onClick={this.onDeleteProfile}
+                  className="btn btn-danger mr-1"
+                >
+                  <i className="fas fa-clipboard-list  mr-1" />
+                  Delete Profile
+                </button>
+                <button
+                  onClick={this.onDeleteAccount}
+                  className="btn btn-danger"
+                >
+                  <i className="fas fa-user-circle text-white mr-1" />
+                  Delete Account
+                </button>
+              </div>
+            </div>
+          </div>
+        );
       } else {
         // User is logged in but has no profile
         dashboardContent = (
           <div>
             {' '}
-            <p className="lead ">
-              <strong className="text-info display-4 text-capitalize">
-                {user.name}
-              </strong>{' '}
+            <p className="lead mb-0">
+              <strong className="text-info text-capitalize">{user.name}</strong>{' '}
             </p>
             <p>
               You have not yet created a profile, please click the button below
@@ -69,5 +106,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, deleteProfile, deleteAccount }
 )(withRouter(Dashboard));

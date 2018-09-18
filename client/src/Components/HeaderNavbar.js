@@ -22,7 +22,8 @@ import {
   logoutUser,
   loginUser,
   loginSocialUser,
-  getSuccessReset
+  getSuccessReset,
+  getLoginErrorReset
 } from '../actions/authAction';
 import { clearCurrentProfile } from '../actions/profileAction';
 import InputGroup from './Common/InputGroup';
@@ -35,7 +36,7 @@ class HeaderNavbar extends React.Component {
     this.state = {
       email: '',
       password: '',
-      errors: '',
+      loginErrors: '',
       success: '',
       modal: false,
       menuOpen: false,
@@ -64,7 +65,7 @@ class HeaderNavbar extends React.Component {
     }
     if (nextProps.errors) {
       // Login Errors will show only on login Modal, if we dont do that errors will show on page as well where we load Modal.
-      this.setState({ errors: nextProps.errors.loginError });
+      this.setState({ loginErrors: nextProps.errors.loginError });
     }
   };
 
@@ -82,6 +83,7 @@ class HeaderNavbar extends React.Component {
 
     this.props.loginUser(User);
     this.props.getSuccessReset();
+    this.props.getLoginErrorReset();
   };
 
   // Navbar Toggle
@@ -131,7 +133,7 @@ class HeaderNavbar extends React.Component {
   // onFocus clear all the errors, while user is typing in email or password, we dont need to show them old error.
   onFocus = () => {
     this.setState({
-      errors: '',
+      loginErrors: '',
       success: undefined
     });
   };
@@ -157,7 +159,7 @@ class HeaderNavbar extends React.Component {
     this.setState({ menuOpen: false });
   }
   render() {
-    const { errors, success } = this.state;
+    const { loginErrors, success } = this.state;
     const { isAuthenticated, user } = this.props.auth;
     // Capitalize first letter in words..
     String.prototype.capitalize = function() {
@@ -181,11 +183,21 @@ class HeaderNavbar extends React.Component {
           </button>
           <HashLink
             to="/#home-page"
-            className="navbar-brand ml-auto d-none d-md-block"
+            className="navbar-brand ml-auto d-none d-md-block text-light"
           >
             T3CH GeeGs
           </HashLink>
-          <ul className="navbar-nav ml-auto ">
+
+          <ul className="nav ml-auto ">
+            <li className="nav-item">
+              <Link
+                className="nav-link btn btn-link border-0 text-muted"
+                to="/dashboard"
+              >
+                Dashboard
+              </Link>
+            </li>
+
             <li className="nav-item ">
               <div>
                 {user.photo ? (
@@ -557,24 +569,6 @@ class HeaderNavbar extends React.Component {
                           onChange={this.onChange}
                           onFocus={this.onFocus}
                         />
-                        {/* <input
-                          name="email"
-                          type="email"
-                          className="form-control form-control-lg mb-2 bg-dark text-light"
-                          placeholder="Email "
-                          value={this.state.email}
-                          onChange={this.onChange}
-                          onFocus={this.onFocus}
-                        /> */}
-                        {/* <input
-                          name="password"
-                          type="password"
-                          className="form-control form-control-lg mb-4 bg-dark text-light"
-                          placeholder="Password "
-                          value={this.state.password}
-                          onChange={this.onChange}
-                          onFocus={this.onFocus}
-                        /> */}
 
                         <button
                           type="submit"
@@ -583,13 +577,13 @@ class HeaderNavbar extends React.Component {
                           <i className="fas fa-sign-in-alt pr-2" /> Sign in{' '}
                         </button>
                       </div>
-                      {errors && (
-                        <div className="text-center  text-danger text-muted text-sm">
-                          {/* <strong>{errors}</strong> */}
+                      {loginErrors && (
+                        <small className="text-center  text-danger text-muted ">
                           <i className="fas fa-exclamation-triangle text-danger" />
-                          {errors}
-                        </div>
+                          {loginErrors}
+                        </small>
                       )}
+
                       <div>
                         <p className="text-white lead mb-4">
                           <br />
@@ -637,6 +631,7 @@ export default connect(
     clearCurrentProfile,
     loginUser,
     loginSocialUser,
-    getSuccessReset
+    getSuccessReset,
+    getLoginErrorReset
   }
 )(withRouter(HeaderNavbar));

@@ -1,7 +1,8 @@
 import {
   GET_ERRORS,
   GET_LOGIN_ERRORS,
-  GET_ERRORS_RESET
+  GET_ERRORS_RESET,
+  GET_LOGIN_ERROR_RESET
 } from '../actions/types';
 
 const initialState = {};
@@ -18,6 +19,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loginError: action.payload
+      };
+    case GET_LOGIN_ERROR_RESET:
+      return {
+        ...state,
+        loginError: ''
       };
     case GET_ERRORS_RESET:
       return {

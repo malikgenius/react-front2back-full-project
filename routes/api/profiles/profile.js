@@ -207,7 +207,6 @@ router.post(
         .min(2)
         .max(100),
       status: Joi.string()
-        .allow('')
         .min(2)
         .max(40)
         .required(),
@@ -221,7 +220,6 @@ router.post(
         .min(2)
         .max(40),
       skills: Joi.string()
-        .allow('')
         .min(2)
         .max(100)
         .required(),
@@ -436,24 +434,7 @@ router.delete(
   }),
   (req, res) => {
     // if we only want to delete the profile we can stop after below linke and after .then(() => res.json(bla bla bla ))
-    Profile.findOneAndDelete({ user: req.user.id }).then(() => {
-      // User.findOneAndDelete({ _id: req.user.id }).then(() =>
-      return res.json('Sad to See you Going');
-      // );
-    });
-  }
-);
-
-// Delete User
-// @Private Route
-router.delete(
-  '/deleteuser',
-  passport.authenticate('jwt', {
-    session: false
-  }),
-  (req, res) => {
-    // if we only want to delete the profile we can stop after below linke and after .then(() => res.json(bla bla bla ))
-    User.findOneAndDelete({ _id: req.user.id })
+    Profile.findOneAndDelete({ user: req.user.id })
       .then(() => {
         // User.findOneAndDelete({ _id: req.user.id }).then(() =>
         return res.json('Sad to See you Going');
@@ -465,4 +446,22 @@ router.delete(
   }
 );
 
+// Delete User
+// @Private Route
+router.delete(
+  '/deleteuser',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    // Deleting User should also delete the Profile as we cant let abendant profile without user.
+    Profile.findOneAndDelete({ user: req.user.id }).then(() => {
+      User.findOneAndDelete({ _id: req.user.id })
+        .then(() => {
+          return res.json('Sad to See you Going');
+        })
+        .catch(err => {
+          return res.status(400).json('Something Went Wrong, Try again Later');
+        });
+    });
+  }
+);
 module.exports = router;

@@ -124,10 +124,10 @@ class SignUpBootStrap4Col extends Component {
                     Submit{' '}
                   </button>
                   {errors ? (
-                    <div className="text-center text-light  text-sm mt-2">
+                    <small className="text-center text-light  mt-2">
                       <i className="fas fa-exclamation-triangle text-danger" />
-                      {/* <strong>{errors}</strong> */} {errors}
-                    </div>
+                      {errors}
+                    </small>
                   ) : (
                     ''
                   )}

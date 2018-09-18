@@ -156,11 +156,10 @@ class FooterModal extends Component {
                           <i class="fas fa-envelope mr-2 lead" />
                         </button>
                         {errors && (
-                          <div className="text-center  text-danger text-muted text-sm mt-2">
-                            {/* <strong>{errors}</strong> */}
-                            <i className="fas fa-exclamation-triangle text-danger" />
+                          <small className="text-center  text-danger text-muted  mt-2">
+                            <i className="fas fa-exclamation-triangle text-danger mr-3" />
                             {errors}
-                          </div>
+                          </small>
                         )}
                       </div>
                     </form>

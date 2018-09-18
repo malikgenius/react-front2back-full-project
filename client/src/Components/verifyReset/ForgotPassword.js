@@ -71,15 +71,7 @@ class ForgotPassword extends Component {
                       onChange={this.onChange}
                       onFocus={this.onFocus}
                     />
-                    {/* <InputGroup
-                      name="email"
-                      type="email"
-                      className="form-control form-control-lg mb-2 bg-light text-dark"
-                      placeholder="your email here "
-                      value={this.state.email}
-                      onChange={this.onChange}
-                      onFocus={this.onFocus}
-                    /> */}
+
                     <button
                       type="submit"
                       className="btn btn-secondary btn-block text-white border-light "
@@ -87,28 +79,25 @@ class ForgotPassword extends Component {
                       {' '}
                       Send{' '}
                     </button>
-                    {errors ? (
-                      <div className="text-center  text-danger text-sm">
-                        {/* <strong>{errors}</strong> */}
-                        {errors}
-                      </div>
-                    ) : (
-                      ''
-                    )}
-                    {success ? (
-                      <div className="text-center  text-success text-sm">
-                        {/* <strong>{errors}</strong> */}
-                        {success}
-                      </div>
-                    ) : (
-                      ''
-                    )}
                   </div>
                 </form>
+                {errors ? (
+                  <div className="text-center  text-danger text-sm mt-2">
+                    {errors}
+                  </div>
+                ) : (
+                  ''
+                )}
+                {success ? (
+                  <div className="text-center  text-success text-sm mt-2">
+                    {success}
+                  </div>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
           </div>
-          {/* <div className="col-md-4 " /> */}
         </div>
       </div>
     );

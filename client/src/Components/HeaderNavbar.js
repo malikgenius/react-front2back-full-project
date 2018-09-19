@@ -97,6 +97,9 @@ class HeaderNavbar extends React.Component {
       menuOpen: false,
       collapse: false
     });
+    // reset all the errors if Modal toggle, if user doesnt want to login but just closes the modal after error we
+    // need to clean it up so next time user won`t see those errors when open Modal ..
+    this.props.getLoginErrorReset();
   };
 
   // onLogoutClick clearning success and errors & All

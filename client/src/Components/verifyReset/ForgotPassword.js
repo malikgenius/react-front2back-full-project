@@ -11,14 +11,14 @@ class ForgotPassword extends Component {
     success: ''
   };
 
-  // componentDidMount = () => {
-  //   if (this.props.errors) {
-  //     this.setState({ errors: this.props.errors.error });
-  //   }
-  //   if (this.props.success) {
-  //     this.setState({ success: this.props.success.success });
-  //   }
-  // };
+  componentDidMount = () => {
+    if (this.props.errors) {
+      this.setState({ errors: this.props.errors.error });
+    }
+    if (this.props.success) {
+      this.setState({ success: this.props.success.success });
+    }
+  };
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors) {
       // console.log(nextProps.errors);
@@ -52,7 +52,7 @@ class ForgotPassword extends Component {
     return (
       <div className=" container ">
         <div className="row">
-          {/* <div className="col-md-4 col-lg-2" /> */}
+          {/* m-auto is Margin Auto to keep content in middle  */}
           <div className="col-md-8 m-auto  text-center">
             <div className="card pt-5 border-0">
               <div className="card-body">
@@ -63,7 +63,7 @@ class ForgotPassword extends Component {
                 <form className="card-form" onSubmit={this.onSubmit}>
                   <div className="form-group text-light">
                     <InputGroup
-                      placeholder="email here "
+                      placeholder="Your Registered Email "
                       name="email"
                       type="email"
                       icon="fa fa-at"
@@ -76,22 +76,23 @@ class ForgotPassword extends Component {
                       type="submit"
                       className="btn btn-secondary btn-block text-white border-light "
                     >
-                      {' '}
-                      Send{' '}
+                      <i class="fas fa-envelope mr-2 lead text-light" /> Send{' '}
                     </button>
                   </div>
                 </form>
                 {errors ? (
-                  <div className="text-center  text-danger text-sm mt-2">
+                  <small className="text-center  text-muted  mt-2">
+                    <i className="fas fa-exclamation-triangle text-danger mr-3" />
                     {errors}
-                  </div>
+                  </small>
                 ) : (
                   ''
                 )}
                 {success ? (
-                  <div className="text-center  text-success text-sm mt-2">
+                  <small className="text-center  text-muted mt-2">
+                    <i class="fas fa-check text-success mr-2" />
                     {success}
-                  </div>
+                  </small>
                 ) : (
                   ''
                 )}

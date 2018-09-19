@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Modal, ModalBody } from 'reactstrap';
-import { contactEmail } from '../actions/contactAction';
+import { contactEmail, getErrorReset } from '../actions/contactAction';
 import InputGroup from './Common/InputGroup';
 import TextAreaFieldGroup from './Common/TextAreaFieldGroup';
 
@@ -34,6 +34,7 @@ class FooterModal extends Component {
     this.setState({
       modal: !this.state.modal
     });
+    this.props.getErrorReset();
   };
 
   // onFocus clear all the errors, while user is typing in email or password, we dont need to show them old error.
@@ -56,6 +57,7 @@ class FooterModal extends Component {
       message: this.state.message
     };
     this.props.contactEmail(userData, this.props.history);
+    this.props.getErrorReset();
     // this.setState({ modal: false });
   };
 
@@ -185,5 +187,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  { contactEmail }
+  { contactEmail, getErrorReset }
 )(withRouter(FooterModal));

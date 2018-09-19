@@ -11,6 +11,7 @@ const InputGroup = ({
   onFocus
 }) => {
   return (
+    // Font Awesome Icon at the front just need to pass icon prop
     <div className="input-group mb-3">
       <div className="input-group-prepend">
         <span className="input-group-text">

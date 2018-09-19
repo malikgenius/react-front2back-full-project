@@ -44,3 +44,7 @@ export const contactEmail = (userData, history) => dispatch => {
 export const contactEmailModalClose = () => ({
   type: CONTECT_MODAL_CLOSE
 });
+
+export const getErrorReset = () => ({
+  type: GET_ERRORS_RESET
+});

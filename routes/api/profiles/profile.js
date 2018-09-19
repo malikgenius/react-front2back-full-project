@@ -282,6 +282,7 @@ router.post(
 
     Profile.findOne({ user: req.user.id }).then(profile => {
       if (profile) {
+        // findOneAndUpdate will update existing profile if it found one.
         Profile.findOneAndUpdate(
           { user: req.user.id },
           { $set: profileFields },
@@ -292,7 +293,7 @@ router.post(
           return res.json(profile);
         });
       } else {
-        // Create
+        // it will Create a profile for user but will check the handle first, its a unique property for each user.
         // Check if the handle exists  for SEO
         Profile.findOne({ handle: profileFields.handle }).then(profile => {
           if (profile) {

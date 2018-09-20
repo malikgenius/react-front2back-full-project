@@ -105,6 +105,29 @@ export const addEducation = (eduData, history) => dispatch => {
     });
 };
 
+// Delete Experience
+export const deleteEducation = id => dispatch => {
+  if (
+    // window.confirm will popup an alert from browser ..
+    window.confirm('are you sure? you want to delete Qualification.')
+  ) {
+    axios
+      .delete(`/api/profile/education/${id}`)
+      .then(res => {
+        dispatch({
+          type: GET_PROFILE,
+          payload: res.data
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        });
+      });
+  }
+};
+
 // profile loading
 export const setProfileLoading = () => {
   return {

@@ -9,7 +9,31 @@ class Experience extends Component {
     this.props.deleteExperience(id, this.props.history);
   };
   render() {
-    const experience = this.props.experience.map(exp => (
+    //Small Screen Row cols
+    const experienceSmall = this.props.experience.map(exp => (
+      <div className="row container mb-2 border-b-1">
+        <div className="col-1-mb-4 mr-1 ">
+          <i className="fa fa-black-tie  fa-2x text-info  border  p-2 bg-light" />
+        </div>
+        <div className="col-8  align-content-end m-auto">
+          <div className="h3 lead">{exp.company}</div>
+          <div className="h6 text-muted mb-0">{exp.title}</div>
+          <div className="small text-muted">
+            <Moment format="DD/MM/YYYY">{exp.from}</Moment> {' - '}
+            <Moment format="DD/MM/YYYY">{exp.to}</Moment>
+          </div>
+        </div>
+        <div className="div col-1 ml-auto">
+          <i
+            onClick={() => this.onDeleteClick(exp._id)}
+            className="far fa-trash-alt text-danger"
+            style={{ cursor: 'pointer' }}
+          />
+        </div>
+      </div>
+    ));
+
+    const experienceBig = this.props.experience.map(exp => (
       <tr key={exp._id}>
         <td>{exp.company}</td>
         <td>{exp.title}</td>
@@ -23,25 +47,20 @@ class Experience extends Component {
             <Moment format="DD/MM/YYYY">{exp.to}</Moment>
           )}
         </td>
-        <td>
+        <td className="mr-auto">
           <i
             onClick={() => this.onDeleteClick(exp._id)}
-            class="far fa-trash-alt text-danger"
+            className="far fa-trash-alt text-danger"
             style={{ cursor: 'pointer' }}
           />
-          {/* <button
-            onClick={() => this.onDeleteClick(exp._id)}
-            className="btn btn-danger d-none d-md-block"
-          >
-            Delete
-          </button> */}
         </td>
       </tr>
     ));
     return (
       <div>
         <h4 className="mb-4">Experience Credentials</h4>
-        <table className="table table-sm">
+        <div className=" d-md-none">{experienceSmall}</div>
+        <table className="table table-sm d-none d-md-table">
           <thead>
             <tr>
               <th scope="col">Company</th>
@@ -50,7 +69,7 @@ class Experience extends Component {
               <th scope="col">Till</th>
               <th />
             </tr>
-            {experience}
+            {experienceBig}
           </thead>
         </table>
       </div>

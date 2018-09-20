@@ -8,6 +8,8 @@ import {
 } from '../../actions/profileAction';
 import SpinnerLottie from '../Common/spinnerLottie';
 import ProfileButtonsAction from './ProfileButtonsAction';
+// Experience and Education...
+import Experience from './Experience';
 
 class Dashboard extends Component {
   componentDidMount = () => {
@@ -42,6 +44,7 @@ class Dashboard extends Component {
               <Link to={`/profile/${profile.handle}`}>{user.name}</Link>{' '}
             </p>
             <ProfileButtonsAction />
+            <Experience experience={profile.experience} />
             {/* Todo: Exp and Edu */}
             <div style={{ marginTop: '60px' }}>
               <div className="btn-group" role="group">

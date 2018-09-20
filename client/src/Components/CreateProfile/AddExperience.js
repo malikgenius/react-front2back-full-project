@@ -4,6 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import InputGroup from '../Common/InputGroup';
 import TextFieldGroup from '../Common/TextFieldGroup';
 import TextAreaFieldGroup from '../Common/TextAreaFieldGroup';
+import { addExperience } from '../../actions/profileAction';
 
 class AddExperience extends Component {
   constructor(props) {
@@ -20,6 +21,11 @@ class AddExperience extends Component {
       errors: ''
     };
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors.error });
+    }
+  }
 
   onChange = e => {
     this.setState({
@@ -31,6 +37,20 @@ class AddExperience extends Component {
       current: !this.state.current,
       disabled: !this.state.disabled
     });
+  };
+
+  onSubmit = e => {
+    e.preventDefault();
+    const expData = {
+      company: this.state.company,
+      title: this.state.title,
+      location: this.state.location,
+      from: this.state.from,
+      to: this.state.to,
+      current: this.state.current,
+      description: this.state.description
+    };
+    this.props.addExperience(expData, this.props.history);
   };
   render() {
     const { errors } = this.state;
@@ -90,7 +110,7 @@ class AddExperience extends Component {
                     onChange={this.onChange}
                     placeholder="From Date"
                     // icon="fas fa-calendar"
-                    disabled
+                    disabled="disabled"
                   />
                 ) : (
                   <InputGroup
@@ -113,7 +133,7 @@ class AddExperience extends Component {
                     onChange={this.onCheck}
                     id="current"
                   />
-                  <label htmlFor="current" classname="form-check-label">
+                  <label htmlFor="current" className="form-check-label">
                     Current Job
                   </label>
                 </div>
@@ -130,6 +150,13 @@ class AddExperience extends Component {
                   Submit
                 </button>
               </form>
+              {errors && (
+                <div className="text-center  text-danger text-muted text-sm mt-2">
+                  {/* <strong>{errors}</strong> */}
+                  <i className="fas fa-exclamation-triangle text-danger" />
+                  {errors}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -147,5 +174,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  {}
+  { addExperience }
 )(withRouter(AddExperience));

@@ -317,7 +317,41 @@ router.post(
     session: false
   }),
   (req, res) => {
-    ExperienceValidation(req.body, res);
+    // ExperienceValidation(req.body, res);
+    // Joi Validation
+    const schema = {
+      company: Joi.string()
+        .min(3)
+        .max(100)
+        .required(),
+      title: Joi.string()
+        .min(3)
+        .max(100)
+        .required(),
+      location: Joi.string()
+        .min(3)
+        .max(100)
+        .required(),
+      from: Joi.string()
+        .min(3)
+        .max(100)
+        .required(),
+      to: Joi.string()
+        .allow('')
+        .min(3)
+        .max(100),
+      current: Joi.boolean(),
+      description: Joi.string()
+        .allow('')
+        .min(3)
+        .max(200)
+    };
+
+    const Validate = Joi.validate(req.body, schema);
+    if (Validate.error) {
+      return res.status(400).send(Validate.error.details[0].message);
+    }
+
     Profile.findOne({ user: req.user.id }).then(profile => {
       if (!profile) {
         return res.json('No Profile Associated');
@@ -377,7 +411,40 @@ router.post(
     session: false
   }),
   (req, res) => {
-    EducationValidation(req.body, res);
+    // EducationValidation(req.body, res);
+    // Joi Validation for education
+    const schema = {
+      school: Joi.string()
+        .min(3)
+        .max(100)
+        .required(),
+      degree: Joi.string()
+        .min(3)
+        .max(100)
+        .required(),
+      fieldofstudy: Joi.string()
+        .min(3)
+        .max(100)
+        .required(),
+      from: Joi.string()
+        .min(3)
+        .max(100)
+        .required(),
+      to: Joi.string()
+        .min(3)
+        .max(100)
+        .allow(''),
+      current: Joi.boolean(),
+      description: Joi.string()
+        .allow('')
+        .min(3)
+        .max(200)
+    };
+    const Validate = Joi.validate(req.body, schema);
+    if (Validate.error) {
+      return res.status(400).send(Validate.error.details[0].message);
+    }
+
     Profile.findOne({ user: req.user.id }).then(profile => {
       if (!profile) {
         return res.json('No Profile Associated');

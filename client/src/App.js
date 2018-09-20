@@ -23,6 +23,7 @@ import CreateProfile from './Components/CreateProfile/CreateProfile';
 import EditProfile from './Components/Dashboard/EditProfile';
 // Experience & Education Routes
 import AddExperience from './Components/CreateProfile/AddExperience';
+import AddEducation from './Components/CreateProfile/AddEducation';
 
 // Email verification Reset Password ---
 import VerifyAccount from './Components/verifyReset/VerifyAccount';
@@ -74,6 +75,7 @@ class App extends Component {
               <PrivateRoute path="/createprofile" component={CreateProfile} />
               <PrivateRoute path="/edit-profile" component={EditProfile} />
               <PrivateRoute path="/add-experience" component={AddExperience} />
+              <PrivateRoute path="/add-education" component={AddEducation} />
             </Switch>
             <FooterModal />
           </div>

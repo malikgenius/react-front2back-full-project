@@ -11,24 +11,32 @@ class Education extends Component {
 
   render() {
     const educationSmall = this.props.education.map(edu => (
-      <div className="row container">
-        <div className="col-1-mb-4 m-0 ">
-          <i className="fas fa-school  fa-2x text-info  border  p-2 bg-light" />
-        </div>
-        <div className="col-8  align-content-end ml-0">
-          <div className="h5 lead">{edu.school}</div>
-          <div className="h6 text-muted mb-0">{edu.degree}</div>
-          <div className="small text-muted">
-            <Moment format="DD/MM/YYYY">{edu.from}</Moment> {' - '}
-            <Moment format="DD/MM/YYYY">{edu.to}</Moment>
+      <div className=" pb-1  bg-light mb-2">
+        <div className="row  pb-1 container ">
+          <div className="col-1-mb-4 m-0 ">
+            <i className="fas fa-school  fa-2x text-info  border  p-2 bg-light" />
           </div>
-        </div>
-        <div className="div col-1 ml-auto">
-          <i
-            onClick={() => this.onDeleteClick(edu._id)}
-            className="far fa-trash-alt text-danger"
-            style={{ cursor: 'pointer' }}
-          />
+          <div className="col-8  align-content-end ml-0">
+            <div className="h6 lead font-weight-light">{edu.school}</div>
+            <div className="h6 text-muted mb-0 font-weight-light">
+              {edu.degree}
+            </div>
+            <div className="small text-muted">
+              <Moment format="DD/MM/YYYY">{edu.from}</Moment> {' - '}
+              {edu.to === null ? (
+                'current'
+              ) : (
+                <Moment format="DD/MM/YYYY">{edu.to}</Moment>
+              )}
+            </div>
+          </div>
+          <div className="div col-1 ml-auto">
+            <i
+              onClick={() => this.onDeleteClick(edu._id)}
+              className="far fa-trash-alt text-danger"
+              style={{ cursor: 'pointer' }}
+            />
+          </div>
         </div>
       </div>
     ));

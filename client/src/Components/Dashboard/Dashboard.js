@@ -40,16 +40,22 @@ class Dashboard extends Component {
       if (Object.keys(profile).length > 0) {
         dashboardContent = (
           <div>
-            <p className="lead text-muted">
-              Welcome,{' '}
-              <Link to={`/profile/${profile.handle}`}>{user.name}</Link>{' '}
-            </p>
+            <div className="lead text-dark">
+              Welcome{' '}
+              <Link
+                className="lead text-info  font-weight-bold text-capitalize"
+                to={`/profile/${profile.handle}`}
+              >
+                {user.name}
+              </Link>{' '}
+            </div>
             <ProfileButtonsAction />
             <Experience experience={profile.experience} />
             <Education education={profile.education} />
             {/* Todo: Exp and Edu */}
             <div style={{ marginTop: '60px' }}>
-              <div className="btn-group" role="group">
+              {/* show only on middle and big screens  */}
+              <div className="btn-group d-none d-md-block" role="group">
                 <button
                   onClick={this.onDeleteProfile}
                   className="btn btn-danger mr-1"
@@ -64,6 +70,26 @@ class Dashboard extends Component {
                   <i className="fas fa-user-circle text-white mr-1" />
                   Delete Account
                 </button>
+              </div>
+
+              {/* show only on Small screens --- Mobiles only  */}
+              <div className="row ">
+                <div className="btn-group d-md-none m-auto" role="group">
+                  <button
+                    onClick={this.onDeleteProfile}
+                    className="btn btn-outline-danger mr-3"
+                  >
+                    <i className="fas fa-clipboard-list  mr-1" />
+                    Delete Profile
+                  </button>
+                  <button
+                    onClick={this.onDeleteAccount}
+                    className="btn btn-outline-danger "
+                  >
+                    <i className="fas fa-user-circle text-danger mr-1" />
+                    Delete Account
+                  </button>
+                </div>
               </div>
             </div>
           </div>

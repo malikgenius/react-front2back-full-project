@@ -192,6 +192,14 @@ class HeaderNavbar extends React.Component {
           </HashLink>
 
           <ul className="nav ml-auto ">
+            <li className="nav-item d-none d-md-block">
+              <Link
+                className="nav-link btn btn-link border-0 text-muted"
+                to="/profiles"
+              >
+                Developers
+              </Link>
+            </li>
             <li className="nav-item">
               <Link
                 className="nav-link btn btn-link border-0 text-muted"
@@ -257,10 +265,13 @@ class HeaderNavbar extends React.Component {
                               {user.email}
                             </p>
                           </div>
-                          <button className="btn btn-light ml-auto text-dark border-1">
+                          <Link
+                            to="/profiles"
+                            className="btn btn-light ml-auto text-dark border-1"
+                          >
                             <i className="fa fa-wrench" aria-hidden="true" />{' '}
-                            Profile
-                          </button>
+                            Profiles
+                          </Link>
                         </div>
                       </div>
                       <div className="dropdown-divider" />
@@ -325,16 +336,20 @@ class HeaderNavbar extends React.Component {
                               {user.email}
                             </p>
                           </div>
-                          <button className="btn btn-light ml-auto text-dark border-1">
+                          <Link
+                            to="/profiles"
+                            className="btn btn-light ml-auto text-dark border-1"
+                            onClick={this.toggleDropdown}
+                          >
                             <i className="fa fa-wrench" aria-hidden="true" />{' '}
-                            Profile
-                          </button>
+                            Profiles
+                          </Link>
                         </div>
                       </div>
                       <div className="dropdown-divider" />
                       <div className="dropdown-item bg-white">
                         <Link
-                          className="nav-link text-dark"
+                          className=" text-dark"
                           to="/forgotpassword"
                           onClick={this.toggleDropdown}
                           style={{ textDecoration: 'none', background: 'none' }}
@@ -369,17 +384,17 @@ class HeaderNavbar extends React.Component {
         >
           <HashLink
             onClick={this.closeMenu}
-            className="menu-item display-4"
-            to="/#explore"
+            className="menu-item  text-muted text-capitalize text-weight-light"
+            to="/dashboard"
           >
-            Explore
+            Dashboard
           </HashLink>
           <HashLink
             onClick={this.closeMenu}
-            className="menu-item display-4"
-            to="/#footer"
+            className=" menu-item  text-muted text-capitalize"
+            to="/profiles"
           >
-            Contact
+            Developers
           </HashLink>
 
           <a

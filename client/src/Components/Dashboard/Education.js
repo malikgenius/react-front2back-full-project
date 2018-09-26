@@ -11,7 +11,7 @@ class Education extends Component {
 
   render() {
     const educationSmall = this.props.education.map(edu => (
-      <div className=" pb-1  bg-light mb-2">
+      <div className=" pb-1  bg-light mb-2" key={edu._id}>
         <div className="row  pb-1 container ">
           <div className="col-1-mb-4 m-0 ">
             <i className="fas fa-school  fa-2x text-info  border  p-2 bg-light" />

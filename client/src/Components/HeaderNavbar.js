@@ -25,7 +25,10 @@ import {
   getSuccessReset,
   getLoginErrorReset
 } from '../actions/authAction';
-import { clearCurrentProfile } from '../actions/profileAction';
+import {
+  clearCurrentProfile,
+  clearAllProfiles
+} from '../actions/profileAction';
 import InputGroup from './Common/InputGroup';
 // import { link } from 'fs';
 
@@ -144,6 +147,7 @@ class HeaderNavbar extends React.Component {
   onLogoutClick = e => {
     e.preventDefault();
     this.props.clearCurrentProfile();
+    this.props.clearAllProfiles();
     this.props.logoutUser(this.props.history);
     this.onLogoutClear();
   };
@@ -647,6 +651,7 @@ export default connect(
   {
     logoutUser,
     clearCurrentProfile,
+    clearAllProfiles,
     loginUser,
     loginSocialUser,
     getSuccessReset,

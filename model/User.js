@@ -16,7 +16,8 @@ const UserSchema = Schema({
   local: {
     //cant say its required, as if user logins with Google or fb, it will though error.
     name: {
-      type: String
+      type: String,
+      lowercase: true
     },
     email: {
       type: String,

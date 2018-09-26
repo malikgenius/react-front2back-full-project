@@ -45,14 +45,18 @@ router.get(
       .populate('user', [
         'local.name',
         'local.email',
+        'local.photo',
         'google.name',
         'google.email',
+        'google.photo',
         'facebook.name',
-        'facebook.email'
+        'facebook.email',
+        'facebook.photo'
       ])
+
       .then(profile => {
         if (!profile) {
-          return res.status(404).json({ Error: 'Profile Not Found!' });
+          return res.status(404).json('Profile Not Found!');
         }
         return res.json(profile);
       })
@@ -72,56 +76,78 @@ router.get(
   }),
   (req, res) => {
     const errors = {};
-
-    Profile.find()
-      .populate('user', [
-        'local.name',
-        'local.photo',
-        'google.name',
-        'google.photo',
-        'facebook.name',
-        'facebook.photo'
-      ])
+    //paginate custom options we have to add all sorting, limiting etc in these options only.
+    const pageNumber = req.query.page;
+    // console.log(req.query.page);
+    // paginate will send by default 10 records per page.
+    // populate in pagination fixed by using it below, other ways do not work well with custom records from user.
+    Profile.paginate(
+      {},
+      {
+        // limit will come from frontend header or params but if it doesnt, default || 10 i set it up.
+        limit: parseInt(2, 10) || 1,
+        // page: page || 1,
+        page: parseInt(pageNumber, 10) || 1,
+        sort: { handle: 1 },
+        populate: {
+          path: 'user',
+          select: [
+            'local.name',
+            'local.email',
+            'local.photo',
+            'google.name',
+            'google.email',
+            'google.photo',
+            'facebook.name',
+            'facebook.email',
+            'facebook.photo'
+          ]
+        }
+      }
+    )
       .then(profiles => {
         if (!profiles) {
-          errors.noprofile = 'There are no profiles';
-          return res.status(404).json(errors);
+          // errors.noprofile = 'There are no profiles';
+          return res.status(404).json('There are no profiles');
         }
 
-        res.json(profiles);
+        return res.json(profiles);
       })
-      .catch(err => res.status(404).json({ profile: 'There are no profiles' }));
+      .catch(err => res.status(404).json(err));
   }
 );
 
 // @route   GET api/profile/handle/:handle
 // @desc    Get profile by handle
 // @access  Private
-
 router.get(
   '/handle/:handle',
   passport.authenticate('jwt', {
     session: false
   }),
   (req, res) => {
-    const errors = {};
-
+    console.log(req.params.handle);
     Profile.findOne({ handle: req.params.handle })
+      // it gets the profile by ID but not by handle .. need to research more on it.
+      // Profile.findById(req.params.handle)
       .populate('user', [
         'local.name',
+        'local.email',
         'local.photo',
         'google.name',
+        'google.email',
         'google.photo',
         'facebook.name',
+        'facebook.email',
         'facebook.photo'
       ])
       .then(profile => {
         if (!profile) {
-          errors.noprofile = 'There is no profile for this user';
-          res.status(404).json(errors);
+          // errors.noprofile = 'There is no profile for this user';
+          return res.status(404).json('There is no profile for this user');
         }
 
-        res.json(profile);
+        return res.json(profile);
       })
       .catch(err => res.status(404).json(err));
   }
@@ -142,23 +168,23 @@ router.get(
     Profile.findOne({ user: req.params.user_id })
       .populate('user', [
         'local.name',
+        'local.email',
         'local.photo',
         'google.name',
+        'google.email',
         'google.photo',
         'facebook.name',
+        'facebook.email',
         'facebook.photo'
       ])
       .then(profile => {
         if (!profile) {
-          errors.noprofile = 'There is no profile for this user';
-          res.status(404).json(errors);
+          return res.status(404).json('There is no profile for this user');
         }
 
-        res.json(profile);
+        return res.json(profile);
       })
-      .catch(err =>
-        res.status(404).json({ profile: 'There is no profile for this user' })
-      );
+      .catch(err => res.status(404).json(err));
   }
 );
 

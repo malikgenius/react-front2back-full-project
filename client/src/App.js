@@ -6,7 +6,7 @@ import './App.scss';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authAction';
-import { clearCurrentProfile } from './actions/profileAction';
+import { clearCurrentProfile, clearAllProfiles } from './actions/profileAction';
 import { Provider } from 'react-redux';
 import configureStore from './reducers';
 // Private Route
@@ -26,6 +26,7 @@ import AddExperience from './Components/CreateProfile/AddExperience';
 import AddEducation from './Components/CreateProfile/AddEducation';
 // Profiles
 import Profiles from './Components/Profiles/Profiles';
+import Profile from './Components/Profile/Profile';
 // Email verification Reset Password ---
 import VerifyAccount from './Components/verifyReset/VerifyAccount';
 import EmailVerified from './Components/verifyReset/EmailVerified';
@@ -51,6 +52,7 @@ if (localStorage.jwtToken) {
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
     store.dispatch(clearCurrentProfile());
+    store.dispatch(clearAllProfiles());
     store.dispatch(logoutUser());
     window.location.href = '/';
   }
@@ -78,6 +80,7 @@ class App extends Component {
               <PrivateRoute path="/add-experience" component={AddExperience} />
               <PrivateRoute path="/add-education" component={AddEducation} />
               <PrivateRoute path="/profiles" component={Profiles} />
+              <PrivateRoute path="/profile/:handle" component={Profile} />
             </Switch>
             <FooterModal />
           </div>

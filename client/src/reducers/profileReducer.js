@@ -2,7 +2,9 @@ import {
   GET_PROFILE,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
-  GET_PROFILES
+  GET_PROFILES,
+  CLEAR_ALL_PROFILES,
+  GET_PAGINATION_PAGES
 } from '../actions/types';
 const initialState = {
   profile: null,
@@ -29,10 +31,33 @@ export default (state = initialState, action) => {
         profiles: action.payload,
         loading: false
       };
+    // get total pages from server via pagination at backend to show only those pages in FE pagination.
+    // get total records from backend and save them in total ... we can show total on FE
+    case GET_PAGINATION_PAGES:
+      return {
+        ...state,
+        pages: action.payload.pages,
+        total: action.payload.total,
+        limit: action.payload.limit,
+        page: action.payload.page
+      };
     case CLEAR_CURRENT_PROFILE:
       return {
         ...state,
-        profile: null
+        profile: null,
+        pages: '',
+        total: '',
+        limit: '',
+        page: ''
+      };
+    case CLEAR_ALL_PROFILES:
+      return {
+        ...state,
+        profiles: null,
+        pages: null,
+        total: null,
+        limit: null,
+        page: null
       };
     default:
       return state;

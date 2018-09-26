@@ -5,6 +5,8 @@ import {
   PROFILE_LOADING,
   GET_ERRORS,
   CLEAR_CURRENT_PROFILE,
+  CLEAR_ALL_PROFILES,
+  GET_PAGINATION_PAGES,
   SET_CURRENT_USER
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
@@ -32,18 +34,52 @@ export const getCurrentProfile = () => dispatch => {
     });
 };
 
-// Get All Profiles
-
-export const getProfiles = () => dispatch => {
+// Get Profile by Handle
+export const getProfileByHandle = handle => dispatch => {
   dispatch(setProfileLoading());
   axios
-    .get('/api/profile/all')
-    .then(res =>
+    .get(`/api/profile/handle/${handle}`)
+    .then(
+      res =>
+        dispatch({
+          type: GET_PROFILE,
+          payload: res.data
+        })
+
+      // we can register with empty profile, if no profile we should return empty profile in err
+    )
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_PROFILE,
+        payload: {}
+      });
+    });
+};
+
+// Get All Profiles
+
+export const getProfiles = page => dispatch => {
+  console.log(page);
+  dispatch(setProfileLoading());
+  axios
+    .get(`/api/profile/all`, {
+      params: { page }
+    })
+    .then(res => {
+      console.log(res.data);
       dispatch({
         type: GET_PROFILES,
+        payload: res.data.docs
+      });
+      // GET pagination will get all the extra pagination options to redux store
+      // total records, page number, records per page .. etc from server.
+      // this will go to Component local state via nextProps to <Pagination /> comp.
+      dispatch({
+        type: GET_PAGINATION_PAGES,
         payload: res.data
-      })
-    )
+      });
+    })
     .catch(err =>
       dispatch({
         type: GET_PROFILES,
@@ -51,6 +87,9 @@ export const getProfiles = () => dispatch => {
       })
     );
 };
+
+// Get Pagination Pages from Backend & Total Records.
+export const getPagination = () => dispatch => {};
 
 // Create Profile
 export const createProfile = (profileData, history) => dispatch => {
@@ -160,6 +199,12 @@ export const setProfileLoading = () => {
 export const clearCurrentProfile = () => {
   return {
     type: CLEAR_CURRENT_PROFILE
+  };
+};
+
+export const clearAllProfiles = () => {
+  return {
+    type: CLEAR_ALL_PROFILES
   };
 };
 

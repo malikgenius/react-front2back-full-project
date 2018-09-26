@@ -1,33 +1,41 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 
 const Schema = mongoose.Schema;
 
-const ProfileSchema = Schema({
+const ProfileSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "users"
+    ref: 'users'
   },
+
   handle: {
     type: String,
     required: true,
-    max: 40
+    max: 40,
+    lowercase: true
   },
   company: {
-    type: String
+    type: String,
+    lowercase: true
   },
   website: {
-    type: String
+    type: String,
+    lowercase: true
   },
   location: {
-    type: String
+    type: String,
+    lowercase: true
   },
   status: {
     type: String,
-    required: true
+    required: true,
+    lowercase: true
   },
   skills: {
     type: [String],
-    required: true
+    required: true,
+    lowercase: true
   },
   bio: {
     type: String
@@ -121,6 +129,7 @@ const ProfileSchema = Schema({
   }
 });
 
+ProfileSchema.plugin(mongoosePaginate);
 // const Profile = mongoose.model("profile", ProfileSchema);
 
-module.exports = Profile = mongoose.model("profile", ProfileSchema);
+module.exports = Profile = mongoose.model('profile', ProfileSchema);

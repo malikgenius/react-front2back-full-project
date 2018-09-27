@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 
 class ProfileHeader extends Component {
-  componentWillReceiveProps = nextProps => {
-    if (nextProps.profile.profile === null) {
-      this.props.history.push('/notfound');
-    }
-  };
+  // componentWillReceiveProps = nextProps => {
+  //   if (nextProps.profile.profile === null) {
+  //     this.props.history.push('/notfound');
+  //   }
+  // };
   render() {
     const { profile } = this.props;
     let userImage;
     if (profile.user.local) {
-      if (profile.user.local.photo === '') {
+      if (!profile.user.local.photo) {
         userImage = (
           <img
             src="/img/placeholder.jpg"

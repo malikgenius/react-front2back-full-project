@@ -5,6 +5,7 @@ import _ from 'lodash';
 class ProfileItem extends Component {
   render() {
     const { profile } = this.props;
+
     // console.log(this.props);
     return (
       <div className="card card-body bg-light mb-3">

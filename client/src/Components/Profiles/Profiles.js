@@ -7,7 +7,6 @@ import Pagination from 'react-js-pagination';
 // infinite scroll -- lets see if its better than pagination.
 
 // import InfiniteScroll from 'react-infinite-scroll-component';
-import InfiniteScroll from 'react-infinite-scroller';
 
 class Profiles extends Component {
   constructor(props) {
@@ -22,7 +21,7 @@ class Profiles extends Component {
   }
   componentDidMount = () => {
     this.setState({ page: this.props.profile.page });
-    this.props.getProfiles(this.state.page);
+    this.props.getProfiles(this.props.profile.page);
   };
   componentWillReceiveProps = nextProps => {
     // this will define which page user was on the last time.
@@ -117,7 +116,7 @@ class Profiles extends Component {
         <div className="container d-md-none">
           <div className="row">
             <div className="col-md-12">
-              <h1 className="display-4 text-center">Developer Profiles</h1>
+              <h1 className="display-4 text-center">Developer`s Profiles</h1>
               <p className="lead text-center">
                 Browse and connect with developers
               </p>

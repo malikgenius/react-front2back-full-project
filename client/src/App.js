@@ -27,6 +27,7 @@ import AddEducation from './Components/CreateProfile/AddEducation';
 // Profiles
 import Profiles from './Components/Profiles/Profiles';
 import Profile from './Components/Profile/Profile';
+import ProfileNotFound from './Components/Profile/ProfileNotFound';
 // Email verification Reset Password ---
 import VerifyAccount from './Components/verifyReset/VerifyAccount';
 import EmailVerified from './Components/verifyReset/EmailVerified';
@@ -73,6 +74,7 @@ class App extends Component {
             <Route path="/emailverified" component={EmailVerified} />
             <Route path="/forgotpassword" component={ForgotPassword} />
             <Route path="/changepassword" component={ChangePassword} />
+            <Route path="/notfound" component={ProfileNotFound} />
             <Switch>
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <PrivateRoute path="/createprofile" component={CreateProfile} />

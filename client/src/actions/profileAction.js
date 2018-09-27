@@ -46,13 +46,17 @@ export const getProfileByHandle = handle => dispatch => {
           payload: res.data
         })
 
-      // we can register with empty profile, if no profile we should return empty profile in err
+      // if wrong handle name, we have a null profile, nextProps in Profile.js will redirect it to Page not Found route.
     )
     .catch(err => {
       console.log(err);
       dispatch({
         type: GET_PROFILE,
-        payload: {}
+        payload: null
+      });
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
       });
     });
 };
@@ -60,14 +64,12 @@ export const getProfileByHandle = handle => dispatch => {
 // Get All Profiles
 
 export const getProfiles = page => dispatch => {
-  console.log(page);
   dispatch(setProfileLoading());
   axios
     .get(`/api/profile/all`, {
       params: { page }
     })
     .then(res => {
-      console.log(res.data);
       dispatch({
         type: GET_PROFILES,
         payload: res.data.docs

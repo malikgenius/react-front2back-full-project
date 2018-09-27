@@ -126,7 +126,7 @@ router.get(
     session: false
   }),
   (req, res) => {
-    console.log(req.params.handle);
+    // console.log(req.params.handle);
     Profile.findOne({ handle: req.params.handle })
       // it gets the profile by ID but not by handle .. need to research more on it.
       // Profile.findById(req.params.handle)
@@ -144,10 +144,11 @@ router.get(
       .then(profile => {
         if (!profile) {
           // errors.noprofile = 'There is no profile for this user';
+
           return res.status(404).json('There is no profile for this user');
         }
 
-        return res.json(profile);
+        res.json(profile);
       })
       .catch(err => res.status(404).json(err));
   }
@@ -234,12 +235,12 @@ router.post(
         .max(100),
       status: Joi.string()
         .min(2)
-        .max(40)
+        .max(100)
         .required(),
       bio: Joi.string()
         .allow('')
         .min(2)
-        .max(40),
+        .max(400),
       birthday: Joi.string().allow(''),
       githubusername: Joi.string()
         .allow('')
@@ -247,28 +248,28 @@ router.post(
         .max(40),
       skills: Joi.string()
         .min(2)
-        .max(100)
+        .max(200)
         .required(),
       youtube: Joi.string()
         .allow('')
         .min(5)
-        .max(100),
+        .max(200),
       facebook: Joi.string()
         .allow('')
         .min(5)
-        .max(100),
+        .max(200),
       twitter: Joi.string()
         .allow('')
         .min(5)
-        .max(100),
+        .max(200),
       linkedin: Joi.string()
         .allow('')
         .min(5)
-        .max(100),
+        .max(200),
       instagram: Joi.string()
         .allow('')
         .min(5)
-        .max(100)
+        .max(200)
     };
     // Joi Validation Check
     const Validate = Joi.validate(req.body, schema);

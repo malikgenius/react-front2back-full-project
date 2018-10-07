@@ -21,6 +21,7 @@ import FooterModal from './Components/FooterModal';
 import Dashboard from './Components/Dashboard/Dashboard';
 import CreateProfile from './Components/CreateProfile/CreateProfile';
 import EditProfile from './Components/Dashboard/EditProfile';
+import UploadProfileImage from './Components/CreateProfile/UploadProfileImage';
 // Experience & Education Routes
 import AddExperience from './Components/CreateProfile/AddExperience';
 import AddEducation from './Components/CreateProfile/AddEducation';
@@ -79,6 +80,10 @@ class App extends Component {
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <PrivateRoute path="/createprofile" component={CreateProfile} />
               <PrivateRoute path="/edit-profile" component={EditProfile} />
+              <PrivateRoute
+                path="/upload-profileimage"
+                component={UploadProfileImage}
+              />
               <PrivateRoute path="/add-experience" component={AddExperience} />
               <PrivateRoute path="/add-education" component={AddEducation} />
               <PrivateRoute path="/profiles" component={Profiles} />

@@ -132,6 +132,7 @@ router.post('/register', (req, res) => {
 // @ Public Route
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
+  console.log(email, password);
   // Joi Validation
   // loginValidation(req.body, res);
   const schema = {

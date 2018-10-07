@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import QRCode from 'qrcode.react';
+// trying to print the QR Code
+var PrintTemplate = require('react-print');
+//barcode for react-- it contains less info and its less trendy than QRCode
+var Barcode = require('react-barcode');
 
 class ProfileHeader extends Component {
   // componentWillReceiveProps = nextProps => {
@@ -8,6 +13,7 @@ class ProfileHeader extends Component {
   //   }
   // };
   render() {
+    console.log(this.props);
     const { profile } = this.props;
     let userImage;
     if (profile.user.local) {
@@ -52,9 +58,70 @@ class ProfileHeader extends Component {
     return (
       <div className="row">
         <div className="col-12 ">
+          <div className="col-4 m-auto">
+            <Barcode
+              value={`${profile.handle} ${' '} ${profile.status}`}
+              // width="2"
+              // height={'100'}
+              format="CODE128"
+              displayValue={false}
+              fontOptions=""
+              font="monospace"
+              textAlign="center"
+              textPosition="bottom"
+              // textMargin="2"
+              // fontSize="20"
+              background="#ffffff"
+              lineColor="#000000"
+              // margin="10"
+              // marginTop="10"
+              // marginBottom="undefined"
+              // marginLeft="undefined"
+              // marginRight="undefined"
+            />
+          </div>
           <div className="card card-body bg-info text-white mb-3">
             <div className="row">
-              <div className="col-12 m-auto  text-center ">{userImage}</div>
+              <div className="col-4 m-auto">
+                <QRCode
+                  // below value can take a link to site, or anything.
+                  // value="https://localhost:3000/"
+
+                  // here we will share
+                  value={`
+                ${'        '}Handle: ${profile.handle}
+                ${'        '}Company: ${profile.company}
+                ${'        '}Location: ${profile.location}
+                `}
+                  // size={'128'}
+                  // bgColor={'#0000FF'}
+                  level={'L'}
+                  renderAs={'svg'}
+                />
+              </div>
+              <div className="col-4 m-auto  text-center ">{userImage}</div>
+              <div className="col-4 m-auto">
+                {/* <Barcode
+                  value={`${profile.handle}`}
+                  // width="2"
+                  height={'100'}
+                  format="CODE128"
+                  displayValue="true"
+                  fontOptions=""
+                  font="monospace"
+                  textAlign="center"
+                  textPosition="bottom"
+                  textMargin="2"
+                  fontSize="20"
+                  background="#ffffff"
+                  lineColor="#000000"
+                  margin="10"
+                  marginTop="10"
+                  marginBottom="undefined"
+                  marginLeft="undefined"
+                  marginRight="undefined"
+                /> */}
+              </div>
             </div>
 
             <div className="text-center text-capitalize">

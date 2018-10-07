@@ -80,7 +80,25 @@ class Profiles extends Component {
 
         {/* This will be shown only on middle and big screens ... not on mobile */}
         {this.state.pages === 1 ? (
-          ''
+          <div className="container d-none d-md-block">
+            <div className="row">
+              <div className="col-4 m-auto">
+                {this.state.total ? (
+                  <div className="alert text-muted align-middle  text-center">
+                    Total records found{' '}
+                    <span className="badge badge-pill badge-info h4">
+                      {this.state.total}{' '}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="alert text-muted align-middle  text-center">
+                    <span className="badge badge-pill badge-danger h4">0</span>{' '}
+                    records found{' '}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         ) : (
           <div className="container d-none d-md-block">
             <div className="row">
@@ -99,12 +117,21 @@ class Profiles extends Component {
                     pageRangeDisplayed={this.state.pages}
                     onChange={this.handlePageChange}
                   />
-                  <div className="alert text-muted align-middle ">
-                    Total records found{' '}
-                    <span className="badge badge-pill badge-info h4">
-                      {this.state.total}{' '}
-                    </span>
-                  </div>
+                  {this.state.total ? (
+                    <div className="alert text-muted align-middle  text-center">
+                      Total records found{' '}
+                      <span className="badge badge-pill badge-info h4">
+                        {this.state.total}{' '}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="alert text-muted align-middle  text-center">
+                      <span className="badge badge-pill badge-danger h4">
+                        0
+                      </span>{' '}
+                      records found{' '}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -120,6 +147,20 @@ class Profiles extends Component {
               <p className="lead text-center">
                 Browse and connect with developers
               </p>
+              {this.state.total ? (
+                <div className="alert text-muted align-middle  text-center">
+                  Total records found{' '}
+                  <span className="badge badge-pill badge-info h4">
+                    {this.state.total}{' '}
+                  </span>
+                </div>
+              ) : (
+                <div className="alert text-muted align-middle  text-center">
+                  <span className="badge badge-pill badge-danger h4">0</span>{' '}
+                  records found{' '}
+                </div>
+              )}
+
               {profileItems}
             </div>
           </div>

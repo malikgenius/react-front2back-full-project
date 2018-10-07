@@ -93,15 +93,43 @@ export const getProfiles = page => dispatch => {
 // Get Pagination Pages from Backend & Total Records.
 export const getPagination = () => dispatch => {};
 
+// upload Profile Image to mongoDB or S3 bucket before submitting the form.
+export const uploadProfileImage = (formData, history) => dispatch => {
+  // console.log(formData);
+  axios
+    .post('/api/profile/profileimage', formData, {
+      headers: {
+        // accept: 'application/json',
+        // 'Accept-Language': 'en-US,en;q=0.8',
+        'Content-Type': `application/x-www-form-urlencoded`,
+        enctype: 'multipart/form-data'
+      }
+      // headers: {
+      //   accept: 'application/json',
+      //   'Accept-Language': 'en-US,en;q=0.8',
+      //   // 'Content-Type': `application/x-www-form-urlencoded , `
+      //   // 'content-type':          'multipart/form-data; boundary=--------------------------576764872829552243833914'
+      //   'Content-Type': formData.type
+      // }
+    })
+    .then(res => {
+      console.log(res.data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
 // Create Profile
 export const createProfile = (profileData, history) => dispatch => {
+  console.log(profileData);
   axios
     .post('/api/profile', profileData)
     .then(res => {
-      // dispatch({
-      //   type: GET_PROFILE,
-      //   payload: res.data
-      // });
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      });
       history.push('/dashboard');
     })
     .catch(err => {

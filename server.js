@@ -22,6 +22,7 @@ const notification = require('./routes/api/notification/notification');
 const users = require('./routes/api/users/users');
 const reset_verify = require('./routes/api/users/reset_verify');
 const profile = require('./routes/api/profiles/profile');
+const upload = require('./routes/api/profiles/uploadRoute');
 
 const posts = require('./routes/api/posts/posts');
 const comments = require('./routes/api/comments/comments');
@@ -63,6 +64,7 @@ app.use('/api/profile', profile);
 app.use('/api/notification', notification);
 app.use('/api/posts', posts);
 app.use('/api/comments', comments);
+app.use('/api/upload', upload);
 
 // Server static assets if in production
 

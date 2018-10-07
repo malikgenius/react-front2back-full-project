@@ -37,6 +37,13 @@ const ProfileSchema = new Schema({
     required: true,
     lowercase: true
   },
+  image: {
+    type: String
+  },
+  file: {
+    type: { String }
+  },
+
   bio: {
     type: String
   },

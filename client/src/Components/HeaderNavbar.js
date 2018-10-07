@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { HashLink } from 'react-router-hash-link';
 import { Link } from 'react-router-dom';
 import { stack as Menu } from 'react-burger-menu';
+import Animate from 'react-smooth';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   Modal,
@@ -70,6 +73,19 @@ class HeaderNavbar extends React.Component {
       // Login Errors will show only on login Modal, if we dont do that errors will show on page as well where we load Modal.
       this.setState({ loginErrors: nextProps.errors.loginError });
     }
+  };
+  // Toast Notifications
+  toastNotify = () => {
+    // toast('Default Notification !');
+    if (this.state.success) {
+      toast.success(this.state.success, {
+        position: toast.POSITION.TOP_CENTER
+      });
+    }
+
+    toast.error(this.state.errors, {
+      position: toast.POSITION.TOP_LEFT
+    });
   };
 
   // Login User in Modal ...
@@ -168,6 +184,7 @@ class HeaderNavbar extends React.Component {
   render() {
     const { loginErrors, success } = this.state;
     const { isAuthenticated, user } = this.props.auth;
+
     // Capitalize first letter in words..
     String.prototype.capitalize = function() {
       return this.replace(/(?:^|\s)\S/g, function(a) {
@@ -214,165 +231,179 @@ class HeaderNavbar extends React.Component {
             </li>
 
             <li className="nav-item ">
-              <div>
-                {user.photo ? (
-                  <Dropdown
-                    isOpen={this.state.dropdown}
-                    toggle={this.toggleDropdown}
-                  >
-                    <DropdownToggle
-                      className=" btn btn-link  rounded rounded-circle p-0"
-                      style={{ border: 'none' }}
+              {/* trying to animate it but its not working.. check it later. */}
+              <Animate
+                from={{ opacity: 0 }}
+                to={{ opacity: 1 }}
+                easing="ease-in"
+              >
+                <div>
+                  {user.photo ? (
+                    <Dropdown
+                      isOpen={this.state.dropdown}
+                      toggle={this.toggleDropdown}
                     >
-                      <img
-                        className="rounded-circle text-capitalize"
-                        src={user.photo}
-                        alt={user.name}
-                        style={{ width: '40px' }}
-                        title={user.name}
-                      />{' '}
-                    </DropdownToggle>
-                    <DropdownMenu
-                      className="shadow-sm bg-0 "
-                      right
-                      style={{
-                        borderRadius: '5px',
-                        width: '250px',
-                        marginTop: '10px',
-                        marginRight: '10px'
-                      }}
-                    >
-                      <div className="dropdown-item bg-white">
-                        <div
-                          className="row justify-content-start ml- -50 mr-0 "
-                          // style={{ height: '100px' }}
-                        >
-                          <div className="col-4 align-self-start">
-                            <div className="card-img ">
-                              <img
-                                className="rounded-circle text-capitalize"
-                                src={user.photo}
-                                alt={user.name}
-                                style={{ width: '50px' }}
-                                title={user.name}
-                              />{' '}
-                            </div>
-                          </div>
-                          <div className="col-8 align-self-center ">
-                            <div className=" text-small text-dark text-capitalize">
-                              {user.name}
-                            </div>
-                            <p
-                              className="text-muted"
-                              style={{ fontSize: '9px' }}
-                            >
-                              {user.email}
-                            </p>
-                          </div>
-                          <Link
-                            to="/profiles"
-                            className="btn btn-light ml-auto text-dark border-1"
-                          >
-                            <i className="fa fa-wrench" aria-hidden="true" />{' '}
-                            Profiles
-                          </Link>
-                        </div>
-                      </div>
-                      <div className="dropdown-divider" />
-
-                      <div
-                        className="dropdown-item btn text-dark bg-white"
-                        onClick={this.onLogoutClick}
+                      <DropdownToggle
+                        className=" btn btn-link  rounded rounded-circle p-0"
+                        style={{ border: 'none' }}
                       >
-                        Sign Out
-                      </div>
-                    </DropdownMenu>
-                  </Dropdown>
-                ) : (
-                  <Dropdown
-                    isOpen={this.state.dropdown}
-                    toggle={this.toggleDropdown}
-                  >
-                    <DropdownToggle
-                      className=" btn btn-link  rounded rounded-circle p-2 "
-                      style={{ border: 'none' }}
-                    >
-                      <i
-                        className="fas fa-user-alt fa-lg fa-white text-light text-capitalize"
-                        aria-hidden="true"
-                        title={user.name}
-                      />
-                    </DropdownToggle>
-                    <DropdownMenu
-                      className="shadow-sm bg-white"
-                      right
-                      style={{
-                        borderRadius: '5px',
-                        width: '250px',
-                        marginTop: '10px',
-                        marginRight: '10px'
-                      }}
-                    >
-                      <div className="dropdown-item bg-white ">
-                        <div
-                          className="row justify-content-start ml- -50 mr-0"
-                          // style={{ height: '100px' }}
-                        >
-                          <div className="col-4 align-self-start ">
-                            <div className="card-img ">
-                              <img
-                                className="rounded-circle text-capitalize"
-                                src="/img/placeholder.jpg"
-                                // alt={user.name}
-                                style={{ width: '50px' }}
-                                title={user.name}
-                              />{' '}
+                        <img
+                          className="rounded-circle text-capitalize"
+                          src={user.photo}
+                          alt={user.name}
+                          style={{ width: '40px' }}
+                          title={user.name}
+                        />{' '}
+                      </DropdownToggle>
+                      <DropdownMenu
+                        className="shadow-sm bg-0 "
+                        right
+                        style={{
+                          borderRadius: '5px',
+                          width: '250px',
+                          marginTop: '10px',
+                          marginRight: '10px'
+                        }}
+                      >
+                        <div className="dropdown-item bg-white">
+                          <div
+                            className="row justify-content-start ml- -50 mr-0 "
+                            // style={{ height: '100px' }}
+                          >
+                            <div className="col-4 align-self-start">
+                              <div className="card-img ">
+                                <Link to="/upload-profileimage">
+                                  <img
+                                    className="rounded-circle text-capitalize"
+                                    src={user.photo}
+                                    alt={user.name}
+                                    style={{ width: '50px' }}
+                                    title={user.name}
+                                  />{' '}
+                                </Link>
+                              </div>
                             </div>
-                          </div>
-                          <div className="col-8 align-self-start ">
-                            <div className=" text-small text-dark text-capitalize">
-                              {user.name}
+                            <div className="col-8 align-self-center ">
+                              <div className=" text-small text-dark text-capitalize">
+                                {user.name}
+                              </div>
+                              <p
+                                className="text-muted"
+                                style={{ fontSize: '9px' }}
+                              >
+                                {user.email}
+                              </p>
                             </div>
-                            <p
-                              className="text-muted"
-                              style={{ fontSize: '9px' }}
+                            <Link
+                              to="/profiles"
+                              className="btn btn-light ml-auto text-dark border-1"
                             >
-                              {user.email}
-                            </p>
+                              <i className="fa fa-wrench" aria-hidden="true" />{' '}
+                              Profiles
+                            </Link>
                           </div>
+                        </div>
+                        <div className="dropdown-divider" />
+
+                        <div
+                          className="dropdown-item btn text-dark bg-white"
+                          onClick={this.onLogoutClick}
+                        >
+                          Sign Out
+                        </div>
+                      </DropdownMenu>
+                    </Dropdown>
+                  ) : (
+                    <Dropdown
+                      isOpen={this.state.dropdown}
+                      toggle={this.toggleDropdown}
+                    >
+                      <DropdownToggle
+                        className=" btn btn-link  rounded rounded-circle p-2 "
+                        style={{ border: 'none' }}
+                      >
+                        <i
+                          className="fas fa-user-alt fa-lg fa-white text-light text-capitalize"
+                          aria-hidden="true"
+                          title={user.name}
+                        />
+                      </DropdownToggle>
+                      <DropdownMenu
+                        className="shadow-sm bg-white"
+                        right
+                        style={{
+                          borderRadius: '5px',
+                          width: '250px',
+                          marginTop: '10px',
+                          marginRight: '10px'
+                        }}
+                      >
+                        <div className="dropdown-item bg-white ">
+                          <div
+                            className="row justify-content-start ml- -50 mr-0"
+                            // style={{ height: '100px' }}
+                          >
+                            <div className="col-4 align-self-start ">
+                              <div className="card-img ">
+                                <Link to="/upload-profileimage">
+                                  <img
+                                    className="rounded-circle text-capitalize"
+                                    src="/img/placeholder.jpg"
+                                    // alt={user.name}
+                                    style={{ width: '50px' }}
+                                    title={user.name}
+                                  />{' '}
+                                </Link>
+                              </div>
+                            </div>
+                            <div className="col-8 align-self-start ">
+                              <div className=" text-small text-dark text-capitalize">
+                                {user.name}
+                              </div>
+                              <p
+                                className="text-muted"
+                                style={{ fontSize: '9px' }}
+                              >
+                                {user.email}
+                              </p>
+                            </div>
+                            <Link
+                              to="/profiles"
+                              className="btn btn-light ml-auto text-dark border-1"
+                              onClick={this.toggleDropdown}
+                            >
+                              <i className="fa fa-wrench" aria-hidden="true" />{' '}
+                              Profiles
+                            </Link>
+                          </div>
+                        </div>
+                        <div className="dropdown-divider" />
+                        <div className="dropdown-item bg-white">
                           <Link
-                            to="/profiles"
-                            className="btn btn-light ml-auto text-dark border-1"
+                            className=" text-dark"
+                            to="/forgotpassword"
                             onClick={this.toggleDropdown}
+                            style={{
+                              textDecoration: 'none',
+                              background: 'none'
+                            }}
                           >
-                            <i className="fa fa-wrench" aria-hidden="true" />{' '}
-                            Profiles
+                            Reset Password
                           </Link>
                         </div>
-                      </div>
-                      <div className="dropdown-divider" />
-                      <div className="dropdown-item bg-white">
-                        <Link
-                          className=" text-dark"
-                          to="/forgotpassword"
-                          onClick={this.toggleDropdown}
-                          style={{ textDecoration: 'none', background: 'none' }}
-                        >
-                          Reset Password
-                        </Link>
-                      </div>
-                      <div className="dropdown-divider" />
+                        <div className="dropdown-divider" />
 
-                      <div
-                        className="dropdown-item btn text-dark bg-white"
-                        onClick={this.onLogoutClick}
-                      >
-                        Sign Out
-                      </div>
-                    </DropdownMenu>
-                  </Dropdown>
-                )}
-              </div>
+                        <div
+                          className="dropdown-item btn text-dark bg-white"
+                          onClick={this.onLogoutClick}
+                        >
+                          Sign Out
+                        </div>
+                      </DropdownMenu>
+                    </Dropdown>
+                  )}
+                </div>
+              </Animate>
             </li>
           </ul>
         </nav>
@@ -529,6 +560,7 @@ class HeaderNavbar extends React.Component {
     return (
       <div>
         <div>{isAuthenticated ? authLinks : guestLinks}</div>
+        <ToastContainer />
         <div className="container.fluid">
           <div className="row">
             <Modal
@@ -599,6 +631,7 @@ class HeaderNavbar extends React.Component {
                           <i className="fas fa-sign-in-alt pr-2" /> Sign in{' '}
                         </button>
                       </div>
+
                       {loginErrors && (
                         <small className="text-center  text-danger text-muted ">
                           <i className="fas fa-exclamation-triangle text-danger" />
@@ -640,6 +673,7 @@ class HeaderNavbar extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     auth: state.auth,
+    profile: state.profile,
     // login errors are different than normal errors, just to show it on Modals.
     errors: state.errors,
     success: state.success

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SignUpBootStrap4Col from './SignUpBootStrap4Col';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class HomeSection extends Component {
   constructor(props) {

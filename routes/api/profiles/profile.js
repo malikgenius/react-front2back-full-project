@@ -9,26 +9,33 @@ const EducationValidation = require('./educationValidation-joi');
 // twilio credentials
 const twilioAccountSid = require('../../../config/Keys').twilioAccountSid;
 const twilioAuthToken = require('../../../config/Keys').twilioAuthToken;
-
+// GridFS Storage to hold profile images.
+const Grid = require('gridfs-stream');
+const GridFsStorage = require('multer-gridfs-storage');
+const multer = require('multer');
+const crypto = require('crypto');
+// const mongoFullStackAuth = require('../config/Keys').mongoFullStackAuth;
+const mongoFullStackAuth = require('../../../config/Keys').mongoFullStackAuth;
 // Load Profile Model
 const Profile = require('../../../model/Profile');
 const User = require('../../../model/User');
+
 //SMS To User Phone
-router.post('/sms', (req, res) => {
-  const client = require('twilio')(twilioAccountSid, twilioAuthToken);
-  const opts = {};
-  opts.body = 'This is my test sms from twilio';
-  opts.from = +18592096950;
-  opts.to = req.body.phone;
-  client.messages
-    .create(opts)
-    .then(message => {
-      res.json(message);
-    })
-    // .then(message => console.log(message.sid))
-    // .then(res.send(message))
-    .done();
-});
+// router.post('/sms', (req, res) => {
+//   const client = require('twilio')(twilioAccountSid, twilioAuthToken);
+//   const opts = {};
+//   opts.body = 'This is my test sms from twilio';
+//   opts.from = +18592096950;
+//   opts.to = req.body.phone;
+//   client.messages
+//     .create(opts)
+//     .then(message => {
+//       res.json(message);
+//     })
+//     // .then(message => console.log(message.sid))
+//     // .then(res.send(message))
+//     .done();
+// });
 
 // Get Current User Profile
 // @Private Route
@@ -82,13 +89,24 @@ router.get(
     // paginate will send by default 10 records per page.
     // populate in pagination fixed by using it below, other ways do not work well with custom records from user.
     Profile.paginate(
+      //  mongoDB Query for example:  SELECT * FROM profiles WHERE handle = "malikmazhar"
+      // { handle: 'malikmazhar' },
+
+      // below query is to find more than one, handle is matching all the given parameters.
+      // { handle: { $in: ['malikmazhar', 'linuxgen', 'facebookuser'] } },
+
+      // Query an Array but its case sensitive
+      // { skills: ['No SKILLS'] },
+
+      // we can leave the query empty like below if dont want any specific record.
       {},
       {
         // limit will come from frontend header or params but if it doesnt, default || 10 i set it up.
-        limit: parseInt(2, 10) || 1,
+        limit: parseInt(20, 10) || 1,
         // page: page || 1,
         page: parseInt(pageNumber, 10) || 1,
-        sort: { handle: 1 },
+        // sort by latest Date
+        sort: { date: -1 },
         populate: {
           path: 'user',
           select: [
@@ -154,6 +172,35 @@ router.get(
   }
 );
 
+// BarCode Generate PNG from Barcode.
+
+const bwipjs = require('bwip-js');
+
+// bwipjs.toBuffer(
+//   {
+//     bcid: 'code128', // Barcode type
+//     text: '0123456789', // Text to encode
+//     scale: 3, // 3x scaling factor
+//     height: 10, // Bar height, in millimeters
+//     includetext: true, // Show human-readable text
+//     textxalign: 'center' // Always good to set this
+//   },
+//   function(err, png) {
+//     if (err) {
+//       // Decide how to handle the error
+//       // `err` may be a string or Error object
+//     } else {
+//       // `png` is a Buffer
+//       // png.length           : PNG file length
+//       // : PNG image width
+//       png.readUInt32BE(16);
+//       // : PNG image height
+//       png.readUInt32BE(20);
+//       res.send(png);
+//     }
+//   }
+// );
+
 // @route   GET api/profile/user/:user_id
 // @desc    Get profile by user ID
 // @access  Private
@@ -189,6 +236,83 @@ router.get(
   }
 );
 
+// create storage object
+const storage = new GridFsStorage({
+  url: mongoFullStackAuth,
+  useNewUrlParser: true,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        // Date + original Name will be the name of file in db.
+        const filename = Date.now() + file.originalname;
+        // buf.toString("hex") + path.extname(avatar.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: 'uploads'
+        };
+        resolve(fileInfo);
+      });
+    });
+  }
+});
+const upload = multer({ storage });
+
+// POST api/Profile
+// @desc Create or Update user profile
+// @Private Route
+
+// router.post(
+//   '/profileimage',
+//   passport.authenticate('jwt', {
+//     session: false
+//   }),
+//   upload.single('file'),
+//   (req, res) => {
+//     // console.log(req);
+//     console.log(req.file);
+//     // return res.json(req.file);
+//     // console.log(req.headers);
+//     // Joi Validation starts here ..
+//     // return console.log(req.file.filename);
+
+//     // Get Fields for Profile
+//     const profileFields = {};
+//     profileFields.user = req.user.id;
+//     if (req.file) profileFields.image = req.file.filename;
+//     // just to save everything about the image in db, only above filename property can be enough.
+//     if (req.file) profileFields.file = req.file;
+//     Profile.findOne({ user: req.user.id }).then(profile => {
+//       if (profile) {
+//         // findOneAndUpdate will update existing profile if it found one.
+//         Profile.findOneAndUpdate(
+//           { user: req.user.id },
+//           { $set: profileFields },
+//           //new: true means res.json will return new updated profile, we dont provide new it will res.json(old profile)
+//           //its just to see new updated profile on the fly in return and frontEnd
+//           { new: true }
+//         ).then(profile => {
+//           return res.json(profile);
+//         });
+//       } else {
+//         // it will Create a profile for user but will check the handle first, its a unique property for each user.
+//         // Check if the handle exists  for SEO
+//         Profile.findOne({ handle: profileFields.handle }).then(profile => {
+//           if (profile) {
+//             return res.status(400).json('Handle Exists');
+//           }
+//           // Save Profile
+//           new Profile(profileFields).save().then(profile => {
+//             return res.json(profile);
+//           });
+//         });
+//       }
+//     });
+//   }
+// );
+
 // POST api/Profile
 // @desc Create or Update user profile
 // @Private Route
@@ -198,6 +322,10 @@ router.post(
     session: false
   }),
   (req, res) => {
+    // console.log(req);
+    console.log(req.file);
+    console.log(req.headers);
+
     // Joi Validation starts here ..
     const {
       handle,
@@ -250,6 +378,7 @@ router.post(
         .min(2)
         .max(200)
         .required(),
+      file: Joi.string(),
       youtube: Joi.string()
         .allow('')
         .min(5)
